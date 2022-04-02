@@ -80,6 +80,5 @@ public class Program
         string name = email[1];
 
         WhoIsLookup(domain);
-
     }
 }
