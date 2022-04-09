@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Sparkle.LinkedInNET;
 using System.Net.Mail;
 using Whois;
 
@@ -15,10 +14,6 @@ namespace EmailLookup
             IConfigurationRoot configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", optional: true)
                 .Build();
-            var LIKEY = configuration["AppSettings:LINKEDIN_API_KEY"];
-            var LISECRET = configuration["AppSettings:LINKEDIN_API_SECRET"];
-
-            var linkedinConfig = new LinkedInApiConfiguration(LIKEY, LISECRET);
 
             MailAddress mailAddress;
 
@@ -46,9 +41,28 @@ namespace EmailLookup
             var whoIsResponse = await GetWhoIsResponseAsync(mailAddress.Host)
                 .ConfigureAwait(false);
 
-            Console.WriteLine(whoIsResponse.Content);
+            Console.WriteLine(mailAddress.Host);
+            String user = mailAddress.User;
+            String firstName = user.Substring(0, user.IndexOf("."));
+            String lastName = user.Substring(user.IndexOf(".") + 1);
 
-            var linkedinapi = new LinkedInApi(linkedinConfig);
+            String nameQuery = firstName + "%20" + lastName + "%20" + mailAddress.Host.Substring(0, mailAddress.Host.IndexOf("."));
+
+            //Console.WriteLine(whoIsResponse.Content);
+
+            //var linkedInApi = new LinkedInApi(linkedinConfig);
+            //var scope = AuthorizationScope.ReadBasicProfile | AuthorizationScope.ReadEmailAddress;
+            //var state = Guid.NewGuid().ToString();
+            //var redirectUrl = "http://mywebsite/LinkedIn/OAuth2";
+            //var url = linkedInApi.OAuth2.GetAuthorizationUrl(scope, state, redirectUrl);
+            //Console.WriteLine(url);
+
+            var googleCx = configuration["AppSettings:GOOGLE_CX"];
+            var googleKey = configuration["AppSettings:GOOGLE_KEY"];
+
+            var googleApiUrl =
+                "https://customsearch.googleapis.com/customsearch/v1?cx=" + googleCx + "&q=" + nameQuery + "&key="  + googleKey;
+            var response = http.Request(googleApiUrl);
         }
     }
 }
