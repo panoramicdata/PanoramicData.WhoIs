@@ -1,11 +1,15 @@
 ﻿using Microsoft.Extensions.Configuration;
+using System.Net;
 using System.Net.Mail;
+using System.Text.Json;
 using Whois;
 
 namespace EmailLookup
 {
     public class Program
     {
+        private static HttpClient client = new HttpClient();
+
         private static async Task<WhoisResponse> GetWhoIsResponseAsync(string domain) 
             => await new WhoisLookup().LookupAsync(domain).ConfigureAwait(false);
 
@@ -38,8 +42,8 @@ namespace EmailLookup
                 }
             }
 
-            var whoIsResponse = await GetWhoIsResponseAsync(mailAddress.Host)
-                .ConfigureAwait(false);
+            //var whoIsResponse = await GetWhoIsResponseAsync(mailAddress.Host)
+            //    .ConfigureAwait(false);
 
             Console.WriteLine(mailAddress.Host);
             String user = mailAddress.User;
@@ -60,9 +64,17 @@ namespace EmailLookup
             var googleCx = configuration["AppSettings:GOOGLE_CX"];
             var googleKey = configuration["AppSettings:GOOGLE_KEY"];
 
+
             var googleApiUrl =
                 "https://customsearch.googleapis.com/customsearch/v1?cx=" + googleCx + "&q=" + nameQuery + "&key="  + googleKey;
-            var response = http.Request(googleApiUrl);
+
+            var googleTask = client.GetStreamAsync(googleApiUrl);
+            var googleStringTask = client.GetStringAsync(googleApiUrl);
+            var googleStringResponse = await googleStringTask;
+            var googleResponseList = await JsonSerializer.DeserializeAsync<GoogleResponse>(await googleTask);
+
+            Console.WriteLine(googleResponseList.kind);
+            Console.WriteLine(googleStringResponse);
         }
     }
 }
