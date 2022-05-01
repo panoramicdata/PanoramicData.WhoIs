@@ -1,8 +1,9 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using HtmlAgilityPack;
+using Microsoft.Extensions.Configuration;
 using System.Net;
 using System.Net.Mail;
-using System.Text.Json;
 using Whois;
+using Newtonsoft.Json;
 
 namespace EmailLookup
 {
@@ -42,8 +43,8 @@ namespace EmailLookup
                 }
             }
 
-            //var whoIsResponse = await GetWhoIsResponseAsync(mailAddress.Host)
-            //    .ConfigureAwait(false);
+            var whoIsResponse = await GetWhoIsResponseAsync(mailAddress.Host)
+                .ConfigureAwait(false);
 
             Console.WriteLine(mailAddress.Host);
             String user = mailAddress.User;
@@ -52,14 +53,7 @@ namespace EmailLookup
 
             String nameQuery = firstName + "%20" + lastName + "%20" + mailAddress.Host.Substring(0, mailAddress.Host.IndexOf("."));
 
-            //Console.WriteLine(whoIsResponse.Content);
-
-            //var linkedInApi = new LinkedInApi(linkedinConfig);
-            //var scope = AuthorizationScope.ReadBasicProfile | AuthorizationScope.ReadEmailAddress;
-            //var state = Guid.NewGuid().ToString();
-            //var redirectUrl = "http://mywebsite/LinkedIn/OAuth2";
-            //var url = linkedInApi.OAuth2.GetAuthorizationUrl(scope, state, redirectUrl);
-            //Console.WriteLine(url);
+            Console.WriteLine(whoIsResponse.Content);
 
             var googleCx = configuration["AppSettings:GOOGLE_CX"];
             var googleKey = configuration["AppSettings:GOOGLE_KEY"];
@@ -68,13 +62,38 @@ namespace EmailLookup
             var googleApiUrl =
                 "https://customsearch.googleapis.com/customsearch/v1?cx=" + googleCx + "&q=" + nameQuery + "&key="  + googleKey;
 
+
+
             var googleTask = client.GetStreamAsync(googleApiUrl);
             var googleStringTask = client.GetStringAsync(googleApiUrl);
             var googleStringResponse = await googleStringTask;
-            var googleResponseList = await JsonSerializer.DeserializeAsync<GoogleResponse>(await googleTask);
+            var googleResponseList = JsonConvert.DeserializeObject<GoogleResponse>(googleStringResponse);
 
-            Console.WriteLine(googleResponseList.kind);
-            Console.WriteLine(googleStringResponse);
+            string link = null;
+            string title = null;
+            string desc = null;
+
+            for (int i = googleResponseList.Queries.Request[0].StartIndex - 1; i < googleResponseList.Queries.Request[0].Count; i++)
+            {
+                link = googleResponseList.Items[i].PageMap.Metatags[0].OgUrl;
+                title = googleResponseList.Items[i].PageMap.Metatags[0].OgTitle;
+                desc = googleResponseList.Items[i].PageMap.Metatags[0].OgDesc;
+
+                Console.WriteLine("Page Title: " + title);
+                Console.WriteLine("Description: " + desc);
+                Console.WriteLine("Link: " + link);
+
+                Console.WriteLine("Does this look like the correct page? (Y/N)");
+                var userResponse = Console.ReadLine();
+
+                if (userResponse.ToLower() == "y")
+                {
+                    Console.WriteLine("Found the correct profile!");
+                    i = googleResponseList.Queries.Request[0].Count;
+                }
+            }
+
+            //Console.WriteLine(googleStringResponse);
         }
     }
 }
