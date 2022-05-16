@@ -31,7 +31,7 @@ namespace EmailLookup
                     Console.WriteLine("Please input something!");
                     continue;
                 }
-                
+
                 try
                 {
                     mailAddress = new MailAddress(inputtedEmail.Trim());
@@ -51,16 +51,24 @@ namespace EmailLookup
             String firstName = user.Substring(0, user.IndexOf("."));
             String lastName = user.Substring(user.IndexOf(".") + 1);
 
-            String nameQuery = firstName + "%20" + lastName + "%20" + mailAddress.Host.Substring(0, mailAddress.Host.IndexOf("."));
+            String companyName = mailAddress.Host.Substring(0, mailAddress.Host.IndexOf("."));
+            String nameQuery = firstName + "%20" + lastName + "%20" + companyName;
 
-            Console.WriteLine(whoIsResponse.Content);
+            //Console.WriteLine(whoIsResponse.Content);
 
             var googleCx = configuration["AppSettings:GOOGLE_CX"];
             var googleKey = configuration["AppSettings:GOOGLE_KEY"];
 
+            await GoogleSearch(configuration, firstName, lastName, companyName, nameQuery, googleCx, googleKey);
+        }
+
+        private static async Task GoogleSearch(IConfigurationRoot configuration, string firstName, string lastName, string companyName, string nameQuery, string googleCx, string googleKey)
+        {
+
+
 
             var googleApiUrl =
-                "https://customsearch.googleapis.com/customsearch/v1?cx=" + googleCx + "&q=" + nameQuery + "&key="  + googleKey;
+                "https://customsearch.googleapis.com/customsearch/v1?cx=" + googleCx + "&q=" + nameQuery + "&key=" + googleKey;
 
 
 
@@ -72,28 +80,52 @@ namespace EmailLookup
             string link = null;
             string title = null;
             string desc = null;
+            int score = 0;
 
-            for (int i = googleResponseList.Queries.Request[0].StartIndex - 1; i < googleResponseList.Queries.Request[0].Count; i++)
+            string currentBest = null;
+            int currentBestScore = 0;
+
+            if (googleResponseList.Queries.Request[0].Count > 0)
             {
-                link = googleResponseList.Items[i].PageMap.Metatags[0].OgUrl;
-                title = googleResponseList.Items[i].PageMap.Metatags[0].OgTitle;
-                desc = googleResponseList.Items[i].PageMap.Metatags[0].OgDesc;
 
-                Console.WriteLine("Page Title: " + title);
-                Console.WriteLine("Description: " + desc);
-                Console.WriteLine("Link: " + link);
-
-                Console.WriteLine("Does this look like the correct page? (Y/N)");
-                var userResponse = Console.ReadLine();
-
-                if (userResponse.ToLower() == "y")
+                for (int i = googleResponseList.Queries.Request[0].StartIndex - 1; i < googleResponseList.Queries.Request[0].Count; i++)
                 {
-                    Console.WriteLine("Found the correct profile!");
-                    i = googleResponseList.Queries.Request[0].Count;
-                }
-            }
+                    link = googleResponseList.Items[i].PageMap.Metatags[0].OgUrl;
+                    title = googleResponseList.Items[i].PageMap.Metatags[0].OgTitle;
+                    desc = googleResponseList.Items[i].PageMap.Metatags[0].OgDesc;
 
-            //Console.WriteLine(googleStringResponse);
+                    if (link.Contains("/in/"))
+                    {
+                        score += 25;
+                    }
+                    if (title.ToLower().Contains(firstName))
+                    {
+                        score += 25;
+                    }
+                    if (title.ToLower().Contains(lastName))
+                    {
+                        score += 25;
+                    }
+                    if (desc.ToLower().Contains(companyName.ToLower()))
+                    {
+                        score += 25;
+                    }
+
+                    Console.WriteLine(title);
+                    Console.WriteLine(desc);
+                    Console.WriteLine(score);
+
+                    if (score > currentBestScore)
+                    {
+                        currentBest = link;
+                        currentBestScore = score;
+                    }
+                    score = 0;
+                }
+
+                string linkedinProfileLink = currentBest;
+                Console.WriteLine(linkedinProfileLink);
+            }
         }
     }
 }

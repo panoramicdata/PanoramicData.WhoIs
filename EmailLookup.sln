@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailLookupTests", "EmailLookupTests\EmailLookupTests.csproj", "{5D2C75F3-6503-44AA-957A-165728E5B443}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{1B7ECA54-1C1D-40A9-9A56-08EAF2F7E32F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B7ECA54-1C1D-40A9-9A56-08EAF2F7E32F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B7ECA54-1C1D-40A9-9A56-08EAF2F7E32F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D2C75F3-6503-44AA-957A-165728E5B443}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D2C75F3-6503-44AA-957A-165728E5B443}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D2C75F3-6503-44AA-957A-165728E5B443}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D2C75F3-6503-44AA-957A-165728E5B443}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
