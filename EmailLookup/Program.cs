@@ -52,25 +52,22 @@ namespace EmailLookup
             String lastName = user.Substring(user.IndexOf(".") + 1);
 
             String companyName = mailAddress.Host.Substring(0, mailAddress.Host.IndexOf("."));
-            String nameQuery = firstName + "%20" + lastName + "%20" + companyName;
 
             //Console.WriteLine(whoIsResponse.Content);
 
             var googleCx = configuration["AppSettings:GOOGLE_CX"];
             var googleKey = configuration["AppSettings:GOOGLE_KEY"];
 
-            await GoogleSearch(configuration, firstName, lastName, companyName, nameQuery, googleCx, googleKey);
+            LinkedinGoogleSearchResponse linkedinSearchResponse = await GoogleSearch(firstName, lastName, companyName, googleCx, googleKey);
         }
 
-        private static async Task GoogleSearch(IConfigurationRoot configuration, string firstName, string lastName, string companyName, string nameQuery, string googleCx, string googleKey)
+        public static async Task<LinkedinGoogleSearchResponse> GoogleSearch(string firstName, string lastName, string companyName, string googleCx, string googleKey)
         {
-
-
+            
+            String nameQuery = firstName + "%20" + lastName + "%20" + companyName;
 
             var googleApiUrl =
                 "https://customsearch.googleapis.com/customsearch/v1?cx=" + googleCx + "&q=" + nameQuery + "&key=" + googleKey;
-
-
 
             var googleTask = client.GetStreamAsync(googleApiUrl);
             var googleStringTask = client.GetStringAsync(googleApiUrl);
@@ -82,7 +79,7 @@ namespace EmailLookup
             string desc = null;
             int score = 0;
 
-            string currentBest = null;
+            LinkedinGoogleSearchResponse current = new LinkedinGoogleSearchResponse();
             int currentBestScore = 0;
 
             if (googleResponseList.Queries.Request[0].Count > 0)
@@ -115,17 +112,18 @@ namespace EmailLookup
                     Console.WriteLine(desc);
                     Console.WriteLine(score);
 
-                    if (score > currentBestScore)
+                    if (score >= currentBestScore)
                     {
-                        currentBest = link;
-                        currentBestScore = score;
+                        current.Title = title;
+                        current.Url = link;
+                        current.Desc = desc;
                     }
                     score = 0;
                 }
 
-                string linkedinProfileLink = currentBest;
-                Console.WriteLine(linkedinProfileLink);
+                return current;
             }
+            return null;
         }
     }
 }
