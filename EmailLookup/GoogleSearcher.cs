@@ -13,7 +13,10 @@ namespace EmailLookup
 		 _googleCx = googleCx;
 		 _googleKey = googleKey;
 	  }
-	  public async Task<LinkedinGoogleSearchResponse?> SearchLinkedInAsync(Person person)
+	  public async Task<LinkedinGoogleSearchResponse?> SearchLinkedInAsync(
+		 Person person,
+		 CancellationToken cancellationToken
+		 )
 	  {
 
 		 string nameQuery = Uri.EscapeDataString($"{person.FirstName} {person.LastName} {person.CompanyName}");

@@ -10,12 +10,15 @@ namespace EmailLookup
 		 FirstName = user[..user.IndexOf(".")];
 		 LastName = user[(user.IndexOf(".") + 1)..];
 		 CompanyName = mailAddress.Host[..mailAddress.Host.IndexOf(".")];
+		 Domain = mailAddress.Host;
 	  }
 
-	  public string FirstName { get; set; }
+	  public string FirstName { get; }
 
-	  public string LastName { get; set; }
+	  public string LastName { get; }
 
-	  public string CompanyName { get; set; }
+	  public string CompanyName { get; }
+
+	  public string Domain { get; }
    }
 }
