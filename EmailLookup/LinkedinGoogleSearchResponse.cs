@@ -1,6 +1,6 @@
 ﻿namespace EmailLookup
 {
-   public class LinkedinGoogleSearchResponse
+   public class GoogleSearchResponse
    {
 	  public string Title { get; set; } = string.Empty;
 

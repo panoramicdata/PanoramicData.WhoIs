@@ -13,12 +13,35 @@ namespace EmailLookup
 		 _googleCx = googleCx;
 		 _googleKey = googleKey;
 	  }
-	  public async Task<LinkedinGoogleSearchResponse?> SearchLinkedInAsync(
+
+	  public async Task<DetailedPersonInformation?> SearchLinkedInAsync(
 		 Person person,
 		 CancellationToken cancellationToken
 		 )
 	  {
+		 var googleSearchResponse = await SearchGoogleAsync(person, cancellationToken)
+			.ConfigureAwait(false);
 
+		 // Do we have a response?
+		 if (googleSearchResponse is null)
+		 {
+			// No - return null
+			return null;
+		 }
+
+		 // Use the URL to search Linked in and populate a DetailedPersonInformation
+		 var detailedPersonInformation = new DetailedPersonInformation();
+
+		 // TODO - do the search and populate
+
+		 return detailedPersonInformation;
+	  }
+
+	  public async Task<GoogleSearchResponse?> SearchGoogleAsync(
+		 Person person,
+		 CancellationToken cancellationToken
+		 )
+	  {
 		 string nameQuery = Uri.EscapeDataString($"{person.FirstName} {person.LastName} {person.CompanyName}");
 
 		 var googleApiUrl = $"https://customsearch.googleapis.com/customsearch/v1?cx={_googleCx}&q={nameQuery}&key={_googleKey}";
@@ -34,7 +57,7 @@ namespace EmailLookup
 		 }
 
 		 int? currentBestScore = null;
-		 LinkedinGoogleSearchResponse current = new();
+		 GoogleSearchResponse current = new();
 		 foreach (var item in googleResponseList.Items)
 		 {
 			int score = 0;

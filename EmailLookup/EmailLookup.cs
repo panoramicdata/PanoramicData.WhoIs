@@ -22,7 +22,7 @@ namespace EmailLookup
 		 var person = new Person(mailAddress);
 		 return new EmailLookupResult
 		 {
-			Google = await _googleSearcher.SearchLinkedInAsync(person, cancellationToken).ConfigureAwait(false),
+			Google = await _googleSearcher.SearchGoogleAsync(person, cancellationToken).ConfigureAwait(false),
 			WhoIs = await _whoIs.GetResponseAsync(person.Domain, cancellationToken).ConfigureAwait(false)
 		 };
 	  }

@@ -13,9 +13,8 @@ namespace EmailLookup.Test
 			.ConfigureAwait(false);
 
 		 response.Should().NotBeNull();
-		 response!.Title.Should().NotBeNullOrEmpty();
-		 response.Url.Should().NotBeNullOrEmpty();
-		 response.Description.Should().NotBeNullOrEmpty();
+		 response!.Jobs.Should().NotBeNull();
+		 response.Description.Should().NotBeNull();
 	  }
    }
 }

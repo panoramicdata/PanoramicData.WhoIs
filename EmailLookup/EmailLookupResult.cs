@@ -4,7 +4,7 @@ namespace EmailLookup
 {
    public class EmailLookupResult
    {
-	  public LinkedinGoogleSearchResponse? Google { get; set; }
+	  public GoogleSearchResponse? Google { get; set; }
 	  public WhoisResponse? WhoIs { get; set; }
    }
 }
