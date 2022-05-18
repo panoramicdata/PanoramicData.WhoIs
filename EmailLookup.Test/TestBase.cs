@@ -18,8 +18,14 @@ namespace EmailLookup.Test
 			appSettings.GoogleCx,
 			appSettings.GoogleKey
 		);
+
+		 EmailLookup = new EmailLookup(
+			appSettings.GoogleCx,
+			appSettings.GoogleKey
+		 );
 	  }
 
 	  protected GoogleSearcher GoogleSearcher { get; }
+	  protected EmailLookup EmailLookup { get; }
    }
 }
