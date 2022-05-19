@@ -57,11 +57,33 @@ namespace EmailLookup
 
             var googleCx = configuration["AppSettings:GOOGLE_CX"];
             var googleKey = configuration["AppSettings:GOOGLE_KEY"];
+            var proxyCurlKey = configuration["AppSettings:PROXYCURL_KEY"];
 
-            LinkedinGoogleSearchResponse linkedinSearchResponse = await GoogleSearch(firstName, lastName, companyName, googleCx, googleKey);
+            LinkedinGoogleSearchResponse? linkedinSearchResponse = await GoogleSearch(firstName, lastName, companyName, googleCx, googleKey);
+
+            LinkedinProfileData? test = await GetDataFromUrlProxyCurl("https://www.linkedin.com/in/davidbond/", proxyCurlKey);
         }
 
-        public static async Task<LinkedinGoogleSearchResponse> GoogleSearch(string firstName, string lastName, string companyName, string googleCx, string googleKey)
+        public static async Task<LinkedinProfileData?> GetDataFromUrlProxyCurl(string profileUrl, string proxyCurlKey)
+        {
+            string queryUrl = "https://nubela.co/proxycurl/api/v2/linkedin?url=" +
+                profileUrl +
+                "&use_cache=if-present&skills=include&inferred_salary=include&personal_email=include&personal_contact_number=include&twitter_profile_id=include&facebook_profile_id=include&github_profile_id=include&extra=include";
+
+            var request = (HttpWebRequest)WebRequest.Create(queryUrl);
+            request.Headers["Authorization"] = "Bearer " + proxyCurlKey;
+            var response = (HttpWebResponse)request.GetResponse();
+            using (var streamReader = new StreamReader(response.GetResponseStream()))
+            {
+                var result = streamReader.ReadToEnd();
+                Console.WriteLine(result);
+            }
+            Console.WriteLine(response.StatusCode);
+
+            return null;
+        }
+
+        public static async Task<LinkedinGoogleSearchResponse?> GoogleSearch(string firstName, string lastName, string companyName, string googleCx, string googleKey)
         {
             
             String nameQuery = firstName + "%20" + lastName + "%20" + companyName;
@@ -74,9 +96,9 @@ namespace EmailLookup
             var googleStringResponse = await googleStringTask;
             var googleResponseList = JsonConvert.DeserializeObject<GoogleResponse>(googleStringResponse);
 
-            string link = null;
-            string title = null;
-            string desc = null;
+            string? link = null;
+            string? title = null;
+            string? desc = null;
             int score = 0;
 
             LinkedinGoogleSearchResponse current = new LinkedinGoogleSearchResponse();
@@ -107,10 +129,6 @@ namespace EmailLookup
                     {
                         score += 25;
                     }
-
-                    Console.WriteLine(title);
-                    Console.WriteLine(desc);
-                    Console.WriteLine(score);
 
                     if (score >= currentBestScore)
                     {
