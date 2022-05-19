@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace EmailLookup
+﻿namespace EmailLookup
 {
-    public class LinkedinGoogleSearchResponse
-    {
-        public string Title { get; set; } = string.Empty;
-        public string Url { get; set; } = string.Empty;
-        public string Desc { get; set; } = string.Empty;
-    }
+   public class GoogleSearchResponse
+   {
+	  public string Title { get; set; } = string.Empty;
+
+	  public string Url { get; set; } = string.Empty;
+
+	  public string Description { get; set; } = string.Empty;
+
+	  public int Score { get; set; }
+   }
 }
