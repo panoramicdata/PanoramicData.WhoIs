@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Net;
 
 namespace EmailLookup
 {
@@ -6,35 +7,61 @@ namespace EmailLookup
    {
 	  private readonly string _googleCx;
 	  private readonly string _googleKey;
+	  private readonly string _linkedInKey;
 	  private readonly HttpClient client = new();
 
-	  public GoogleSearcher(string googleCx, string googleKey)
+	  public GoogleSearcher(string googleCx, string googleKey, string linkedInKey)
 	  {
 		 _googleCx = googleCx;
 		 _googleKey = googleKey;
-	  }
+         _linkedInKey = linkedInKey;
+        }
 
 	  public async Task<DetailedPersonInformation?> SearchLinkedInAsync(
 		 Person person,
 		 CancellationToken cancellationToken
 		 )
 	  {
-		 var googleSearchResponse = await SearchGoogleAsync(person, cancellationToken)
-			.ConfigureAwait(false);
+			var googleSearchResponse = await SearchGoogleAsync(person, cancellationToken)
+				.ConfigureAwait(false);
 
-		 // Do we have a response?
-		 if (googleSearchResponse is null)
-		 {
-			// No - return null
-			return null;
-		 }
+			// Do we have a response?
+			if (googleSearchResponse is null)
+			{
+				// No - return null
+				return null;
+			}
+			var googleUrl = googleSearchResponse.Url;
+         
+			if (!(googleUrl.Contains("/in/")))
+			{
+				var getProfileUrl = "https://nubela.co/proxycurl/api/linkedin/profile/resolve/email?work_email=" + person.Email;
+                var profileHttpRequest = (HttpWebRequest)WebRequest.Create(getProfileUrl);
+                profileHttpRequest.Headers["Authorization"] = "Bearer " + _linkedInKey;
 
-		 // Use the URL to search Linked in and populate a DetailedPersonInformation
-		 var detailedPersonInformation = new DetailedPersonInformation();
+				var profileHttpResponse = (HttpWebResponse)profileHttpRequest.GetResponse();
+                using var profileStreamReader = new StreamReader(profileHttpResponse.GetResponseStream());
+				var profileResult = profileStreamReader.ReadToEnd();
 
-		 // TODO - do the search and populate
+                LinkSearchResponse searchResponse = JsonConvert.DeserializeObject<LinkSearchResponse>(profileResult);
+                googleUrl = searchResponse.Url;
 
-		 return detailedPersonInformation;
+            }
+			
+			var url = "https://nubela.co/proxycurl/api/v2/linkedin?url=" + googleUrl + "&fallback_to_cache=on-error&use_cache=if-present&skills=include&inferred_salary=include&personal_email=include&personal_contact_number=include&twitter_profile_id=include&facebook_profile_id=include&github_profile_id=include&extra=include";
+
+			var httpRequest = (HttpWebRequest)WebRequest.Create(url);
+			httpRequest.Headers["Authorization"] = "Bearer " + _linkedInKey;
+
+            var httpResponse = (HttpWebResponse)httpRequest.GetResponse();
+            using var streamReader = new StreamReader(httpResponse.GetResponseStream());
+            var result = streamReader.ReadToEnd();
+
+            DetailedPersonInformation? detailedPersonInformation = JsonConvert.DeserializeObject<DetailedPersonInformation>(result);
+
+            // TODO - do the search and populate
+
+            return detailedPersonInformation;
 	  }
 
 	  public async Task<GoogleSearchResponse?> SearchGoogleAsync(
@@ -47,8 +74,8 @@ namespace EmailLookup
 		 var googleApiUrl = $"https://customsearch.googleapis.com/customsearch/v1?cx={_googleCx}&q={nameQuery}&key={_googleKey}";
 
 		 var googleStringResponse = await client
-			.GetStringAsync(googleApiUrl)
-			.ConfigureAwait(false);
+			.GetStringAsync(googleApiUrl, cancellationToken)
+            .ConfigureAwait(false);
 		 var googleResponseList = JsonConvert.DeserializeObject<GoogleResponse>(googleStringResponse);
 
 		 if (googleResponseList is null || googleResponseList.Queries.Request[0].Count <= 0)

@@ -8,9 +8,9 @@ namespace EmailLookup
 	  private readonly GoogleSearcher _googleSearcher;
 	  private readonly WhoIsSearcher _whoIs;
 
-	  public EmailLookup(string googleCx, string googleKey)
+	  public EmailLookup(string googleCx, string googleKey, string linkedInKey)
 	  {
-		 _googleSearcher = new GoogleSearcher(googleCx, googleKey);
+		 _googleSearcher = new GoogleSearcher(googleCx, googleKey, linkedInKey);
 		 _whoIs = new WhoIsSearcher();
 	  }
 

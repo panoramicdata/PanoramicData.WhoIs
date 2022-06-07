@@ -7,6 +7,7 @@ namespace EmailLookup
 	  public Person(MailAddress mailAddress)
 	  {
 		 string user = mailAddress.User;
+		 Email = user;
 		 FirstName = user[..user.IndexOf(".")];
 		 LastName = user[(user.IndexOf(".") + 1)..];
 		 CompanyName = mailAddress.Host[..mailAddress.Host.IndexOf(".")];
@@ -20,5 +21,7 @@ namespace EmailLookup
 	  public string CompanyName { get; }
 
 	  public string Domain { get; }
+
+      public string Email { get; }
    }
 }

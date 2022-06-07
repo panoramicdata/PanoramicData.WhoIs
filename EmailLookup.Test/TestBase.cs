@@ -16,13 +16,15 @@ namespace EmailLookup.Test
 
 		 GoogleSearcher = new GoogleSearcher(
 			appSettings.GoogleCx,
-			appSettings.GoogleKey
+			appSettings.GoogleKey,
+			appSettings.LinkedInKey
 		);
 
 		 EmailLookup = new EmailLookup(
 			appSettings.GoogleCx,
-			appSettings.GoogleKey
-		 );
+			appSettings.GoogleKey,
+            appSettings.LinkedInKey
+		 );;
 	  }
 
 	  protected GoogleSearcher GoogleSearcher { get; }
