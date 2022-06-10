@@ -7,7 +7,7 @@ their email address.
 Usage: 
 
 ```C#
-using var lookup = new EmailLookup("<GoogleCx>", "GoogleKey");
+using var lookup = new EmailLookup("<GoogleCx>", "GoogleKey", "linkedInKey");
 var result = lookup
    .LookupAsync(new MailAddress("john.smith@company.com"), default)
    .ConfigureAwait(false);
