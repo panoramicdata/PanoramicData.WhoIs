@@ -31,7 +31,7 @@ namespace EmailLookup
 				// No - return null
 				return null;
 			}
-			var googleUrl = googleSearchResponse.Url;
+			string? googleUrl = googleSearchResponse.Url;
          
 			if (!(googleUrl.Contains("/in/")))
 			{
@@ -43,7 +43,7 @@ namespace EmailLookup
                 using var profileStreamReader = new StreamReader(profileHttpResponse.GetResponseStream());
 				var profileResult = profileStreamReader.ReadToEnd();
 
-                LinkSearchResponse searchResponse = JsonConvert.DeserializeObject<LinkSearchResponse>(profileResult);
+                LinkSearchResponse? searchResponse = JsonConvert.DeserializeObject<LinkSearchResponse>(profileResult);
                 googleUrl = searchResponse.Url;
 
             }
@@ -58,8 +58,6 @@ namespace EmailLookup
             var result = streamReader.ReadToEnd();
 
             DetailedPersonInformation? detailedPersonInformation = JsonConvert.DeserializeObject<DetailedPersonInformation>(result);
-
-            // TODO - do the search and populate
 
             return detailedPersonInformation;
 	  }

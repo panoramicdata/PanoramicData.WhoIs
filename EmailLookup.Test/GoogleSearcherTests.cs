@@ -13,9 +13,9 @@ namespace EmailLookup.Test
 			.ConfigureAwait(false);
 
 		 response.Should().NotBeNull();
-		 response!.Jobs.Should().NotBeNull();
-		 response.Description.Should().NotBeNull();
-	  }
+         response.FullName.Should().NotBeNull();
+            response.PublicIdentifier.Should().NotBeNull();
+        }
 
         
    }
