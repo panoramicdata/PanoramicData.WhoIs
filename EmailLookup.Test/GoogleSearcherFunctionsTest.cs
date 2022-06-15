@@ -10,7 +10,7 @@ namespace EmailLookup.Test
 	  [Fact]
 	  public void ProfileFromWorkEmail_ShouldReturnProfileLink()
         {
-            var _linkedInKey = "jRnkhB5kx8UwrdNRDltJtg";
+            var _linkedInKey = "";
 
             var getProfileUrl = "https://nubela.co/proxycurl/api/linkedin/profile/resolve/email?work_email=" + "david.bond@panoramicdata.com";
             var profileHttpRequest = (HttpWebRequest)WebRequest.Create(getProfileUrl);
@@ -29,7 +29,7 @@ namespace EmailLookup.Test
         [Fact]
         public void ProxycurlRequestWithValidProfileLink_ShouldReturnResponse()
         {
-            var _linkedInKey = "jRnkhB5kx8UwrdNRDltJtg";
+            var _linkedInKey = "";
 
             var url = "https://nubela.co/proxycurl/api/v2/linkedin?url=" + "https://www.linkedin.com/in/davidbond/" + "&fallback_to_cache=on-error&use_cache=if-present&skills=include&inferred_salary=include&personal_email=include&personal_contact_number=include&twitter_profile_id=include&facebook_profile_id=include&github_profile_id=include&extra=include";
 
