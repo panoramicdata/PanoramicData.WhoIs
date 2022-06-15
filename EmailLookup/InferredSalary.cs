@@ -12,12 +12,12 @@ namespace EmailLookup
         /// Min
         /// </summary>
         [DataMember(Name = "min")]
-        public int Min { get; set; }
+        public string Min { get; set; } = string.Empty;
 
         /// <summary>
         /// Max
         /// </summary>
         [DataMember(Name = "max")]
-        public int Max { get; set; }
+        public string Max { get; set; } = string.Empty;
     }
 }

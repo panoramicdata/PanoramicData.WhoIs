@@ -180,7 +180,7 @@ namespace EmailLookup
         /// Salary range inferred from the user's current job title and company
         /// </summary>
         [DataMember(Name = "inferred_salary")]
-        public List<InferredSalary> InferredSalary { get; set; } = new();
+        public InferredSalary InferredSalary { get; set; } = new();
 
         /// <summary>
         /// Gender of the user
@@ -205,12 +205,6 @@ namespace EmailLookup
         /// </summary>
         [DataMember(Name = "interests")]
         public List<string> Interests { get; set; } = new();
-
-        /// <summary>
-        /// List of interests the user has
-        /// </summary>
-        [DataMember(Name = "interests")]
-        public List<string> Interest { get; set; } = new();
 
         /// <summary>
         /// Bundle of extra data on the user

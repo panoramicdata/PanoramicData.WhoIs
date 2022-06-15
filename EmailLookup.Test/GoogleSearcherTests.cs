@@ -13,10 +13,16 @@ namespace EmailLookup.Test
 			.ConfigureAwait(false);
 
 		 response.Should().NotBeNull();
-         response.FullName.Should().NotBeNull();
-            response.PublicIdentifier.Should().NotBeNull();
         }
 
-        
+        [Fact]
+        public async void ValidEmailSearch_ShouldReturnGoogleResults()
+        {
+            var response = await GoogleSearcher
+                .SearchGoogleAsync(new Person(new MailAddress("david.bond@panoramicdata.com")), default)
+                .ConfigureAwait(false);
+
+            response.Should().NotBeNull();
+        }
    }
 }
