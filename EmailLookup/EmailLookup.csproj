@@ -17,6 +17,8 @@ their email address.</Description>
     <PackageTags>email lookup</PackageTags>
     <PackageReleaseNotes>Initial release</PackageReleaseNotes>
     <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageId>$(AssemblyName)</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
