@@ -7,7 +7,7 @@ namespace EmailLookup
 	  public Person(MailAddress mailAddress)
 	  {
 		 string user = mailAddress.User;
-		 Email = user;
+		 Email = mailAddress.ToString();
 		 FirstName = user[..user.IndexOf(".")];
 		 LastName = user[(user.IndexOf(".") + 1)..];
 		 CompanyName = mailAddress.Host[..mailAddress.Host.IndexOf(".")];
