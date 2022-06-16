@@ -13,7 +13,8 @@ namespace EmailLookup.Test
 			.ConfigureAwait(false);
 
 		 response.Should().NotBeNull();
-        }
+		 response.FullName.Should().Be("David Bond");
+		}
 
         [Fact]
         public async void ValidEmailSearch_ShouldReturnGoogleResults()
