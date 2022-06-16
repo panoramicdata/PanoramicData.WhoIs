@@ -99,17 +99,17 @@ namespace EmailLookup
 					score += 25;
 				}
 
-				if (title.ToLower().Contains(person.FirstName))
+				if (title.Contains(person.FirstName, StringComparison.OrdinalIgnoreCase))
 				{
 					score += 25;
 				}
 
-				if (title.ToLower().Contains(person.LastName))
+				if (title.Contains(person.LastName, StringComparison.OrdinalIgnoreCase))
 				{
 					score += 25;
 				}
 
-				if (description.ToLower().Contains(person.CompanyName.ToLower()))
+				if (description.Contains(person.CompanyName, StringComparison.OrdinalIgnoreCase))
 				{
 					score += 25;
 				}

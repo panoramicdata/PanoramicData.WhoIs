@@ -2,11 +2,11 @@
 
 namespace EmailLookup
 {
-   public class EmailLookupResult
-   {
-	  public GoogleSearchResponse? Google { get; set; }
-	  public WhoisResponse? WhoIs { get; set; }
+	public class EmailLookupResult
+	{
+		public GoogleSearchResponse? Google { get; set; }
+		public WhoisResponse? WhoIs { get; set; }
 
-	  public DetailedPersonInformation? LinkedIn { get; set; }
-   }
+		public DetailedPersonInformation? LinkedIn { get; set; }
+	}
 }
