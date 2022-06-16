@@ -15,7 +15,7 @@ namespace EmailLookup
 	  }
 
 	  public async Task<EmailLookupResult> LookupAsync(
-		 MailAddress mailAddress,
+		 string mailAddress,
 		 CancellationToken cancellationToken
 		 )
 	  {
@@ -23,7 +23,8 @@ namespace EmailLookup
 		 return new EmailLookupResult
 		 {
 			Google = await _googleSearcher.SearchGoogleAsync(person, cancellationToken).ConfigureAwait(false),
-			WhoIs = await _whoIs.GetResponseAsync(person.Domain, cancellationToken).ConfigureAwait(false)
+			WhoIs = await _whoIs.GetResponseAsync(person.Domain, cancellationToken).ConfigureAwait(false),
+			LinkedIn = await _googleSearcher.SearchLinkedInAsync(person.Email, cancellationToken).ConfigureAwait(false)
 		 };
 	  }
 

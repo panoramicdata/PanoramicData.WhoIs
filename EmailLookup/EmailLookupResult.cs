@@ -6,5 +6,7 @@ namespace EmailLookup
    {
 	  public GoogleSearchResponse? Google { get; set; }
 	  public WhoisResponse? WhoIs { get; set; }
+
+	  public DetailedPersonInformation? LinkedIn { get; set; }
    }
 }

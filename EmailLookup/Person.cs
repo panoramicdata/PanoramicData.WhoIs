@@ -4,14 +4,15 @@ namespace EmailLookup
 {
    public class Person
    {
-	  public Person(MailAddress mailAddress)
+	  public Person(string address)
 	  {
-		 string user = mailAddress.User;
-		 Email = mailAddress.ToString();
-		 FirstName = user[..user.IndexOf(".")];
-		 LastName = user[(user.IndexOf(".") + 1)..];
-		 CompanyName = mailAddress.Host[..mailAddress.Host.IndexOf(".")];
-		 Domain = mailAddress.Host;
+		 MailAddressEmail = new MailAddress(address);
+		 string user = MailAddressEmail.User;
+		 Email = address;
+		 FirstName = user[..user.IndexOf(".", StringComparison.Ordinal)];
+		 LastName = user[(user.IndexOf(".", StringComparison.Ordinal) + 1)..];
+		 CompanyName = MailAddressEmail.Host[..MailAddressEmail.Host.IndexOf(".", StringComparison.Ordinal)];
+		 Domain = MailAddressEmail.Host;
 	  }
 
 	  public string FirstName { get; }
@@ -23,5 +24,7 @@ namespace EmailLookup
 	  public string Domain { get; }
 
       public string Email { get; }
+
+	  public MailAddress MailAddressEmail { get; }
    }
 }
