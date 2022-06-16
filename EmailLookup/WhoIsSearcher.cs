@@ -9,7 +9,6 @@ namespace EmailLookup
 		 CancellationToken cancellationToken
 		 )
 	  {
-		 Console.WriteLine(domain);
 		 var response = await new WhoisLookup()
 			.LookupAsync(domain)
 			.ConfigureAwait(false);

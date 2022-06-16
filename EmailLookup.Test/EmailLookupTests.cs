@@ -9,7 +9,7 @@ namespace EmailLookup.Test
 	  public async void ValidSearch_ShouldReturnResponse()
 	  {
 		 var response = await EmailLookup
-			.LookupAsync(new MailAddress("david.bond@panoramicdata.com"), default)
+			.LookupAsync("david.bond@panoramicdata.com", default)
 			.ConfigureAwait(false);
 
 		 response.Should().NotBeNull();

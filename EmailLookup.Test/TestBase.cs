@@ -25,7 +25,7 @@ namespace EmailLookup.Test
 			appSettings.GoogleKey,
             appSettings.LinkedInKey
 		 );;
-	  }
+	  }	
 
 	  protected GoogleSearcher GoogleSearcher { get; }
 	  protected EmailLookup EmailLookup { get; }
