@@ -44,4 +44,8 @@ their email address.</Description>
     <PackageReference Include="Whois" Version="3.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="WhoIs\" />
+  </ItemGroup>
+
 </Project>

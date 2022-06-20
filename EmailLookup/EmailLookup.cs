@@ -1,12 +1,11 @@
-﻿using System.Net.Mail;
-
-namespace EmailLookup
+﻿namespace EmailLookup
 {
 	public class EmailLookup : IDisposable
 	{
 		private bool disposedValue;
 		private readonly GoogleSearcher _googleSearcher;
 		private readonly WhoIsSearcher _whoIs;
+		private readonly IEnumerable<IPersonSearcher> _searchers;
 
 		public EmailLookup(string googleCx, string googleKey, string linkedInKey)
 		{
@@ -14,18 +13,49 @@ namespace EmailLookup
 			_whoIs = new WhoIsSearcher();
 		}
 
+		//public EmailLookup(IEnumerable<IPersonSearcher> searchers)
+		//{
+		//	_searchers = searchers;
+		//}
+
 		public async Task<EmailLookupResult> LookupAsync(
 		   string mailAddress,
 		   CancellationToken cancellationToken
 		   )
 		{
 			var person = new Person(mailAddress);
+			IList<Profile> profiles = new List<Profile>();
+			Profile finalProfile = new();
+
 			return new EmailLookupResult
 			{
 				Google = await _googleSearcher.SearchGoogleAsync(person.Email, cancellationToken).ConfigureAwait(false),
 				WhoIs = await _whoIs.GetResponseAsync(person.Domain, cancellationToken).ConfigureAwait(false),
 				LinkedIn = await _googleSearcher.SearchLinkedInAsync(person.Email, cancellationToken).ConfigureAwait(false)
 			};
+		}
+
+		public async Task<Profile> LookupProfileAsync(
+		   string mailAddress,
+		   CancellationToken cancellationToken
+		   )
+		{
+			var person = new Person(mailAddress);
+			IList<Profile> profiles = new List<Profile>();
+			Profile finalProfile = new();
+
+			foreach (var searcher in _searchers)
+			{
+				profiles.Add(await searcher.SearchAsync(person));
+			}
+
+			var merger = new ProfileMerger();
+			foreach (var profile in profiles)
+			{
+				merger.Merge(profile, finalProfile);
+			}
+
+			return finalProfile;
 		}
 
 		protected virtual void Dispose(bool disposing)
