@@ -1,22 +1,26 @@
-﻿using EmailLookup.ProxyCurl.Google;
-using Newtonsoft.Json;
-using System.Net;
+﻿using Newtonsoft.Json;
 using System.Net.Http.Headers;
 
 namespace EmailLookup
 {
 	public class GoogleSearcher
 	{
-		private readonly string _googleCx;
-		private readonly string _googleKey;
-		private readonly string _linkedInKey;
+		//private readonly string _googleCx;
+		//private readonly string _googleKey;
+		//private readonly string _linkedInKey;
 		private readonly HttpClient _client = new();
+		private readonly ProxyCurlConfig _config = new();
 
 		public GoogleSearcher(string googleCx, string googleKey, string linkedInKey)
 		{
-			_googleCx = googleCx;
-			_googleKey = googleKey;
-			_linkedInKey = linkedInKey;
+			_config.GoogleCx = googleCx;
+			_config.GoogleKey = googleKey;
+			_config.LinkedInKey = linkedInKey;
+		}
+
+		internal GoogleSearcher(ProxyCurlConfig config)
+		{
+			_config = config;
 		}
 
 		public async Task<DetailedPersonInformation?> SearchLinkedInAsync(
@@ -39,7 +43,7 @@ namespace EmailLookup
 			if (!(googleUrl.Contains("/in/")))
 			{
 				var getProfileUrl = "https://nubela.co/proxycurl/api/linkedin/profile/resolve/email?work_email=" + address;
-				_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _linkedInKey);
+				_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _config.LinkedInKey);
 
 				var profileResult = await _client
 					.GetStringAsync(getProfileUrl, cancellationToken)
@@ -52,8 +56,8 @@ namespace EmailLookup
 
 
 			var url = "https://nubela.co/proxycurl/api/v2/linkedin?url=" + googleUrl + "&fallback_to_cache=on-error&use_cache=if-present&skills=include&inferred_salary=include&personal_email=include&personal_contact_number=include&twitter_profile_id=include&facebook_profile_id=include&github_profile_id=include&extra=include";
-			
-			_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _linkedInKey);
+
+			_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _config.LinkedInKey);
 			var result = await _client
 				.GetStringAsync(url, cancellationToken)
 				.ConfigureAwait(false);
@@ -72,7 +76,7 @@ namespace EmailLookup
 
 			string nameQuery = Uri.EscapeDataString($"{person.FirstName} {person.LastName} {person.CompanyName}");
 
-			var googleApiUrl = $"https://customsearch.googleapis.com/customsearch/v1?cx={_googleCx}&q={nameQuery}&key={_googleKey}";
+			var googleApiUrl = $"https://customsearch.googleapis.com/customsearch/v1?cx={_config.GoogleCx}&q={nameQuery}&key={_config.GoogleKey}";
 
 			var googleStringResponse = await _client
 			   .GetStringAsync(googleApiUrl, cancellationToken)
