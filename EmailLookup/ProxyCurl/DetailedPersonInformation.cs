@@ -157,7 +157,7 @@ namespace EmailLookup
 		/// </summary>
 		[DataMember(Name = "people_also_viewed")]
 		public List<PeopleAlsoViewed> PeopleAlsoViewed { get; set; } = new();
-
+		
 		/// <summary>
 		/// List of recommendations made by other users about this profile
 		/// </summary>

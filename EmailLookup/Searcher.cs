@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace EmailLookup
 {
-    public class LinkedinProfileData
-    {
-    }
+	public class Searcher
+	{
+		public Searcher(string key)
+		{
+		}
+	}
 }
