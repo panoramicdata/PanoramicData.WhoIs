@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace EmailLookup
+namespace EmailLookup.ProxyCurl
 {
     /// <summary>
     /// A list of other LinkedIn profiles closely related to this user

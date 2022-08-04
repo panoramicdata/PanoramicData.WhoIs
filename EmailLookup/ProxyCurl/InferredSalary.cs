@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace EmailLookup
+namespace EmailLookup.ProxyCurl
 {
     /// <summary>
     /// Salary range inferred from the user's current job title and company

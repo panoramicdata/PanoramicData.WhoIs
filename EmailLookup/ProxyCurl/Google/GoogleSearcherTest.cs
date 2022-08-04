@@ -1,8 +1,8 @@
-﻿using EmailLookup.ProxyCurlResponse;
+﻿using EmailLookup.ProxyCurl;
 using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http.Headers;
-using EmailLookup.GoogleCustomSearchResponse;
+using EmailLookup.ProxyCurl.Google;
 
 namespace EmailLookup.ProxyCurl.Google
 {

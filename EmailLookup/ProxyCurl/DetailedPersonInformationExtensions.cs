@@ -9,6 +9,8 @@
 
 			profile.FirstName = personInformation.FirstName;
 			profile.LastName = personInformation.LastName;
+			profile.Occupation = personInformation.Occupation;
+			profile.Country = personInformation.CountryFullName;
 
 			return profile;
 		}

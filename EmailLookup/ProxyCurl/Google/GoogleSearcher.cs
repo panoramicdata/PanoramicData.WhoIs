@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Net.Http.Headers;
 
-namespace EmailLookup
+namespace EmailLookup.ProxyCurl.Google
 {
 	public class GoogleSearcher
 	{

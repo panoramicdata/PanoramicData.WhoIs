@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace EmailLookup
+namespace EmailLookup.ProxyCurl
 {
 	/// <summary>
 	/// JSON from Linkedin web scrape

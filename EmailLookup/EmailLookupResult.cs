@@ -1,4 +1,5 @@
-﻿using EmailLookup.ProxyCurl.Google;
+﻿using EmailLookup.ProxyCurl;
+using EmailLookup.ProxyCurl.Google;
 using Whois;
 
 namespace EmailLookup
@@ -7,7 +8,6 @@ namespace EmailLookup
 	{
 		public GoogleSearchResponse? Google { get; set; }
 		public WhoisResponse? WhoIs { get; set; }
-
-		public DetailedPersonInformation? LinkedIn { get; set; }
+		public DetailedPersonInformation LinkedIn { get; set; }
 	}
 }

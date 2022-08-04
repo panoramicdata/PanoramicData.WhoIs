@@ -1,15 +1,18 @@
-﻿namespace EmailLookup
+﻿using EmailLookup.ProxyCurl.Google;
+using EmailLookup.ProxyCurl;
+
+namespace EmailLookup
 {
 	public class EmailLookup : IDisposable
 	{
 		private bool disposedValue;
-		private readonly GoogleSearcher _googleSearcher;
+		private readonly GoogleSearcherTest _googleSearcher;
 		private readonly WhoIsSearcher _whoIs;
 		private readonly IEnumerable<IPersonSearcher> _searchers;
 
 		public EmailLookup(string googleCx, string googleKey, string linkedInKey)
 		{
-			_googleSearcher = new GoogleSearcher(googleCx, googleKey, linkedInKey);
+			_googleSearcher = new GoogleSearcherTest(googleCx, googleKey, linkedInKey);
 			_whoIs = new WhoIsSearcher();
 		}
 

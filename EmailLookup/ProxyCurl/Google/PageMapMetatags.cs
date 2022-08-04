@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace EmailLookup
+namespace EmailLookup.ProxyCurl.Google
 {
     public class PageMapMetatags
     {
