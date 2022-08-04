@@ -3,7 +3,7 @@
 	internal static class DetailedPersonInformationExtensions
 	{
 
-		internal static Profile ToProfile(DetailedPersonInformation personInformation)
+		internal static Profile ToProfile(this DetailedPersonInformation personInformation)
 		{
 			Profile profile = new Profile();
 

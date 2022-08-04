@@ -20,7 +20,7 @@ namespace EmailLookup.ProxyCurl.Google
 			_linkedInKey = linkedInKey;
 		}
 
-		public async Task<DetailedPersonInformation?> SearchLinkedInAsync(
+		public async Task<Profile?> SearchLinkedInAsync(
 		   string address,
 		   CancellationToken cancellationToken
 		   )
@@ -60,8 +60,12 @@ namespace EmailLookup.ProxyCurl.Google
 				.ConfigureAwait(false);
 
 			DetailedPersonInformation? detailedPersonInformation = JsonConvert.DeserializeObject<DetailedPersonInformation>(result);
-
-			return detailedPersonInformation;
+			Profile linkedInProfile = null;
+			if (detailedPersonInformation != null)
+			{
+				linkedInProfile = detailedPersonInformation.ToProfile();
+			}
+			return linkedInProfile;
 		}
 
 		public async Task<GoogleSearchResponse?> SearchGoogleAsync(
