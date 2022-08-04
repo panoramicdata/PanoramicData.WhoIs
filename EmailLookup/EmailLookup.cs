@@ -55,7 +55,7 @@ namespace EmailLookup
 			var merger = new ProfileMerger();
 			foreach (var profile in profiles)
 			{
-				merger.Merge(profile, finalProfile);
+				ProfileMerger.Merge(profile, finalProfile);
 			}
 
 			return finalProfile;
