@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using EmailLookup.ProxyCurl;
 
 namespace EmailLookup.Test
 {
@@ -14,7 +15,7 @@ namespace EmailLookup.Test
 			.GetSection("AppSettings")
 			.Get<AppSettings>();
 
-		 GoogleSearcher = new GoogleSearcher(
+		 LinkedInSearcher = new LinkedInSearcher(
 			appSettings.GoogleCx,
 			appSettings.GoogleKey,
 			appSettings.LinkedInKey
@@ -27,7 +28,7 @@ namespace EmailLookup.Test
 		 );;
 	  }	
 
-	  protected GoogleSearcher GoogleSearcher { get; }
+	  protected LinkedInSearcher LinkedInSearcher { get; }
 	  protected EmailLookup EmailLookup { get; }
    }
 }

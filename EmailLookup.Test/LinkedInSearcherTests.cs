@@ -1,25 +1,28 @@
 ﻿using FluentAssertions;
 using System.Net.Mail;
+using EmailLookup;
 
 namespace EmailLookup.Test
 {
-   public class GoogleSearcherTests : TestBase
+   public class LinkedInSearcherTests : TestBase
    {
 	  [Fact]
 	  public async void ValidEmailSearch_ShouldReturnLinkedInPageDetails()
 	  {
-		 var response = await GoogleSearcher
-			.SearchLinkedInAsync("david.bond@panoramicdata.com", default)
-			.ConfigureAwait(false);
+			var testPerson = new Person("david.bond@panoramicdata.com");
 
-		 response.Should().NotBeNull();
-		 response.FullName.Should().Be("David Bond");
+			var response = await LinkedInSearcher
+			.SearchAsync(testPerson)
+			.ConfigureAwait(false);
+			
+			response.Should().NotBeNull();
+			response.FirstName.Should().Be("David");
 		}
 
         [Fact]
         public async void ValidEmailSearch_ShouldReturnGoogleResults()
         {
-            var response = await GoogleSearcher
+            var response = await LinkedInSearcher
                 .SearchGoogleAsync("david.bond@panoramicdata.com", default)
                 .ConfigureAwait(false);
 

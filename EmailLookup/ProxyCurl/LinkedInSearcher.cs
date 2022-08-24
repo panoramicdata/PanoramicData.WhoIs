@@ -4,67 +4,91 @@ using System.Net.Http.Headers;
 
 namespace EmailLookup.ProxyCurl
 {
-	public class GoogleSearcher
+	public class LinkedInSearcher : IPersonSearcher
 	{
-		//private readonly string _googleCx;
-		//private readonly string _googleKey;
-		//private readonly string _linkedInKey;
 		private readonly HttpClient _client = new();
 		private readonly ProxyCurlConfig _config = new();
 
-		public GoogleSearcher(string googleCx, string googleKey, string linkedInKey)
+		public LinkedInSearcher(string googleCx, string googleKey, string linkedInKey)
 		{
 			_config.GoogleCx = googleCx;
 			_config.GoogleKey = googleKey;
 			_config.LinkedInKey = linkedInKey;
 		}
 
-		internal GoogleSearcher(ProxyCurlConfig config)
+		internal LinkedInSearcher(ProxyCurlConfig config)
 		{
 			_config = config;
 		}
 
-		public async Task<DetailedPersonInformation?> SearchLinkedInAsync(
-		   string address,
-		   CancellationToken cancellationToken
-		   )
+		public async Task<Profile?> SearchAsync(Person person)
 		{
-			var googleSearchResponse = await SearchGoogleAsync(address, cancellationToken)
-				.ConfigureAwait(false);
+			CancellationToken cancellationToken = default;
 
-			// Do we have a response?
+			var googleSearchResponse = await SearchGoogleAsync(person.Email, cancellationToken)
+				.ConfigureAwait(false);
 			if (googleSearchResponse is null)
 			{
-				// No - return null
 				return null;
 			}
 
 			var googleUrl = googleSearchResponse.Url;
-
 			if (!googleUrl.Contains("/in/"))
 			{
-				var getProfileUrl = "https://nubela.co/proxycurl/api/linkedin/profile/resolve/email?work_email=" + address;
-				_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _config.LinkedInKey);
-
-				var profileResult = await _client
-					.GetStringAsync(getProfileUrl, cancellationToken)
+				googleUrl = await ReverseWorkEmailLookupAsync(person.Email, cancellationToken)
 					.ConfigureAwait(false);
-
-				LinkSearchResponse? searchResponse = JsonConvert.DeserializeObject<LinkSearchResponse>(profileResult);
-
-				googleUrl = searchResponse.Url;
+				if (googleUrl is null)
+				{
+					return null;
+				}
 			}
 
+			var detailedProfile = await PersonProfileLookupAsync(googleUrl, cancellationToken)
+				.ConfigureAwait(false);
 
+			if (detailedProfile is null)
+			{
+				return null;
+			}
+
+			Profile profile = detailedProfile.ToProfile();
+
+			return profile;
+		}
+
+		public async Task<string?> ReverseWorkEmailLookupAsync(string address, CancellationToken cancellationToken)
+		{
+			var getProfileUrl = "https://nubela.co/proxycurl/api/linkedin/profile/resolve/email?work_email=" + address;
+			_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _config.LinkedInKey);
+
+			var profileResult = await _client
+				.GetStringAsync(getProfileUrl, cancellationToken)
+				.ConfigureAwait(false);
+
+			LinkSearchResponse? searchResponse = JsonConvert.DeserializeObject<LinkSearchResponse>(profileResult);
+			if (searchResponse is null)
+			{
+				return null;
+			}
+			return searchResponse.Url;
+		}
+
+		public async Task<DetailedPersonInformation?> PersonProfileLookupAsync(string googleUrl, CancellationToken cancellationToken)
+		{
 			var url = "https://nubela.co/proxycurl/api/v2/linkedin?url=" + googleUrl + "&fallback_to_cache=on-error&use_cache=if-present&skills=include&inferred_salary=include&personal_email=include&personal_contact_number=include&twitter_profile_id=include&facebook_profile_id=include&github_profile_id=include&extra=include";
 
 			_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _config.LinkedInKey);
+
 			var result = await _client
 				.GetStringAsync(url, cancellationToken)
 				.ConfigureAwait(false);
 
-			DetailedPersonInformation? detailedPersonInformation = JsonConvert.DeserializeObject<DetailedPersonInformation>(result);
+			DetailedPersonInformation? detailedPersonInformation = JsonConvert.DeserializeObject<DetailedPersonInformation?>(result);
 
+			if (detailedPersonInformation is null)
+			{
+				return null;
+			}
 			return detailedPersonInformation;
 		}
 
