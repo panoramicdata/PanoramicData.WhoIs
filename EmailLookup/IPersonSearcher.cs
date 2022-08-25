@@ -1,6 +1,6 @@
 ﻿namespace EmailLookup
 {
-	internal interface IPersonSearcher
+	public interface IPersonSearcher
 	{
 		Task<Profile?> SearchAsync(Person person);
 

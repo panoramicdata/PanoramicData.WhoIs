@@ -1,5 +1,6 @@
 ﻿using EmailLookup.ProxyCurl.Google;
 using EmailLookup.ProxyCurl;
+using System.Collections;
 
 namespace EmailLookup
 {
@@ -29,6 +30,14 @@ namespace EmailLookup
 			var person = new Person(mailAddress);
 			IList<Profile> profiles = new List<Profile>();
 			Profile finalProfile = new();
+
+			IPersonSearcher[] searchers = new IPersonSearcher[]
+			{
+				_linkedInSearcher,
+				_whoIs
+			};
+
+			Searchers _searchers = new Searchers(searchers);
 
 			foreach (var searcher in _searchers)
 			{

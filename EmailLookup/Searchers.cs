@@ -10,14 +10,21 @@ namespace EmailLookup
 {
 	public class Searchers : IEnumerable
 	{
-		public Searchers(string googleCx, string googleKey, string linkedInKey)
+		private IPersonSearcher[] _searchers;
+
+		public Searchers(IPersonSearcher[] searchers)
 		{
-			GoogleSearcherTest _googleSearcher = new GoogleSearcherTest(googleCx, googleKey, linkedInKey);
-			
+			_searchers = searchers;
 		}
-		public IEnumerator GetEnumerator()
+
+		IEnumerator IEnumerable.GetEnumerator()
 		{
-			throw new NotImplementedException();
+			return (IEnumerator) GetEnumerator();
+		}
+
+		public SearcherEnum GetEnumerator()
+		{
+			return new SearcherEnum(_searchers);
 		}
 	}
 }
