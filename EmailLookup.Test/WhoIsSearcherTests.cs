@@ -11,7 +11,7 @@ namespace EmailLookup.Test
 			.GetResponseAsync("panoramicdata.com", default)
 			.ConfigureAwait(false);
 
-		 response.Should().NotBeNull();
+		response.Should().NotBeNull();
 	  }
    }
 }

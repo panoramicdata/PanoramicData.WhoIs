@@ -8,13 +8,11 @@ namespace EmailLookup.Test
 	  [Fact]
 	  public async void ValidSearch_ShouldReturnResponse()
 	  {
-			//var response = await EmailLookup
-			//	.LookupAsync("david.bond@panoramicdata.com", default)
-			//	.ConfigureAwait(false);
-			
-			//response.Should().NotBeNull();
-			//response.WhoIs.Should().NotBeNull();
-			//response.LinkedIn.Should().NotBeNull();
-	  }
+			var response = await EmailLookup
+				.LookupProfileAsync("david.bond@panoramicdata.com", default)
+				.ConfigureAwait(false);
+
+			response.Should().NotBeNull();
+		}
    }
 }
