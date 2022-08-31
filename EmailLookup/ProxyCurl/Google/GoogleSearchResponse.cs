@@ -1,4 +1,4 @@
-﻿namespace EmailLookup.ProxyCurl.Google
+﻿namespace EmailLookup.Core.ProxyCurl.Google
 {
 	public class GoogleSearchResponse
 	{

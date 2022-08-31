@@ -1,4 +1,4 @@
-﻿using EmailLookup.Configuration;
+﻿using EmailLookup.Core.Configuration;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -10,7 +10,8 @@ namespace Microsoft.Extensions.DependencyInjection
 
 			options?.Invoke(settings);
 
-			services.AddSingleton<EmailLookupConfig>();
+			services.AddSingleton(settings);
+			services.AddTransient<EmailLookup.Core.EmailLookup>();
 
 			return services;
 		}

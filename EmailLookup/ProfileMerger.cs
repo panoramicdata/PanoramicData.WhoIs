@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace EmailLookup
+namespace EmailLookup.Core
 {
 	internal class ProfileMerger
 	{

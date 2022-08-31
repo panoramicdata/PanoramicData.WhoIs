@@ -1,8 +1,8 @@
-﻿using EmailLookup.ProxyCurl;
-using EmailLookup.ProxyCurl.Google;
+﻿using EmailLookup.Core.ProxyCurl;
+using EmailLookup.Core.ProxyCurl.Google;
 using Whois;
 
-namespace EmailLookup
+namespace EmailLookup.Core
 {
 	public class EmailLookupResult
 	{

@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace EmailLookup.ProxyCurl
+namespace EmailLookup.Core.ProxyCurl
 {
     /// <summary>
     /// List of noteworthy projects undertaken by this user

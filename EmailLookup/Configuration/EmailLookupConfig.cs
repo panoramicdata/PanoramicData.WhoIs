@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace EmailLookup.Configuration
+namespace EmailLookup.Core.Configuration
 {
 	public class EmailLookupConfig
 	{
-		internal EmailLookupConfig(IServiceCollection services)
+		public EmailLookupConfig(IServiceCollection services)
 		{
 			Services = services;
 		}

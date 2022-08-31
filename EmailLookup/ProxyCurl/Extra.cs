@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace EmailLookup.ProxyCurl
+namespace EmailLookup.Core.ProxyCurl
 {
     /// <summary>
     /// Bundle of extra data on the user
