@@ -8,6 +8,7 @@ public class Program
 	{
 		var builder = WebApplication.CreateBuilder(args);
 
+		// TODO: Replace with lookup of values from config
 		builder.Services.AddEmailLookup(opt => opt
 			.AddProxyCurl("1501e4a4050ced422", "AIzaSyAyujHqqnhB8SAdn2DsmuWD75PfzlXbfdY", "jRnkhB5kx8UwrdNRDltJtg")
 			.AddWhoIs()
