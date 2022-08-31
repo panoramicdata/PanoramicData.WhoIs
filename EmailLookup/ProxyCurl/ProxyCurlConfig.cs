@@ -1,11 +1,11 @@
-﻿namespace EmailLookup.ProxyCurl
+﻿namespace EmailLookup.Core.ProxyCurl
 {
-	internal class ProxyCurlConfig
+	public class ProxyCurlConfig
 	{
-		public string GoogleCx { get; set; }
+		public string GoogleCx { get; set; } = string.Empty;
 
-		public string GoogleKey { get; set; }
+		public string GoogleKey { get; set; } = string.Empty;
 
-		public string LinkedInKey { get; set; }
+		public string LinkedInKey { get; set; } = string.Empty;
 	}
 }

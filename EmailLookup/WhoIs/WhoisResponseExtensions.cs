@@ -1,6 +1,6 @@
 ﻿using Whois;
 
-namespace EmailLookup.ProxyCurl
+namespace EmailLookup.Core.ProxyCurl
 {
 	internal static class WhoisResponseExtensions
 	{

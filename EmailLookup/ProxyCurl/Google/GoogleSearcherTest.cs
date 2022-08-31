@@ -1,10 +1,10 @@
-﻿using EmailLookup.ProxyCurl;
+﻿using EmailLookup.Core.ProxyCurl;
 using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http.Headers;
-using EmailLookup.ProxyCurl.Google;
+using EmailLookup.Core.ProxyCurl.Google;
 
-namespace EmailLookup.ProxyCurl.Google
+namespace EmailLookup.Core.ProxyCurl.Google
 {
 	public class GoogleSearcherTest
 	{

@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EmailLookup.ProxyCurl.Google
+namespace EmailLookup.Core.ProxyCurl.Google
 {
     [DataContract]
     public class LinkSearchResponse

@@ -1,26 +1,30 @@
-﻿using EmailLookup.ProxyCurl.Google;
-using EmailLookup.ProxyCurl;
-using System.Collections;
+﻿using EmailLookup.Core.ProxyCurl;
+using EmailLookup.Core.WhoIs;
 
-namespace EmailLookup
+namespace EmailLookup.Core
 {
 	public class EmailLookup : IDisposable
 	{
 		private bool disposedValue;
-		private readonly LinkedInSearcher _linkedInSearcher;
-		private readonly WhoIsSearcher _whoIs;
 		private readonly IEnumerable<IPersonSearcher> _searchers;
 
+		// TODO: Remove this constructor
 		public EmailLookup(string googleCx, string googleKey, string linkedInKey)
 		{
-			_linkedInSearcher = new LinkedInSearcher(googleCx, googleKey, linkedInKey);
-			_whoIs = new WhoIsSearcher();
+			var linkedInSearcher = new LinkedInSearcher(googleCx, googleKey, linkedInKey);
+			var whoIsSearcher = new WhoIsSearcher(new WhoIsConfig());
+
+			_searchers = new List<IPersonSearcher>
+			{
+				linkedInSearcher,
+				whoIsSearcher
+			};
 		}
 
-		//public EmailLookup(IEnumerable<IPersonSearcher> searchers)
-		//{
-		//	_searchers = searchers;
-		//}
+		public EmailLookup(IEnumerable<IPersonSearcher> searchers)
+		{
+			_searchers = searchers;
+		}
 
 		public async Task<Profile> LookupProfileAsync(
 		   string mailAddress,
@@ -31,14 +35,6 @@ namespace EmailLookup
 			IList<Profile> profiles = new List<Profile>();
 			Profile finalProfile = new();
 			Profile? currentProfile = new();
-
-			IPersonSearcher[] searchers = new IPersonSearcher[]
-			{
-				_linkedInSearcher,
-				_whoIs
-			};
-
-			Searchers _searchers = new Searchers(searchers);
 
 			foreach (var searcher in _searchers)
 			{

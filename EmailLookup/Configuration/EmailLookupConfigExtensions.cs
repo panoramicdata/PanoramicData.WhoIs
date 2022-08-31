@@ -1,6 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using EmailLookup.Core.ProxyCurl;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace EmailLookup.Configuration
+namespace EmailLookup.Core.Configuration
 {
 	public static class EmailLookupConfigExtensions
 	{
@@ -13,8 +14,18 @@ namespace EmailLookup.Configuration
 			proxyCurlConfig.GoogleKey = googleKey;
 			proxyCurlConfig.LinkedInKey = linkedInKey;
 
-			// options.Services.AddTransient<IPersonSearcher, LinkedInSearcher>();
+			options.Services.AddTransient<IPersonSearcher, LinkedInSearcher>();
 			options.Services.AddSingleton(ctx => proxyCurlConfig);
+
+			return options;
+		}
+
+		public static EmailLookupConfig AddWhoIs(this EmailLookupConfig options)
+		{
+			WhoIs.WhoIsConfig whoisConfig = new();
+
+			options.Services.AddTransient<IPersonSearcher, WhoIs.WhoIsSearcher>();
+			options.Services.AddSingleton(ctx => whoisConfig);
 
 			return options;
 		}

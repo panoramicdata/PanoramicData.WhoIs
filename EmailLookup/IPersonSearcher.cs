@@ -1,4 +1,4 @@
-﻿namespace EmailLookup
+﻿namespace EmailLookup.Core
 {
 	public interface IPersonSearcher
 	{

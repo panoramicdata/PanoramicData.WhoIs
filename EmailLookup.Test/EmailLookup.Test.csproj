@@ -40,7 +40,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EmailLookup\EmailLookup.csproj" />
+    <ProjectReference Include="..\EmailLookup\EmailLookup.Core.csproj" />
   </ItemGroup>
 
 </Project>

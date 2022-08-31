@@ -1,8 +1,8 @@
-﻿using EmailLookup.ProxyCurl.Google;
+﻿using EmailLookup.Core.ProxyCurl.Google;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
 
-namespace EmailLookup.ProxyCurl
+namespace EmailLookup.Core.ProxyCurl
 {
 	public class LinkedInSearcher : IPersonSearcher
 	{
@@ -16,7 +16,7 @@ namespace EmailLookup.ProxyCurl
 			_config.LinkedInKey = linkedInKey;
 		}
 
-		internal LinkedInSearcher(ProxyCurlConfig config)
+		public LinkedInSearcher(ProxyCurlConfig config)
 		{
 			_config = config;
 		}
