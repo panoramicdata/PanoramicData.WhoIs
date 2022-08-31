@@ -19,18 +19,6 @@ namespace EmailLookup
 			{
 				finalProfile.Gender = sourceProfile.Gender;
 			}
-			if (finalProfile.DayDOB == null || finalProfile.DayDOB == 0)
-			{
-				finalProfile.DayDOB = sourceProfile.DayDOB;
-			}
-			if (finalProfile.MonthDOB == null || finalProfile.MonthDOB == 0)
-			{
-				finalProfile.MonthDOB = sourceProfile.MonthDOB;
-			}
-			if (finalProfile.YearDOB == null || finalProfile.YearDOB == 0)
-			{
-				finalProfile.YearDOB = sourceProfile.YearDOB;
-			}
 			if (string.IsNullOrEmpty(finalProfile.Occupation))
 			{
 				finalProfile.Occupation = sourceProfile.Occupation;
@@ -89,6 +77,70 @@ namespace EmailLookup
 						}
 					}
 				}
+			}
+			if (string.IsNullOrEmpty(finalProfile.DomainName))
+			{
+				finalProfile.DomainName = sourceProfile.DomainName;
+			}
+			if (string.IsNullOrEmpty(finalProfile.RegistryDomainId))
+			{
+				finalProfile.RegistryDomainId = sourceProfile.RegistryDomainId;
+			}
+			if (string.IsNullOrEmpty(finalProfile.RegistrarWhoIsServer))
+			{
+				finalProfile.RegistrarWhoIsServer = sourceProfile.RegistrarWhoIsServer;
+			}
+			if (string.IsNullOrEmpty(finalProfile.RegistrarUrl))
+			{
+				finalProfile.RegistrarUrl = sourceProfile.RegistrarUrl;
+			}
+			if (finalProfile.UpdatedDate is null)
+			{
+				finalProfile.UpdatedDate = sourceProfile.UpdatedDate;
+			}
+			if (finalProfile.CreationDate is null)
+			{
+				finalProfile.CreationDate = sourceProfile.CreationDate;
+			}
+			if (finalProfile.RegistrarRegistrationExpirationDate is null)
+			{
+				finalProfile.RegistrarRegistrationExpirationDate = sourceProfile.RegistrarRegistrationExpirationDate;
+			}
+			if (string.IsNullOrEmpty(finalProfile.Registrar))
+			{
+				finalProfile.Registrar = sourceProfile.Registrar;
+			}
+			if (string.IsNullOrEmpty(finalProfile.RegistrarIANAId))
+			{
+				finalProfile.RegistrarIANAId = sourceProfile.RegistrarIANAId;
+			}
+			if (string.IsNullOrEmpty(finalProfile.RegistrarAbuseContactEmail))
+			{
+				finalProfile.RegistrarAbuseContactEmail = sourceProfile.RegistrarAbuseContactEmail;
+			}
+			if (string.IsNullOrEmpty(finalProfile.RegistrarAbuseContactPhone))
+			{
+				finalProfile.RegistrarAbuseContactPhone = sourceProfile.RegistrarAbuseContactPhone;
+			}
+			if (string.IsNullOrEmpty(finalProfile.DomainStatus))
+			{
+				finalProfile.DomainStatus = sourceProfile.DomainStatus;
+			}
+			if (string.IsNullOrEmpty(finalProfile.RegistrantOrganization))
+			{
+				finalProfile.RegistrantOrganization = sourceProfile.RegistrantOrganization;
+			}
+			if (string.IsNullOrEmpty(finalProfile.RegistrantState))
+			{
+				finalProfile.RegistrantState = sourceProfile.RegistrantState;
+			}
+			if (string.IsNullOrEmpty(finalProfile.RegistrantCountry))
+			{
+				finalProfile.RegistrantCountry = sourceProfile.RegistrantCountry;
+			}
+			if (string.IsNullOrEmpty(finalProfile.RegistrantEmail))
+			{
+				finalProfile.RegistrantEmail = sourceProfile.RegistrantEmail;
 			}
 		}
 	}

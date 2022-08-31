@@ -25,7 +25,6 @@ namespace EmailLookup.ProxyCurl
 			profile.RegistrantState = personInformation.Registrant.Address[0];
 			profile.RegistrantCountry = personInformation.Registrant.Address[1];
 			profile.RegistrantEmail = personInformation.Registrant.Email;
-			profile.AdminEmail = personInformation.AdminContact.Email;
 
 			return profile;
 		}

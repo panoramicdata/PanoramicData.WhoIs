@@ -7,9 +7,6 @@
 		public string? FirstName { get; set; }
 		public string? LastName { get; set; }
 		public string? Gender { get; set; }
-		public int? DayDOB { get; set; }
-		public int? MonthDOB { get; set; }
-		public int? YearDOB { get; set; }
 		public string? Occupation { get; set; }
 		public string? Country { get; set; }
 		public string? City { get; set; }
@@ -33,6 +30,5 @@
 		public string? RegistrantState { get; set; }
 		public string? RegistrantCountry { get; set; }
 		public string? RegistrantEmail { get; set; }
-		public string? AdminEmail { get; set; }
 	}
 }

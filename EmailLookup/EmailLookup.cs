@@ -30,6 +30,7 @@ namespace EmailLookup
 			var person = new Person(mailAddress);
 			IList<Profile> profiles = new List<Profile>();
 			Profile finalProfile = new();
+			Profile? currentProfile = new();
 
 			IPersonSearcher[] searchers = new IPersonSearcher[]
 			{
@@ -41,10 +42,13 @@ namespace EmailLookup
 
 			foreach (var searcher in _searchers)
 			{
-				profiles.Add(await searcher.SearchAsync(person));
+				currentProfile = await searcher.SearchAsync(person);
+				if (currentProfile is not null)
+				{
+					profiles.Add(currentProfile);
+				}
 			}
 
-			var merger = new ProfileMerger();
 			foreach (var profile in profiles)
 			{
 				ProfileMerger.Merge(profile, finalProfile);
