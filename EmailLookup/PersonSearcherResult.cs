@@ -4,9 +4,9 @@ using Whois;
 
 namespace EmailLookup.Core
 {
-	public class EmailLookupResult
+	public class PersonSearcherResult
 	{
 		public WhoisResponse? WhoIs { get; set; }
-		public Profile LinkedIn { get; set; }
+		public Profile? ProxyCurl { get; set; }
 	}
 }

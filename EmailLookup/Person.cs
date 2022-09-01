@@ -7,7 +7,7 @@ namespace EmailLookup.Core
 		public Person(string address)
 		{
 			MailAddressEmail = new MailAddress(address);
-			string personName = MailAddressEmail.User;
+			var personName = MailAddressEmail.User;
 			Email = address;
 			LastName = personName;
 			var separatorIndex = personName.IndexOf(".", StringComparison.Ordinal);

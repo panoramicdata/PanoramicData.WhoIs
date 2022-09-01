@@ -8,13 +8,14 @@ namespace EmailLookup.Core.Configuration
 
 		public static EmailLookupConfig AddProxyCurl(this EmailLookupConfig options, string googleCx, string googleKey, string linkedInKey)
 		{
-			ProxyCurl.ProxyCurlConfig proxyCurlConfig = new();
+			ProxyCurl.ProxyCurlConfig proxyCurlConfig = new()
+			{
+				GoogleCx = googleCx,
+				GoogleKey = googleKey,
+				LinkedInKey = linkedInKey
+			};
 
-			proxyCurlConfig.GoogleCx = googleCx;
-			proxyCurlConfig.GoogleKey = googleKey;
-			proxyCurlConfig.LinkedInKey = linkedInKey;
-
-			options.Services.AddTransient<IPersonSearcher, LinkedInSearcher>();
+			options.Services.AddTransient<IPersonSearcher, ProxyCurlSearcher>();
 			options.Services.AddSingleton(ctx => proxyCurlConfig);
 
 			return options;
@@ -22,11 +23,7 @@ namespace EmailLookup.Core.Configuration
 
 		public static EmailLookupConfig AddWhoIs(this EmailLookupConfig options)
 		{
-			WhoIs.WhoIsConfig whoisConfig = new();
-
 			options.Services.AddTransient<IPersonSearcher, WhoIs.WhoIsSearcher>();
-			options.Services.AddSingleton(ctx => whoisConfig);
-
 			return options;
 		}
 	}

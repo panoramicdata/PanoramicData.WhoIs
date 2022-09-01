@@ -3,38 +3,37 @@ using EmailLookup.Core.WhoIs;
 
 namespace EmailLookup.Core
 {
-	public class EmailLookup : IDisposable
+	public class PersonSearcher : IDisposable
 	{
-		private bool disposedValue;
+		private bool _disposedValue;
 		private readonly IEnumerable<IPersonSearcher> _searchers;
 
 		// TODO: Remove this constructor
-		public EmailLookup(string googleCx, string googleKey, string linkedInKey)
-		{
-			var linkedInSearcher = new LinkedInSearcher(googleCx, googleKey, linkedInKey);
-			var whoIsSearcher = new WhoIsSearcher(new WhoIsConfig());
+		//public PersonSearcher(string googleCx, string googleKey, string linkedInKey)
+		//{
+		//	var linkedInSearcher = new ProxyCurlSearcher(googleCx, googleKey, linkedInKey);
+		//	var whoIsSearcher = new WhoIsSearcher();
 
-			_searchers = new List<IPersonSearcher>
-			{
-				linkedInSearcher,
-				whoIsSearcher
-			};
-		}
+		//	_searchers = new List<IPersonSearcher>
+		//	{
+		//		linkedInSearcher,
+		//		whoIsSearcher
+		//	};
+		//}
 
-		public EmailLookup(IEnumerable<IPersonSearcher> searchers)
+		public PersonSearcher(IEnumerable<IPersonSearcher> searchers)
 		{
 			_searchers = searchers;
 		}
 
 		public async Task<Profile> LookupProfileAsync(
-		   string mailAddress,
-		   CancellationToken cancellationToken
+		   string mailAddress
 		   )
 		{
 			var person = new Person(mailAddress);
 			IList<Profile> profiles = new List<Profile>();
 			Profile finalProfile = new();
-			Profile? currentProfile = new();
+			Profile? currentProfile = null;
 
 			foreach (var searcher in _searchers)
 			{
@@ -55,7 +54,7 @@ namespace EmailLookup.Core
 
 		protected virtual void Dispose(bool disposing)
 		{
-			if (!disposedValue)
+			if (!_disposedValue)
 			{
 				if (disposing)
 				{
@@ -64,12 +63,12 @@ namespace EmailLookup.Core
 
 				// TODO: free unmanaged resources (unmanaged objects) and override finalizer
 				// TODO: set large fields to null
-				disposedValue = true;
+				_disposedValue = true;
 			}
 		}
 
 		// // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
-		// ~EmailLookup()
+		// ~PersonSearcher()
 		// {
 		//     // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
 		//     Dispose(disposing: false);

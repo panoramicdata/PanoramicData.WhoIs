@@ -2,12 +2,12 @@
 
 namespace EmailLookup.Test.Helpers
 {
-	internal class EmailLookupBuilder
+	internal class PersonSearcherBuilder
 	{
 		private readonly IList<Core.IPersonSearcher> _searchers = new List<Core.IPersonSearcher>(10);
 		private readonly AppSettings _appSettings;
 
-		public EmailLookupBuilder()
+		public PersonSearcherBuilder()
 		{
 			var builder = new ConfigurationBuilder();
 			builder.AddJsonFile("appsettings.json");
@@ -17,26 +17,23 @@ namespace EmailLookup.Test.Helpers
 			   .Get<AppSettings>();
 		}
 
-		public EmailLookupBuilder WithProxyCurlSearcher()
+		public PersonSearcherBuilder WithProxyCurlSearcher()
 		{
 			var config = new Core.ProxyCurl.ProxyCurlConfig();
 			config.GoogleCx = _appSettings.GoogleCx;
 			config.GoogleKey = _appSettings.GoogleKey;
-			config.LinkedInKey = _appSettings.LinkedInKey;
+			config.LinkedInKey = _appSettings.ProxyCurlKey;
 
-			_searchers.Add(new Core.ProxyCurl.LinkedInSearcher(config));
+			_searchers.Add(new Core.ProxyCurl.ProxyCurlSearcher(config));
 			return this;
 		}
 
-		public EmailLookupBuilder WithWhoIsSearcher()
+		public PersonSearcherBuilder WithWhoIsSearcher()
 		{
-			_searchers.Add(new Core.WhoIs.WhoIsSearcher(new Core.WhoIs.WhoIsConfig()));
+			_searchers.Add(new Core.WhoIs.WhoIsSearcher());
 			return this;
 		}
 
-		public EmailLookup.Core.EmailLookup Build()
-		{
-			return new Core.EmailLookup(_searchers);
-		}
+		public Core.PersonSearcher Build() => new(_searchers);
 	}
 }
