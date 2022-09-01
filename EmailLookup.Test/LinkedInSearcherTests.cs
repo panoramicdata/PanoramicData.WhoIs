@@ -10,18 +10,21 @@ namespace EmailLookup.Test
 		{
 			var testPerson = new Person("david.bond@panoramicdata.com");
 
-			var response = await LinkedInSearcher
+			var response = await ProxyCurlSearcher
 			.SearchAsync(testPerson)
 			.ConfigureAwait(false);
 
 			response.Should().NotBeNull();
-			response.FirstName.Should().Be("David");
+			if (response is not null)
+			{
+				response.FirstName.Should().Be("David");
+			}
 		}
 
 		[Fact]
 		public async void ValidEmailSearch_ShouldReturnGoogleResults()
 		{
-			var response = await LinkedInSearcher
+			var response = await ProxyCurlSearcher
 				.SearchGoogleAsync("david.bond@panoramicdata.com", default)
 				.ConfigureAwait(false);
 

@@ -16,25 +16,25 @@ public abstract class TestBase
 		   .GetSection("AppSettings")
 		   .Get<AppSettings>();
 
-		LinkedInSearcher = new LinkedInSearcher(
+		ProxyCurlSearcher = new ProxyCurlSearcher(
 		   appSettings.GoogleCx,
 		   appSettings.GoogleKey,
-		   appSettings.LinkedInKey
+		   appSettings.ProxyCurlKey
 		);
 
-		//EmailLookup = new Core.EmailLookup(
+		//PersonSearcher = new Core.PersonSearcher(
 		//   appSettings.GoogleCx,
 		//   appSettings.GoogleKey,
-		//   appSettings.LinkedInKey
+		//   appSettings.ProxyCurlKey
 		//);
 
-		EmailLookup = new EmailLookupBuilder()
+		PersonSearcher = new PersonSearcherBuilder()
 			.WithProxyCurlSearcher()
 			.WithWhoIsSearcher()
 			.Build();
 
 	}
 
-	protected LinkedInSearcher LinkedInSearcher { get; }
-	protected Core.EmailLookup EmailLookup { get; }
+	protected ProxyCurlSearcher ProxyCurlSearcher { get; }
+	protected Core.PersonSearcher PersonSearcher { get; }
 }

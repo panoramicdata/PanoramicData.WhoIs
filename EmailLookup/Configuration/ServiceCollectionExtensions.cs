@@ -11,7 +11,7 @@ namespace Microsoft.Extensions.DependencyInjection
 			options?.Invoke(settings);
 
 			services.AddSingleton(settings);
-			services.AddTransient<EmailLookup.Core.EmailLookup>();
+			services.AddTransient<EmailLookup.Core.PersonSearcher>();
 
 			return services;
 		}

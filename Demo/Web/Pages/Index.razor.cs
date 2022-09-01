@@ -9,13 +9,13 @@ namespace EmailLookup.Demo.Web.Pages
 		private LookupModel _lookupData = new LookupModel();
 		private string _message = string.Empty;
 
-		[Inject] private cre.EmailLookup? Searcher { get; set; }
+		[Inject] private cre.PersonSearcher? Searcher { get; set; }
 
 		private async Task LookupAsync()
 		{
 			if (Searcher is null) return;
 
-			await Searcher.LookupProfileAsync(_lookupData.EmailAddress, CancellationToken.None);
+			await Searcher.LookupProfileAsync(_lookupData.EmailAddress);
 			_message = "Lookup complete!";
 		}
 	}

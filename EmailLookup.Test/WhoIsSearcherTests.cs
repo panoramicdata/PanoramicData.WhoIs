@@ -1,3 +1,5 @@
+using EmailLookup.Core;
+using EmailLookup.Core.WhoIs;
 using FluentAssertions;
 
 namespace EmailLookup.Test

@@ -4,19 +4,19 @@ using System.Net.Http.Headers;
 
 namespace EmailLookup.Core.ProxyCurl
 {
-	public class LinkedInSearcher : IPersonSearcher
+	public class ProxyCurlSearcher : IPersonSearcher
 	{
 		private readonly HttpClient _client = new();
 		private readonly ProxyCurlConfig _config = new();
 
-		public LinkedInSearcher(string googleCx, string googleKey, string linkedInKey)
+		public ProxyCurlSearcher(string googleCx, string googleKey, string linkedInKey)
 		{
 			_config.GoogleCx = googleCx;
 			_config.GoogleKey = googleKey;
 			_config.LinkedInKey = linkedInKey;
 		}
 
-		public LinkedInSearcher(ProxyCurlConfig config)
+		public ProxyCurlSearcher(ProxyCurlConfig config)
 		{
 			_config = config;
 		}
@@ -51,7 +51,7 @@ namespace EmailLookup.Core.ProxyCurl
 				return null;
 			}
 
-			Profile profile = detailedProfile.ToProfile();
+			var profile = detailedProfile.ToProfile();
 
 			return profile;
 		}
