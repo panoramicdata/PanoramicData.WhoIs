@@ -58,12 +58,7 @@ namespace EmailLookup.Core.ProxyCurl
 
 		public async Task<string?> ReverseWorkEmailLookupAsync(string address, CancellationToken cancellationToken)
 		{
-			var getProfileUrl = "https://nubela.co/proxycurl/api/linkedin/profile/resolve/email?work_email=" + address;
-			_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _config.ProxyCurlKey);
 
-			var profileResult = await _client
-				.GetStringAsync(getProfileUrl, cancellationToken)
-				.ConfigureAwait(false);
 
 			LinkSearchResponse? searchResponse = JsonConvert.DeserializeObject<LinkSearchResponse>(profileResult);
 			if (searchResponse is null)
