@@ -8,19 +8,6 @@ namespace EmailLookup.Core
 		private bool _disposedValue;
 		private readonly IEnumerable<IPersonSearcher> _searchers;
 
-		// TODO: Remove this constructor
-		//public PersonSearcher(string googleCx, string googleKey, string linkedInKey)
-		//{
-		//	var linkedInSearcher = new ProxyCurlSearcher(googleCx, googleKey, linkedInKey);
-		//	var whoIsSearcher = new WhoIsSearcher();
-
-		//	_searchers = new List<IPersonSearcher>
-		//	{
-		//		linkedInSearcher,
-		//		whoIsSearcher
-		//	};
-		//}
-
 		public PersonSearcher(IEnumerable<IPersonSearcher> searchers)
 		{
 			_searchers = searchers;

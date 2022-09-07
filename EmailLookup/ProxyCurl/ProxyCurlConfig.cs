@@ -6,6 +6,6 @@
 
 		public string GoogleKey { get; set; } = string.Empty;
 
-		public string LinkedInKey { get; set; } = string.Empty;
+		public string ProxyCurlKey { get; set; } = string.Empty;
 	}
 }

@@ -22,7 +22,7 @@ namespace EmailLookup.Test.Helpers
 			var config = new Core.ProxyCurl.ProxyCurlConfig();
 			config.GoogleCx = _appSettings.GoogleCx;
 			config.GoogleKey = _appSettings.GoogleKey;
-			config.LinkedInKey = _appSettings.ProxyCurlKey;
+			config.ProxyCurlKey = _appSettings.ProxyCurlKey;
 
 			_searchers.Add(new Core.ProxyCurl.ProxyCurlSearcher(config));
 			return this;
