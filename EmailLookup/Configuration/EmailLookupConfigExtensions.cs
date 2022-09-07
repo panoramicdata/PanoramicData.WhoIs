@@ -12,7 +12,7 @@ namespace EmailLookup.Core.Configuration
 			{
 				GoogleCx = googleCx,
 				GoogleKey = googleKey,
-				LinkedInKey = linkedInKey
+				ProxyCurlKey = linkedInKey
 			};
 
 			options.Services.AddTransient<IPersonSearcher, ProxyCurlSearcher>();

@@ -13,7 +13,7 @@ namespace EmailLookup.Core.ProxyCurl
 		{
 			_config.GoogleCx = googleCx;
 			_config.GoogleKey = googleKey;
-			_config.LinkedInKey = linkedInKey;
+			_config.ProxyCurlKey = linkedInKey;
 		}
 
 		public ProxyCurlSearcher(ProxyCurlConfig config)
@@ -59,7 +59,7 @@ namespace EmailLookup.Core.ProxyCurl
 		public async Task<string?> ReverseWorkEmailLookupAsync(string address, CancellationToken cancellationToken)
 		{
 			var getProfileUrl = "https://nubela.co/proxycurl/api/linkedin/profile/resolve/email?work_email=" + address;
-			_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _config.LinkedInKey);
+			_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _config.ProxyCurlKey);
 
 			var profileResult = await _client
 				.GetStringAsync(getProfileUrl, cancellationToken)
@@ -77,7 +77,7 @@ namespace EmailLookup.Core.ProxyCurl
 		{
 			var url = "https://nubela.co/proxycurl/api/v2/linkedin?url=" + googleUrl + "&fallback_to_cache=on-error&use_cache=if-present&skills=include&inferred_salary=include&personal_email=include&personal_contact_number=include&twitter_profile_id=include&facebook_profile_id=include&github_profile_id=include&extra=include";
 
-			_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _config.LinkedInKey);
+			_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _config.ProxyCurlKey);
 
 			var result = await _client
 				.GetStringAsync(url, cancellationToken)
