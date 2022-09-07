@@ -9,11 +9,11 @@ namespace EmailLookup.Core.ProxyCurl
 		private readonly HttpClient _client = new();
 		private readonly ProxyCurlConfig _config = new();
 
-		public ProxyCurlSearcher(string googleCx, string googleKey, string linkedInKey)
+		public ProxyCurlSearcher(string googleCx, string googleKey, string proxyCurlKey)
 		{
 			_config.GoogleCx = googleCx;
 			_config.GoogleKey = googleKey;
-			_config.ProxyCurlKey = linkedInKey;
+			_config.ProxyCurlKey = proxyCurlKey;
 		}
 
 		public ProxyCurlSearcher(ProxyCurlConfig config)
@@ -58,9 +58,15 @@ namespace EmailLookup.Core.ProxyCurl
 
 		public async Task<string?> ReverseWorkEmailLookupAsync(string address, CancellationToken cancellationToken)
 		{
+			var url = "https://nubela.co/proxycurl/api/linkedin/profile/resolve/email?work_email=" + address;
 
+			_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _config.ProxyCurlKey);
 
-			LinkSearchResponse? searchResponse = JsonConvert.DeserializeObject<LinkSearchResponse>(profileResult);
+			var result = await _client
+				.GetStringAsync(url, cancellationToken)
+				.ConfigureAwait(false);
+
+			LinkSearchResponse? searchResponse = JsonConvert.DeserializeObject<LinkSearchResponse>(result);
 			if (searchResponse is null)
 			{
 				return null;
