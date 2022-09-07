@@ -17,20 +17,25 @@ namespace EmailLookup.Core
 		   string mailAddress
 		   )
 		{
+			// create person object from mail address to pass as parameter in searchers
 			var person = new Person(mailAddress);
 			IList<Profile> profiles = new List<Profile>();
 			Profile finalProfile = new();
 			Profile? currentProfile = null;
 
+			// for every object that uses IPersonSearcher
 			foreach (var searcher in _searchers)
 			{
+				// perform the search function
 				currentProfile = await searcher.SearchAsync(person);
 				if (currentProfile is not null)
 				{
+					// and add that to the list of profiles to be merged
 					profiles.Add(currentProfile);
 				}
 			}
 
+			// merge every profile obtaining from searchers
 			foreach (var profile in profiles)
 			{
 				ProfileMerger.Merge(profile, finalProfile);

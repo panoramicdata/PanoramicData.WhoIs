@@ -25,6 +25,7 @@ namespace EmailLookup.Core.ProxyCurl
 		{
 			CancellationToken cancellationToken = default;
 
+			// attempt to get linkedin profile url from a google search
 			var googleSearchResponse = await SearchGoogleAsync(person.Email, cancellationToken)
 				.ConfigureAwait(false);
 			if (googleSearchResponse is null)
@@ -32,17 +33,22 @@ namespace EmailLookup.Core.ProxyCurl
 				return null;
 			}
 
+			// if the search didn't return a valid profile url
 			var googleUrl = googleSearchResponse.Url;
 			if (!googleUrl.Contains("/in/"))
 			{
+				// use the backup email lookup function
 				googleUrl = await ReverseWorkEmailLookupAsync(person.Email, cancellationToken)
 					.ConfigureAwait(false);
+
+				// if that still doesn't work, exit the searcher
 				if (googleUrl is null)
 				{
 					return null;
 				}
 			}
 
+			// use the obtained profile url to get information using proxycurl endpoint
 			var detailedProfile = await PersonProfileLookupAsync(googleUrl, cancellationToken)
 				.ConfigureAwait(false);
 
@@ -51,6 +57,7 @@ namespace EmailLookup.Core.ProxyCurl
 				return null;
 			}
 
+			// make that into a profile object
 			var profile = detailedProfile.ToProfile();
 
 			return profile;
@@ -98,7 +105,9 @@ namespace EmailLookup.Core.ProxyCurl
 		 CancellationToken cancellationToken
 		 )
 		{
+			// this is redundant and will be removed
 			var person = new Person(address);
+
 
 			var nameQuery = Uri.EscapeDataString($"{person.FirstName} {person.LastName} {person.CompanyName}");
 
@@ -114,6 +123,7 @@ namespace EmailLookup.Core.ProxyCurl
 				return null;
 			}
 
+			// makes a score based on the likelihood of the obtained url being the linkedin profile url
 			int? currentBestScore = null;
 			GoogleSearchResponse current = new();
 			foreach (var item in googleResponseList.Items)

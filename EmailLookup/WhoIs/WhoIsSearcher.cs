@@ -7,17 +7,15 @@ namespace EmailLookup.Core.WhoIs
 	{
 		public async Task<Profile?> SearchAsync(Person person)
 		{
-			//var domain = person.Domain;
+			var domain = person.Domain;
 
-			//var response = await new WhoisLookup()
-			//	.LookupAsync(domain)
-			//	.ConfigureAwait(false);
+			var response = await new WhoisLookup()
+				.LookupAsync(domain)
+				.ConfigureAwait(false);
 
-			//var profile = response.ToProfile();
+			var profile = response.ToProfile();
 
-			//return profile;
-
-			return new Profile();
+			return profile;
 		}
 	}
 }
