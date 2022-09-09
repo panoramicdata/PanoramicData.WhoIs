@@ -1,4 +1,5 @@
-﻿using EmailLookup.Demo.Web.Models;
+﻿using EmailLookup.Core;
+using EmailLookup.Demo.Web.Models;
 using Microsoft.AspNetCore.Components;
 using cre = EmailLookup.Core;
 
@@ -19,8 +20,8 @@ namespace EmailLookup.Demo.Web.Pages
 
 			try
 			{
-				await Searcher.LookupProfileAsync(_lookupData.EmailAddress);
-				_message = "Lookup complete!";
+				var result = await Searcher.LookupProfileAsync(_lookupData.EmailAddress);
+				_message = "Hello, " + result.FirstName + " " + result.LastName + "!";
 			}
 			catch (Exception ex)
 			{
@@ -30,6 +31,11 @@ namespace EmailLookup.Demo.Web.Pages
 				}
 				_message = "Lookup failed. See log for details.";
 			}
+		}
+
+		private void PrintResults(Profile? result)
+		{
+
 		}
 	}
 }

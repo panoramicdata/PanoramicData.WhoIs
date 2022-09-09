@@ -27,56 +27,37 @@ namespace EmailLookup.Core
 			{
 				finalProfile.Country = sourceProfile.Country;
 			}
-			if (sourceProfile.Languages != null)
+			if (string.IsNullOrEmpty(finalProfile.InferredSalaryMin))
 			{
-				if (finalProfile.Languages == null)
-				{
-					finalProfile.Languages = sourceProfile.Languages;
-				}
-				else
-				{
-					foreach (var lang in sourceProfile.Languages)
-					{
-						if (!finalProfile.Languages.Contains(lang))
-						{
-							finalProfile.Languages.Add(lang);
-						}
-					}
-				}
+				finalProfile.InferredSalaryMin = sourceProfile.InferredSalaryMin;
 			}
-			if (sourceProfile.PersonalEmails != null)
+			if (string.IsNullOrEmpty(finalProfile.InferredSalaryMax))
 			{
-				if (finalProfile.PersonalEmails == null)
-				{
-					finalProfile.PersonalEmails = sourceProfile.PersonalEmails;
-				}
-				else
-				{
-					foreach (var lang in sourceProfile.PersonalEmails)
-					{
-						if (!finalProfile.PersonalEmails.Contains(lang))
-						{
-							finalProfile.PersonalEmails.Add(lang);
-						}
-					}
-				}
+				finalProfile.InferredSalaryMax = sourceProfile.InferredSalaryMax;
 			}
-			if (sourceProfile.PersonalNumbers != null)
+			if (sourceProfile.Languages is not null)
 			{
-				if (finalProfile.PersonalNumbers == null)
-				{
-					finalProfile.PersonalNumbers = sourceProfile.PersonalNumbers;
-				}
-				else
-				{
-					foreach (var lang in sourceProfile.PersonalNumbers)
-					{
-						if (!finalProfile.PersonalNumbers.Contains(lang))
-						{
-							finalProfile.PersonalNumbers.Add(lang);
-						}
-					}
-				}
+				finalProfile.Languages = sourceProfile.Languages;
+			}
+			if (sourceProfile.PersonalEmails is not null)
+			{
+				finalProfile.PersonalEmails = sourceProfile.PersonalEmails;
+			}
+			if (sourceProfile.PersonalNumbers is not null)
+			{
+				finalProfile.PersonalNumbers = sourceProfile.PersonalNumbers;
+			}
+			if (sourceProfile.Awards is not null)
+			{
+				finalProfile.Awards = sourceProfile.Awards;
+			}
+			if (sourceProfile.Courses is not null)
+			{
+				finalProfile.Courses = sourceProfile.Courses;
+			}
+			if (sourceProfile.Projects is not null)
+			{
+				finalProfile.Projects = sourceProfile.Projects;
 			}
 			if (string.IsNullOrEmpty(finalProfile.DomainName))
 			{

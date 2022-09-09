@@ -18,6 +18,7 @@
 		public string? InferredSalaryMax { get; set; }
 		public List<ProfileAwards>? Awards { get; set; }
 		public List<ProfileCourses>? Courses { get; set; }
+		public List<ProfileProject>? Projects { get; set; }
 		public string? DomainName { get; set; }
 		public string? RegistryDomainId { get; set; }
 		public string? RegistrarWhoIsServer { get; set; }
