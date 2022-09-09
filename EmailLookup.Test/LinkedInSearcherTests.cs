@@ -11,8 +11,8 @@ namespace EmailLookup.Test
 			var testPerson = new Person("david.bond@panoramicdata.com");
 
 			var response = await ProxyCurlSearcher
-			.SearchAsync(testPerson)
-			.ConfigureAwait(false);
+				.SearchAsync(testPerson)
+				.ConfigureAwait(false);
 
 			response.Should().NotBeNull();
 			if (response is not null)

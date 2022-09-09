@@ -9,11 +9,11 @@ namespace EmailLookup.Core.ProxyCurl
 		private readonly HttpClient _client = new();
 		private readonly ProxyCurlConfig _config = new();
 
-		public ProxyCurlSearcher(string googleCx, string googleKey, string linkedInKey)
+		public ProxyCurlSearcher(string googleCx, string googleKey, string proxyCurlKey)
 		{
 			_config.GoogleCx = googleCx;
 			_config.GoogleKey = googleKey;
-			_config.LinkedInKey = linkedInKey;
+			_config.ProxyCurlKey = proxyCurlKey;
 		}
 
 		public ProxyCurlSearcher(ProxyCurlConfig config)
@@ -25,6 +25,7 @@ namespace EmailLookup.Core.ProxyCurl
 		{
 			CancellationToken cancellationToken = default;
 
+			// attempt to get linkedin profile url from a google search
 			var googleSearchResponse = await SearchGoogleAsync(person.Email, cancellationToken)
 				.ConfigureAwait(false);
 			if (googleSearchResponse is null)
@@ -32,17 +33,22 @@ namespace EmailLookup.Core.ProxyCurl
 				return null;
 			}
 
+			// if the search didn't return a valid profile url
 			var googleUrl = googleSearchResponse.Url;
 			if (!googleUrl.Contains("/in/"))
 			{
+				// use the backup email lookup function
 				googleUrl = await ReverseWorkEmailLookupAsync(person.Email, cancellationToken)
 					.ConfigureAwait(false);
+
+				// if that still doesn't work, exit the searcher
 				if (googleUrl is null)
 				{
 					return null;
 				}
 			}
 
+			// use the obtained profile url to get information using proxycurl endpoint
 			var detailedProfile = await PersonProfileLookupAsync(googleUrl, cancellationToken)
 				.ConfigureAwait(false);
 
@@ -51,21 +57,22 @@ namespace EmailLookup.Core.ProxyCurl
 				return null;
 			}
 
-			var profile = detailedProfile.ToProfile();
+			Profile profile = detailedProfile.ToProfile();
 
 			return profile;
 		}
 
 		public async Task<string?> ReverseWorkEmailLookupAsync(string address, CancellationToken cancellationToken)
 		{
-			var getProfileUrl = "https://nubela.co/proxycurl/api/linkedin/profile/resolve/email?work_email=" + address;
-			_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _config.LinkedInKey);
+			var url = "https://nubela.co/proxycurl/api/linkedin/profile/resolve/email?work_email=" + address;
 
-			var profileResult = await _client
-				.GetStringAsync(getProfileUrl, cancellationToken)
+			_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _config.ProxyCurlKey);
+
+			var result = await _client
+				.GetStringAsync(url, cancellationToken)
 				.ConfigureAwait(false);
 
-			LinkSearchResponse? searchResponse = JsonConvert.DeserializeObject<LinkSearchResponse>(profileResult);
+			LinkSearchResponse? searchResponse = JsonConvert.DeserializeObject<LinkSearchResponse>(result);
 			if (searchResponse is null)
 			{
 				return null;
@@ -77,7 +84,7 @@ namespace EmailLookup.Core.ProxyCurl
 		{
 			var url = "https://nubela.co/proxycurl/api/v2/linkedin?url=" + googleUrl + "&fallback_to_cache=on-error&use_cache=if-present&skills=include&inferred_salary=include&personal_email=include&personal_contact_number=include&twitter_profile_id=include&facebook_profile_id=include&github_profile_id=include&extra=include";
 
-			_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _config.LinkedInKey);
+			_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _config.ProxyCurlKey);
 
 			var result = await _client
 				.GetStringAsync(url, cancellationToken)
@@ -97,7 +104,9 @@ namespace EmailLookup.Core.ProxyCurl
 		 CancellationToken cancellationToken
 		 )
 		{
+			// this is redundant and will be removed
 			var person = new Person(address);
+
 
 			var nameQuery = Uri.EscapeDataString($"{person.FirstName} {person.LastName} {person.CompanyName}");
 
@@ -113,6 +122,7 @@ namespace EmailLookup.Core.ProxyCurl
 				return null;
 			}
 
+			// makes a score based on the likelihood of the obtained url being the linkedin profile url
 			int? currentBestScore = null;
 			GoogleSearchResponse current = new();
 			foreach (var item in googleResponseList.Items)

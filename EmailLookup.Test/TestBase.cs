@@ -30,7 +30,7 @@ public abstract class TestBase
 
 		PersonSearcher = new PersonSearcherBuilder()
 			.WithProxyCurlSearcher()
-			.WithWhoIsSearcher()
+			//.WithWhoIsSearcher()
 			.Build();
 
 	}

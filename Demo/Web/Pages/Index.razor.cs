@@ -9,14 +9,27 @@ namespace EmailLookup.Demo.Web.Pages
 		private LookupModel _lookupData = new LookupModel();
 		private string _message = string.Empty;
 
-		[Inject] private cre.PersonSearcher? Searcher { get; set; }
+		[Inject] protected cre.PersonSearcher? Searcher { get; set; }
+
+		[Inject] protected ILogger<Index>? Logger { get; set; }
 
 		private async Task LookupAsync()
 		{
 			if (Searcher is null) return;
 
-			await Searcher.LookupProfileAsync(_lookupData.EmailAddress);
-			_message = "Lookup complete!";
+			try
+			{
+				await Searcher.LookupProfileAsync(_lookupData.EmailAddress);
+				_message = "Lookup complete!";
+			}
+			catch (Exception ex)
+			{
+				if (Logger is not null)
+				{
+					Logger.LogError(ex, "Lookup failed! Message: {Message}", ex.Message);
+				}
+				_message = "Lookup failed. See log for details.";
+			}
 		}
 	}
 }

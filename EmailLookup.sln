@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
+		EmailLookup.sln.vsspell = EmailLookup.sln.vsspell
+		EmailLookup.sln.vsspell.dic = EmailLookup.sln.vsspell.dic
 		README.md = README.md
 		version.json = version.json
 	EndProjectSection
