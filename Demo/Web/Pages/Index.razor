@@ -8,29 +8,46 @@
     <DataAnnotationsValidator/>
     <div>
         <label>Email Address:</label>
-        <InputText @bind-Value="_lookupData.EmailAddress" />
+        <InputText class="email-input" @bind-Value="_lookupData.EmailAddress" />
         <button type="submit">Look up</button>
     </div>
 </EditForm>
 
-<div>
+<div class="results-message">
     @_message
 </div>
 
 @if (_showResults)
 {
-    <div>
-        <div>
-            @_searchResults?.FirstName
-        </div>
-        <div>
-            @_searchResults?.LastName
-        </div>
-        Courses:
-        @foreach (var course in _searchResults.Courses)
-        {
+    <div class="results-section">
+        <div class="results-section-header">Basic details:</div>
+        <div class="results-table">
             <div>
-                @course.Name
+                First Name:
+            </div>
+            <div>
+                @_searchResults?.FirstName
+            </div>
+            <div>
+                Last Name:
+            </div>
+            <div>
+                @_searchResults?.LastName
+            </div>
+        </div>
+        @if (_searchResults.Courses.Count > 0)
+        {
+            <div class="results-section-header">Courses:</div>
+            <div class="results-table">
+                @foreach (var course in _searchResults.Courses)
+                {
+                    <div>
+                        Course Name:
+                    </div>
+                    <div>
+                        @course.Name
+                    </div>
+                }
             </div>
         }
     </div>

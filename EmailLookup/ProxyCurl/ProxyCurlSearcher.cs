@@ -100,8 +100,8 @@ namespace EmailLookup.Core.ProxyCurl
 		}
 
 		public async Task<GoogleSearchResponse?> SearchGoogleAsync(
-		 string address,
-		 CancellationToken cancellationToken
+			string address,
+			CancellationToken cancellationToken
 		 )
 		{
 			// this is redundant and will be removed

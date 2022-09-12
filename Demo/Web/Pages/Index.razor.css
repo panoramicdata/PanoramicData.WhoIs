@@ -1,0 +1,22 @@
+﻿::deep .email-input {
+	min-width: 400px;
+}
+
+.results-message {
+	margin: 20px 0 0 0;
+}
+
+.results-section {
+	margin: 20px 0 0 0;
+}
+
+.results-section-header {
+	margin: 10px 0 0 0;
+	font-size: large;
+	font-weight: bold;
+}
+
+.results-table {
+	display: grid;
+	grid-template-columns: 200px 1fr;
+}
