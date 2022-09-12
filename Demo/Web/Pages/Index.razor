@@ -26,5 +26,12 @@
         <div>
             @_searchResults?.LastName
         </div>
+        Courses:
+        @foreach (var course in _searchResults.Courses)
+        {
+            <div>
+                @course.Name
+            </div>
+        }
     </div>
 }

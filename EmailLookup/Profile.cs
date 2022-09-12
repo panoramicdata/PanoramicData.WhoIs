@@ -17,7 +17,7 @@
 		public string? InferredSalaryMin { get; set; }
 		public string? InferredSalaryMax { get; set; }
 		public List<ProfileAwards>? Awards { get; set; }
-		public List<ProfileCourses>? Courses { get; set; }
+		public List<ProfileCourses> Courses { get; set; } = new List<ProfileCourses>();
 		public List<ProfileProject>? Projects { get; set; }
 		public string? DomainName { get; set; }
 		public string? RegistryDomainId { get; set; }
