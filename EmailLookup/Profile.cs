@@ -14,6 +14,11 @@
 		public List<string>? Languages { get; set; }
 		public List<string>? PersonalEmails { get; set; }
 		public List<string>? PersonalNumbers { get; set; }
+		public string? InferredSalaryMin { get; set; }
+		public string? InferredSalaryMax { get; set; }
+		public List<ProfileAwards>? Awards { get; set; }
+		public List<ProfileCourses>? Courses { get; set; }
+		public List<ProfileProject>? Projects { get; set; }
 		public string? DomainName { get; set; }
 		public string? RegistryDomainId { get; set; }
 		public string? RegistrarWhoIsServer { get; set; }

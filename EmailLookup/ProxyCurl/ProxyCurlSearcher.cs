@@ -57,8 +57,7 @@ namespace EmailLookup.Core.ProxyCurl
 				return null;
 			}
 
-			// make that into a profile object
-			var profile = detailedProfile.ToProfile();
+			Profile profile = detailedProfile.ToProfile();
 
 			return profile;
 		}
