@@ -4,36 +4,36 @@
 	{
 		public LookupOutcomes Outcome { get; set; }
 
-		public string? FirstName { get; set; }
-		public string? LastName { get; set; }
-		public string? Gender { get; set; }
-		public string? Occupation { get; set; }
-		public string? Country { get; set; }
-		public string? City { get; set; }
-		public string? State { get; set; }
-		public List<string>? Languages { get; set; }
-		public List<string>? PersonalEmails { get; set; }
-		public List<string>? PersonalNumbers { get; set; }
-		public string? InferredSalaryMin { get; set; }
-		public string? InferredSalaryMax { get; set; }
-		public List<ProfileAwards>? Awards { get; set; }
+		public string FirstName { get; set; } = string.Empty;
+		public string LastName { get; set; } = string.Empty;
+		public string Gender { get; set; } = string.Empty;
+		public string Occupation { get; set; } = string.Empty;
+		public string Country { get; set; } = string.Empty;
+		public string City { get; set; } = string.Empty;
+		public string State { get; set; } = string.Empty;
+		public List<string> Languages { get; set; } = new List<string>();
+		public List<string> PersonalEmails { get; set; } = new List<string>();
+		public List<string> PersonalNumbers { get; set; } = new List<string>();
+		public string InferredSalaryMin { get; set; } = string.Empty;
+		public string InferredSalaryMax { get; set; } = string.Empty;
+		public List<ProfileAwards> Awards { get; set; } = new List<ProfileAwards>();
 		public List<ProfileCourses> Courses { get; set; } = new List<ProfileCourses>();
-		public List<ProfileProject>? Projects { get; set; }
-		public string? DomainName { get; set; }
-		public string? RegistryDomainId { get; set; }
-		public string? RegistrarWhoIsServer { get; set; }
-		public string? RegistrarUrl { get; set; }
+		public List<ProfileProject> Projects { get; set; } = new List<ProfileProject>();
+		public string DomainName { get; set; } = string.Empty;
+		public string RegistryDomainId { get; set; } = string.Empty;
+		public string RegistrarWhoIsServer { get; set; } = string.Empty;
+		public string RegistrarUrl { get; set; } = string.Empty;
 		public DateTime? UpdatedDate { get; set; }
 		public DateTime? CreationDate { get; set; }
 		public DateTime? RegistrarRegistrationExpirationDate { get; set; }
-		public string? Registrar { get; set; }
-		public string? RegistrarIANAId { get; set; }
-		public string? RegistrarAbuseContactEmail { get; set; }
-		public string? RegistrarAbuseContactPhone { get; set; }
-		public string? DomainStatus { get; set; }
-		public string? RegistrantOrganization { get; set; }
-		public string? RegistrantState { get; set; }
-		public string? RegistrantCountry { get; set; }
-		public string? RegistrantEmail { get; set; }
+		public string Registrar { get; set; } = string.Empty;
+		public string RegistrarIANAId { get; set; } = string.Empty;
+		public string RegistrarAbuseContactEmail { get; set; } = string.Empty;
+		public string RegistrarAbuseContactPhone { get; set; } = string.Empty;
+		public string DomainStatus { get; set; } = string.Empty;
+		public string RegistrantOrganization { get; set; } = string.Empty;
+		public string RegistrantState { get; set; } = string.Empty;
+		public string RegistrantCountry { get; set; } = string.Empty;
+		public string RegistrantEmail { get; set; } = string.Empty;
 	}
 }
