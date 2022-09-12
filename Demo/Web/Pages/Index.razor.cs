@@ -7,8 +7,10 @@ namespace EmailLookup.Demo.Web.Pages
 {
 	public partial class Index
 	{
+		private bool _showResults;
 		private LookupModel _lookupData = new LookupModel();
 		private string _message = string.Empty;
+		private Profile? _searchResults;
 
 		[Inject] protected cre.PersonSearcher? Searcher { get; set; }
 
@@ -20,8 +22,9 @@ namespace EmailLookup.Demo.Web.Pages
 
 			try
 			{
-				var result = await Searcher.LookupProfileAsync(_lookupData.EmailAddress);
-				_message = "Hello, " + result.FirstName + " " + result.LastName + "!";
+				_searchResults = await Searcher.LookupProfileAsync(_lookupData.EmailAddress);
+				_showResults = true;
+				_message = "Hello, " + _searchResults.FirstName + " " + _searchResults.LastName + "!";
 			}
 			catch (Exception ex)
 			{
@@ -31,11 +34,6 @@ namespace EmailLookup.Demo.Web.Pages
 				}
 				_message = "Lookup failed. See log for details.";
 			}
-		}
-
-		private void PrintResults(Profile? result)
-		{
-
 		}
 	}
 }

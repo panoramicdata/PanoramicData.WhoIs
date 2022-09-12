@@ -16,3 +16,15 @@
 <div>
     @_message
 </div>
+
+@if (_showResults)
+{
+    <div>
+        <div>
+            @_searchResults?.FirstName
+        </div>
+        <div>
+            @_searchResults?.LastName
+        </div>
+    </div>
+}
