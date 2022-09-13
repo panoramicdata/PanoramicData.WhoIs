@@ -34,8 +34,109 @@
             <div>
                 @_searchResults?.LastName
             </div>
+            @if(_searchResults?.Occupation is not "")
+            {
+                <div>
+                    Occupation:
+                </div>
+                <div>
+                    @_searchResults?.Occupation
+                </div>
+            }
+            @if(_searchResults?.Age is not 0)
+            {
+                <div>
+                    Age:
+                </div>
+                <div>
+                    @_searchResults?.Age
+                </div>
+            }
+            @if(_searchResults?.Gender is not "")
+            {
+                <div>
+                    Gender:
+                </div>
+                <div>
+                    @_searchResults?.Gender
+                </div>
+            }
+            @if(_searchResults?.Country is not "")
+            {
+                <div>
+                    Country:
+                </div>
+                <div>
+                    @_searchResults?.Country
+                </div>
+            }
         </div>
-        @if (_searchResults.Courses.Count > 0)
+        @if (_searchResults?.Languages.Count > 0)
+        {
+            <div class="results-section-header">Languages:</div>
+            <div class="results-table">
+                @foreach (var lang in _searchResults.Languages)
+                {
+                    <div>
+                        @lang
+                    </div>
+                }
+            </div>
+        }
+        @if (_searchResults?.PersonalEmails.Count > 0)
+        {
+            <div class="results-section-header">Emails:</div>
+            <div class="results-table">
+                @foreach (var email in _searchResults.PersonalEmails)
+                {
+                    <div>
+                        @email
+                    </div>
+                    <br />
+                }
+            </div>
+        }
+        @if (_searchResults?.PersonalNumbers.Count > 0)
+        {
+            <div class="results-section-header">Phone numbers:</div>
+            <div class="results-table">
+                @foreach (var number in _searchResults.PersonalNumbers)
+                {
+                    <div>
+                        @number
+                    </div>
+                    <br />
+                }
+            </div>
+        }
+        @if (_searchResults?.Awards.Count > 0)
+        {
+            <div class="results-section-header">Awards:</div>
+            <div class="results-table">
+                @foreach (var award in _searchResults.Awards)
+                {
+                    <div>
+                        Title:
+                    </div>
+                    <div>
+                        @award.Title
+                    </div>
+                    <div>
+                        Issuer:
+                    </div>
+                    <div>
+                        @award.Issuer
+                    </div>
+                    <div>
+                        Description:
+                    </div>
+                    <div>
+                        @award.Description
+                    </div>
+                }
+            </div>
+        }
+        @if (_searchResults?.Courses.Count > 0)
         {
             <div class="results-section-header">Courses:</div>
             <div class="results-table">
@@ -46,6 +147,27 @@
                     </div>
                     <div>
                         @course.Name
+                    </div>
+                }
+            </div>
+        }
+        @if (_searchResults?.Projects.Count > 0)
+        {
+            <div class="results-section-header">Awards:</div>
+            <div class="results-table">
+                @foreach (var project in _searchResults.Projects)
+                {
+                    <div>
+                        Title:
+                    </div>
+                    <div>
+                        @project.Title
+                    </div>
+                    <div>
+                        Description:
+                    </div>
+                    <div>
+                        @project.Description
                     </div>
                 }
             </div>

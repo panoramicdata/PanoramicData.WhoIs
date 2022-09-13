@@ -23,6 +23,10 @@ namespace EmailLookup.Core
 			{
 				finalProfile.Occupation = sourceProfile.Occupation;
 			}
+			if (sourceProfile.Age != 0)
+			{
+				finalProfile.Age = sourceProfile.Age;
+			}
 			if (string.IsNullOrEmpty(finalProfile.Country))
 			{
 				finalProfile.Country = sourceProfile.Country;
@@ -35,29 +39,29 @@ namespace EmailLookup.Core
 			{
 				finalProfile.InferredSalaryMax = sourceProfile.InferredSalaryMax;
 			}
-			if (sourceProfile.Languages is not null)
+			foreach (var lang in sourceProfile.Languages)
 			{
-				finalProfile.Languages = sourceProfile.Languages;
+				finalProfile.Languages.Add(lang);
 			}
-			if (sourceProfile.PersonalEmails is not null)
+			foreach (var email in sourceProfile.PersonalEmails)
 			{
-				finalProfile.PersonalEmails = sourceProfile.PersonalEmails;
+				finalProfile.PersonalEmails.Add(email);
 			}
-			if (sourceProfile.PersonalNumbers is not null)
+			foreach (var number in sourceProfile.PersonalNumbers)
 			{
-				finalProfile.PersonalNumbers = sourceProfile.PersonalNumbers;
+				finalProfile.PersonalNumbers.Add(number);
 			}
-			if (sourceProfile.Awards is not null)
+			foreach (var award in sourceProfile.Awards)
 			{
-				finalProfile.Awards = sourceProfile.Awards;
+				finalProfile.Awards.Add(award);
 			}
-			if (sourceProfile.Courses is not null)
+			foreach (var course in sourceProfile.Courses)
 			{
-				finalProfile.Courses = sourceProfile.Courses;
+				finalProfile.Courses.Add(course);
 			}
-			if (sourceProfile.Projects is not null)
+			foreach (var project in sourceProfile.Projects)
 			{
-				finalProfile.Projects = sourceProfile.Projects;
+				finalProfile.Projects.Add(project);
 			}
 			if (string.IsNullOrEmpty(finalProfile.DomainName))
 			{

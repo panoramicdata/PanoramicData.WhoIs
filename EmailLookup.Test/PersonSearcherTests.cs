@@ -10,7 +10,7 @@ namespace EmailLookup.Test
 	  public async void ValidSearch_ShouldReturnResponse()
 		{
 			var response = await PersonSearcher
-				.LookupProfileAsync("david.bond@panoramicdata.com")
+				.LookupProfileAsync("satish.margabandhu@genpact.com")
 				.ConfigureAwait(false);
 
 			response.Should().NotBeNull();
