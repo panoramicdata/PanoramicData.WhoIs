@@ -19,10 +19,12 @@ namespace EmailLookup.Test.Helpers
 
 		public PersonSearcherBuilder WithProxyCurlSearcher()
 		{
-			var config = new Core.ProxyCurl.ProxyCurlConfig();
-			config.GoogleCx = _appSettings.GoogleCx;
-			config.GoogleKey = _appSettings.GoogleKey;
-			config.ProxyCurlKey = _appSettings.ProxyCurlKey;
+			var config = new Core.ProxyCurl.ProxyCurlConfig
+			{
+				GoogleCx = _appSettings.GoogleCx,
+				GoogleKey = _appSettings.GoogleKey,
+				ProxyCurlKey = _appSettings.ProxyCurlKey
+			};
 
 			_searchers.Add(new Core.ProxyCurl.ProxyCurlSearcher(config));
 			return this;

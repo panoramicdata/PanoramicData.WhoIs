@@ -57,7 +57,7 @@ namespace EmailLookup.Core.ProxyCurl
 				return null;
 			}
 
-			Profile profile = detailedProfile.ToProfile();
+			var profile = detailedProfile.ToProfile();
 
 			return profile;
 		}
@@ -85,18 +85,25 @@ namespace EmailLookup.Core.ProxyCurl
 			var url = "https://nubela.co/proxycurl/api/v2/linkedin?url=" + googleUrl + "&fallback_to_cache=on-error&use_cache=if-present&skills=include&inferred_salary=include&personal_email=include&personal_contact_number=include&twitter_profile_id=include&facebook_profile_id=include&github_profile_id=include&extra=include";
 
 			_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _config.ProxyCurlKey);
-
-			var result = await _client
-				.GetStringAsync(url, cancellationToken)
-				.ConfigureAwait(false);
-
-			DetailedPersonInformation? detailedPersonInformation = JsonConvert.DeserializeObject<DetailedPersonInformation?>(result);
-
-			if (detailedPersonInformation is null)
+			try
 			{
+				var result = await _client
+					.GetStringAsync(url, cancellationToken)
+					.ConfigureAwait(false);
+
+				DetailedPersonInformation? detailedPersonInformation = JsonConvert.DeserializeObject<DetailedPersonInformation?>(result);
+
+				if (detailedPersonInformation is null)
+				{
+					return null;
+				}
+				return detailedPersonInformation;
+			}
+			catch
+			{
+				// TODO: Log issue
 				return null;
 			}
-			return detailedPersonInformation;
 		}
 
 		public async Task<GoogleSearchResponse?> SearchGoogleAsync(
@@ -123,7 +130,7 @@ namespace EmailLookup.Core.ProxyCurl
 			}
 
 			// makes a score based on the likelihood of the obtained url being the linkedin profile url
-			int? currentBestScore = null;
+			var currentBestScore = 0;
 			GoogleSearchResponse current = new();
 			foreach (var item in googleResponseList.Items)
 			{
@@ -152,11 +159,8 @@ namespace EmailLookup.Core.ProxyCurl
 					score += 25;
 				}
 
-				if (
-				   currentBestScore is null // There is no current best score
-				   || // OR
-				   score > currentBestScore // The current score is better than the current best score
-				   )
+				if (score > currentBestScore // The current score is better than the current best score
+				)
 				{
 					current.Title = title;
 					current.Url = link;

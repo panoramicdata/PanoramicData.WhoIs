@@ -5,12 +5,13 @@
 
 		internal static Profile ToProfile(this DetailedPersonInformation personInformation)
 		{
-			Profile profile = new Profile();
-
-			profile.FirstName = personInformation.FirstName;
-			profile.LastName = personInformation.LastName;
-			profile.Gender = personInformation.Gender;
-			profile.Occupation = personInformation.Occupation;
+			var profile = new Profile
+			{
+				FirstName = personInformation.FirstName,
+				LastName = personInformation.LastName,
+				Gender = personInformation.Gender,
+				Occupation = personInformation.Occupation
+			};
 			if (personInformation.BirthDate is not null)
 			{
 				profile.BirthYear = personInformation.BirthDate.Year;

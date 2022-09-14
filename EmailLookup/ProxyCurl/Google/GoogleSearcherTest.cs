@@ -1,8 +1,5 @@
-﻿using EmailLookup.Core.ProxyCurl;
-using Newtonsoft.Json;
-using System.Net;
+﻿using Newtonsoft.Json;
 using System.Net.Http.Headers;
-using EmailLookup.Core.ProxyCurl.Google;
 
 namespace EmailLookup.Core.ProxyCurl.Google
 {
@@ -48,7 +45,7 @@ namespace EmailLookup.Core.ProxyCurl.Google
 
 				LinkSearchResponse? searchResponse = JsonConvert.DeserializeObject<LinkSearchResponse>(profileResult);
 
-				googleUrl = searchResponse.Url;
+				googleUrl = searchResponse?.Url;
 			}
 
 
@@ -60,7 +57,7 @@ namespace EmailLookup.Core.ProxyCurl.Google
 				.ConfigureAwait(false);
 
 			DetailedPersonInformation? detailedPersonInformation = JsonConvert.DeserializeObject<DetailedPersonInformation>(result);
-			Profile linkedInProfile = null;
+			Profile? linkedInProfile = null;
 			if (detailedPersonInformation != null)
 			{
 				linkedInProfile = detailedPersonInformation.ToProfile();

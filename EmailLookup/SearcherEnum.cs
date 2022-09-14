@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections;
 
 namespace EmailLookup.Core
 {
 	public class SearcherEnum : IEnumerator
 	{
-		public IPersonSearcher[] _searcher;
+		private IPersonSearcher[] _searcher;
 
-		int position = -1;
+		int _position = -1;
 
 		public SearcherEnum(IPersonSearcher[] searchers)
 		{
@@ -20,13 +15,13 @@ namespace EmailLookup.Core
 
 		public bool MoveNext()
 		{
-			position++;
-			return (position < _searcher.Length);
+			_position++;
+			return (_position < _searcher.Length);
 		}
 
 		public void Reset()
 		{
-			position = -1;
+			_position = -1;
 		}
 
 		object IEnumerator.Current
@@ -43,7 +38,7 @@ namespace EmailLookup.Core
 			{
 				try
 				{
-					return _searcher[position];
+					return _searcher[_position];
 				}
 				catch
 				{

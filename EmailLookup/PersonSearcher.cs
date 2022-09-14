@@ -1,7 +1,4 @@
-﻿using EmailLookup.Core.ProxyCurl;
-using EmailLookup.Core.WhoIs;
-
-namespace EmailLookup.Core
+﻿namespace EmailLookup.Core
 {
 	public class PersonSearcher : IDisposable
 	{

@@ -12,13 +12,13 @@ namespace EmailLookup.Core.ProxyCurl
         /// Start date
         /// </summary>
         [DataMember(Name = "starts_at")]
-        public Date StartsAt { get; set; } = new();
+        public ProxyCurlDate StartsAt { get; set; } = new();
 
         /// <summary>
         /// End date
         /// </summary>
         [DataMember(Name = "ends_at")]
-        public Date EndsAt { get; set; } = new();
+        public ProxyCurlDate EndsAt { get; set; } = new();
 
         /// <summary>
         /// Organisation name
