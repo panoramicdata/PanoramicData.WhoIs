@@ -34,7 +34,7 @@
             <div>
                 @_searchResults?.LastName
             </div>
-            @if(_searchResults?.Occupation is not "")
+            @if(!string.IsNullOrWhiteSpace(_searchResults?.Occupation))
             {
                 <div>
                     Occupation:
@@ -43,7 +43,7 @@
                     @_searchResults?.Occupation
                 </div>
             }
-            @if(_searchResults?.Age is not 0)
+            @if(_searchResults?.Age > 0)
             {
                 <div>
                     Age:
@@ -52,7 +52,7 @@
                     @_searchResults?.Age
                 </div>
             }
-            @if(_searchResults?.Gender is not "")
+            @if (!string.IsNullOrWhiteSpace(_searchResults?.Gender))
             {
                 <div>
                     Gender:
@@ -61,7 +61,7 @@
                     @_searchResults?.Gender
                 </div>
             }
-            @if(_searchResults?.Country is not "")
+            @if(!string.IsNullOrWhiteSpace(_searchResults?.Country))
             {
                 <div>
                     Country:

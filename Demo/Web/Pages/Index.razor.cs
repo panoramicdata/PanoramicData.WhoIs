@@ -22,6 +22,7 @@ namespace EmailLookup.Demo.Web.Pages
 
 			try
 			{
+				_showResults = false;
 				_searchResults = await Searcher.LookupProfileAsync(_lookupData.EmailAddress);
 				_showResults = true;
 				_message = "Hello, " + _searchResults.FirstName + " " + _searchResults.LastName + "!";
