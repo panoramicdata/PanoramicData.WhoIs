@@ -6,10 +6,18 @@
 
 <EditForm Model="_lookupData" OnValidSubmit="LookupAsync">
     <DataAnnotationsValidator/>
-    <div>
-        <label>Email Address:</label>
-        <InputText class="email-input" @bind-Value="_lookupData.EmailAddress" />
-        <button type="submit">Look up</button>
+    <div class="parameters-section">
+        <div>
+            <label>Email Address:</label>
+        </div>
+        <div>
+            <InputText class="email-input" @bind-Value="_lookupData.EmailAddress" />
+            <ValidationMessage For="() => _lookupData.EmailAddress" />
+        </div>
+        <div></div>
+        <div class="action-buttons">
+            <input type="submit" value="Look up" disabled="@_searchDisabled" />
+        </div>
     </div>
 </EditForm>
 
