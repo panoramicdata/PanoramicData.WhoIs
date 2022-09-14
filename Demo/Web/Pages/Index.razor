@@ -6,10 +6,18 @@
 
 <EditForm Model="_lookupData" OnValidSubmit="LookupAsync">
     <DataAnnotationsValidator/>
-    <div>
-        <label>Email Address:</label>
-        <InputText class="email-input" @bind-Value="_lookupData.EmailAddress" />
-        <button type="submit">Look up</button>
+    <div class="parameters-section">
+        <div>
+            <label>Email Address:</label>
+        </div>
+        <div>
+            <InputText class="email-input" @bind-Value="_lookupData.EmailAddress" />
+            <ValidationMessage For="() => _lookupData.EmailAddress" />
+        </div>
+        <div></div>
+        <div class="action-buttons">
+            <input type="submit" value="Look up" disabled="@_searchDisabled" />
+        </div>
     </div>
 </EditForm>
 
@@ -35,7 +43,7 @@
             <div>
                 @_searchResults?.LastName
             </div>
-            @if(_searchResults?.Occupation is not "")
+            @if(!string.IsNullOrWhiteSpace(_searchResults?.Occupation))
             {
                 <div>
                     Occupation:
@@ -44,7 +52,7 @@
                     @_searchResults?.Occupation
                 </div>
             }
-            @if(_searchResults?.Age is not 0)
+            @if(_searchResults?.Age > 0)
             {
                 <div>
                     Age:
@@ -53,7 +61,7 @@
                     @_searchResults?.Age
                 </div>
             }
-            @if(_searchResults?.Gender is not "")
+            @if (!string.IsNullOrWhiteSpace(_searchResults?.Gender))
             {
                 <div>
                     Gender:
@@ -62,7 +70,7 @@
                     @_searchResults?.Gender
                 </div>
             }
-            @if(_searchResults?.Country is not "")
+            @if(!string.IsNullOrWhiteSpace(_searchResults?.Country))
             {
                 <div>
                     Country:

@@ -8,6 +8,7 @@ namespace EmailLookup.Demo.Web.Pages
 	public partial class Index
 	{
 		private bool _showResults;
+		private bool _searchDisabled = false;
 		private LookupModel _lookupData = new LookupModel();
 		private string _message = string.Empty;
 		private Profile? _searchResults;
@@ -22,6 +23,8 @@ namespace EmailLookup.Demo.Web.Pages
 
 			try
 			{
+				_searchDisabled = true;
+				_showResults = false;
 				_searchResults = await Searcher.LookupProfileAsync(_lookupData.EmailAddress);
 				_showResults = true;
 				_message = "Hello, " + _searchResults.FirstName + " " + _searchResults.LastName + "!";
@@ -33,6 +36,10 @@ namespace EmailLookup.Demo.Web.Pages
 					Logger.LogError(ex, "Lookup failed! Message: {Message}", ex.Message);
 				}
 				_message = "Lookup failed. See log for details.";
+			}
+			finally
+			{
+				_searchDisabled = false;
 			}
 		}
 	}
