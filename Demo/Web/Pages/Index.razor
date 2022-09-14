@@ -19,6 +19,7 @@
 
 @if (_showResults)
 {
+    <h2>Personal Information</h2>
     <div class="results-section">
         <div class="results-section-header">Basic details:</div>
         <div class="results-table">
@@ -70,6 +71,36 @@
                     @_searchResults?.Country
                 </div>
             }
+            @if(_searchResults?.City is not "")
+            {
+                <div>
+                    City:
+                </div>
+                <div>
+                    @_searchResults?.City
+                </div>
+            }
+            @if(_searchResults?.State is not "")
+            {
+                <div>
+                    State:
+                </div>
+                <div>
+                    @_searchResults?.State
+                </div>
+            }
+            @if((_searchResults?.InferredSalaryMax is not "") && (_searchResults?.InferredSalaryMin is not ""))
+            {
+                <div>
+                    Inferred Salary:
+                </div>
+                <div>
+                    @_searchResults?.InferredSalaryMin
+                </div>
+                <div>
+                    @_searchResults?.InferredSalaryMax
+                </div>
+            }
         </div>
         @if (_searchResults?.Languages.Count > 0)
         {
@@ -106,6 +137,84 @@
                         @number
                     </div>
                     <br />
+                }
+            </div>
+        }
+        @if (_searchResults?.Education.Count > 0)
+        {
+            <div class="results-section-header">Education:</div>
+            <div class="results-table">
+                @foreach (var award in _searchResults.Education)
+                {
+                    <div>
+                        Field of Study:
+                    </div>
+                    <div>
+                        @award.FieldOfStudy
+                    </div>
+                    <div>
+                        Degree Name:
+                    </div>
+                    <div>
+                        @award.DegreeName
+                    </div>
+                    <div>
+                        School:
+                    </div>
+                    <div>
+                        @award.School
+                    </div>
+                    <div>
+                        Description:
+                    </div>
+                    <div>
+                        @award.Description
+                    </div>
+                    <div>
+                        ---
+                    </div>
+                    <div>
+                        ---
+                    </div>
+                }
+            </div>
+        }
+        @if (_searchResults?.Experiences.Count > 0)
+        {
+            <div class="results-section-header">Experiences:</div>
+            <div class="results-table">
+                @foreach (var experience in _searchResults.Experiences)
+                {
+                    <div>
+                        Company:
+                    </div>
+                    <div>
+                        @experience.Company
+                    </div>
+                    <div>
+                        Title:
+                    </div>
+                    <div>
+                        @experience.Title
+                    </div>
+                    <div>
+                        Description:
+                    </div>
+                    <div>
+                        @experience.Description
+                    </div>
+                    <div>
+                        Location:
+                    </div>
+                    <div>
+                        @experience.Location
+                    </div>
+                    <div>
+                        ---
+                    </div>
+                    <div>
+                        ---
+                    </div>
                 }
             </div>
         }
@@ -172,5 +281,13 @@
                 }
             </div>
         }
+    </div>
+
+    <h2>Company Information</h2>
+    <div class="results-section">
+        <div class="results-section-header">Registrar Information</div>
+        <div class="results-table">
+
+        </div>
     </div>
 }

@@ -13,6 +13,8 @@
 		public string Country { get; set; } = string.Empty;
 		public string City { get; set; } = string.Empty;
 		public string State { get; set; } = string.Empty;
+		public List<ProfileExperiences> Experiences { get; set; } = new List<ProfileExperiences>();
+		public List<ProfileEducation> Education { get; set; } = new List<ProfileEducation>();
 		public List<string> Languages { get; set; } = new List<string>();
 		public List<string> PersonalEmails { get; set; } = new List<string>();
 		public List<string> PersonalNumbers { get; set; } = new List<string>();

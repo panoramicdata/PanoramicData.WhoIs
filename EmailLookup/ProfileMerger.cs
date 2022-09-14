@@ -51,6 +51,14 @@ namespace EmailLookup.Core
 			{
 				finalProfile.PersonalNumbers.Add(number);
 			}
+			foreach (var education in sourceProfile.Education)
+			{
+				finalProfile.Education.Add(education);
+			}
+			foreach (var experience in sourceProfile.Experiences)
+			{
+				finalProfile.Experiences.Add(experience);
+			}
 			foreach (var award in sourceProfile.Awards)
 			{
 				finalProfile.Awards.Add(award);
