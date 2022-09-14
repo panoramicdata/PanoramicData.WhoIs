@@ -9,6 +9,7 @@ namespace EmailLookup.Core.ProxyCurl
 		{
 			var profile = new Profile
 			{
+				Outcome = LookupOutcomes.Found,
 				DomainName = personInformation.DomainName?.Value ?? string.Empty,
 				RegistryDomainId = personInformation.RegistryDomainId,
 				RegistrarWhoIsServer = personInformation.WhoisServer.Value,

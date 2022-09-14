@@ -5,7 +5,7 @@ namespace EmailLookup.Core.WhoIs
 {
 	public class WhoIsSearcher : IPersonSearcher
 	{
-		public async Task<Profile?> SearchAsync(Person person)
+		public async Task<Profile> SearchAsync(Person person)
 		{
 			var domain = person.Domain;
 
@@ -13,7 +13,16 @@ namespace EmailLookup.Core.WhoIs
 				.LookupAsync(domain)
 				.ConfigureAwait(false);
 
-			var profile = response.ToProfile();
+			Profile? profile;
+			if (response != null)
+			{
+				profile = response.ToProfile();
+				return profile;
+			}
+			profile = new Profile
+			{
+				Outcome = LookupOutcomes.NotFound
+			};
 
 			return profile;
 		}

@@ -1,10 +1,16 @@
-﻿namespace EmailLookup.Core
+﻿using EmailLookup.Core.ProxyCurl;
+
+namespace EmailLookup.Core
 {
 	internal class ProfileMerger
 	{
 
 		internal static void Merge(Profile sourceProfile, Profile finalProfile)
 		{
+			if (sourceProfile.Outcome != LookupOutcomes.NotFound)
+			{
+				finalProfile.Outcome = LookupOutcomes.Found;
+			}
 			if (string.IsNullOrEmpty(finalProfile.FirstName))
 			{
 				finalProfile.FirstName = sourceProfile.FirstName;

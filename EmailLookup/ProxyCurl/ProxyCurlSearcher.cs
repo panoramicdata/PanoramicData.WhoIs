@@ -21,31 +21,33 @@ namespace EmailLookup.Core.ProxyCurl
 			_config = config;
 		}
 
-		public async Task<Profile?> SearchAsync(Person person)
+		public async Task<Profile> SearchAsync(Person person)
 		{
 			CancellationToken cancellationToken = default;
 
 			// attempt to get linkedin profile url from a google search
 			var googleSearchResponse = await SearchGoogleAsync(person.Email, cancellationToken)
 				.ConfigureAwait(false);
-			if (googleSearchResponse is null)
-			{
-				return null;
-			}
 
-			// if the search didn't return a valid profile url
-			var googleUrl = googleSearchResponse.Url;
-			if (!googleUrl.Contains("/in/"))
+			var googleUrl = "";
+
+			if (googleSearchResponse is null || (googleSearchResponse is not null && !googleSearchResponse.Url.Contains("/in/")))
 			{
-				// use the backup email lookup function
+				// try backup email searcher
 				googleUrl = await ReverseWorkEmailLookupAsync(person.Email, cancellationToken)
 					.ConfigureAwait(false);
 
-				// if that still doesn't work, exit the searcher
 				if (googleUrl is null)
 				{
-					return null;
+					return new Profile()
+					{
+						Outcome = LookupOutcomes.NotFound
+					};
 				}
+			}
+			if (googleSearchResponse is not null)
+			{
+				googleUrl = googleSearchResponse.Url;
 			}
 
 			// use the obtained profile url to get information using proxycurl endpoint
@@ -54,7 +56,10 @@ namespace EmailLookup.Core.ProxyCurl
 
 			if (detailedProfile is null)
 			{
-				return null;
+				return new Profile()
+				{
+					Outcome = LookupOutcomes.NotFound
+				};
 			}
 
 			var profile = detailedProfile.ToProfile();

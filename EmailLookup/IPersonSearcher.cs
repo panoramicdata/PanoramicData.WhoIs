@@ -2,7 +2,7 @@
 {
 	public interface IPersonSearcher
 	{
-		Task<Profile?> SearchAsync(Person person);
+		Task<Profile> SearchAsync(Person person);
 
 	}
 }

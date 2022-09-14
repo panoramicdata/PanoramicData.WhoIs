@@ -10,7 +10,7 @@
 			_searchers = searchers;
 		}
 
-		public async Task<Profile> LookupProfileAsync(
+		public async Task<SearchResult> LookupProfileAsync(
 		   string mailAddress
 		   )
 		{
@@ -37,8 +37,16 @@
 			{
 				ProfileMerger.Merge(profile, finalProfile);
 			}
-
-			return finalProfile;
+			SearchResult result = new SearchResult()
+			{
+				SearchOutcome = SearchResult.Outcome.Failure
+			};
+			if (finalProfile.Outcome == LookupOutcomes.Found)
+			{
+				result.SearchOutcome = SearchResult.Outcome.Success;
+				result.Profile = finalProfile;
+			}
+			return result;
 		}
 
 		protected virtual void Dispose(bool disposing)

@@ -1,6 +1,7 @@
 ﻿using EmailLookup.Core;
 using EmailLookup.Demo.Web.Models;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using cre = EmailLookup.Core;
 
 namespace EmailLookup.Demo.Web.Pages
@@ -11,7 +12,8 @@ namespace EmailLookup.Demo.Web.Pages
 		private bool _searchDisabled = false;
 		private LookupModel _lookupData = new LookupModel();
 		private string _message = string.Empty;
-		private Profile? _searchResults;
+		private Profile _searchResults = new Profile();
+		private SearchResult _result = new SearchResult();
 
 		[Inject] protected cre.PersonSearcher? Searcher { get; set; }
 
@@ -25,9 +27,16 @@ namespace EmailLookup.Demo.Web.Pages
 			{
 				_searchDisabled = true;
 				_showResults = false;
-				_searchResults = await Searcher.LookupProfileAsync(_lookupData.EmailAddress);
-				_showResults = true;
-				_message = "Hello, " + _searchResults.FirstName + " " + _searchResults.LastName + "!";
+				_result = await Searcher.LookupProfileAsync(_lookupData.EmailAddress);
+				if (_result.SearchOutcome == SearchResult.Outcome.Failure)
+				{
+					_showResults = false;
+				}
+				else
+				{
+					_showResults = true;
+					_searchResults = _result.Profile;
+				}
 			}
 			catch (Exception ex)
 			{
