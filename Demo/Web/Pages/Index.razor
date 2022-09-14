@@ -79,7 +79,7 @@
                     @_searchResults?.Country
                 </div>
             }
-            @if(_searchResults?.City is not "")
+            @if(!string.IsNullOrWhiteSpace(_searchResults?.City))
             {
                 <div>
                     City:
@@ -88,7 +88,7 @@
                     @_searchResults?.City
                 </div>
             }
-            @if(_searchResults?.State is not "")
+            @if(!string.IsNullOrWhiteSpace(_searchResults?.State))
             {
                 <div>
                     State:
@@ -97,7 +97,7 @@
                     @_searchResults?.State
                 </div>
             }
-            @if((_searchResults?.InferredSalaryMax is not "") && (_searchResults?.InferredSalaryMin is not ""))
+            @if((!string.IsNullOrWhiteSpace(_searchResults?.InferredSalaryMax)) && (!string.IsNullOrWhiteSpace(_searchResults?.InferredSalaryMin)))
             {
                 <div>
                     Inferred Salary:
@@ -293,9 +293,149 @@
 
     <h2>Company Information</h2>
     <div class="results-section">
+        <div class="results-section-header">Domain Information</div>
+        <div class="results-table">
+            @if(!string.IsNullOrWhiteSpace(_searchResults?.DomainName))
+            {
+                <div>
+                    Domain Name:
+                </div>
+                <div>
+                    @_searchResults?.DomainName
+                </div>
+            }
+            @if(!string.IsNullOrWhiteSpace(_searchResults?.DomainStatus))
+            {
+                <div>
+                    Domain Status:
+                </div>
+                <div>
+                    @_searchResults?.DomainStatus
+                </div>
+            }
+            @if(_searchResults?.CreationDate is not null)
+            {
+                <div>
+                    Creation Date:
+                </div>
+                <div>
+                    @_searchResults?.CreationDate
+                </div>
+            }
+            @if(_searchResults?.UpdatedDate is not null)
+            {
+                <div>
+                    Updated:
+                </div>
+                <div>
+                    @_searchResults?.UpdatedDate
+                </div>
+            }
+            @if(_searchResults?.RegistryDomainId is not null)
+            {
+                <div>
+                    Registry Domain ID:
+                </div>
+                <div>
+                    @_searchResults?.RegistryDomainId
+                </div>
+            }
+        </div>
         <div class="results-section-header">Registrar Information</div>
         <div class="results-table">
-
+            @if(!string.IsNullOrWhiteSpace(_searchResults?.Registrar))
+            {
+                <div>
+                    Registrar:
+                </div>
+                <div>
+                    @_searchResults?.Registrar
+                </div>
+            }
+            @if(!string.IsNullOrWhiteSpace(_searchResults?.RegistrarAbuseContactEmail))
+            {
+                <div>
+                    Registrar Contact Email:
+                </div>
+                <div>
+                    @_searchResults?.RegistrarAbuseContactEmail
+                </div>
+            }
+            @if(!string.IsNullOrWhiteSpace(_searchResults?.RegistrarAbuseContactPhone))
+            {
+                <div>
+                    Registrar Phone Contact:
+                </div>
+                <div>
+                    @_searchResults?.RegistrarAbuseContactPhone
+                </div>
+            }
+            @if(!string.IsNullOrWhiteSpace(_searchResults?.RegistrarUrl))
+            {
+                <div>
+                    Registrar URL:
+                </div>
+                <div>
+                    @_searchResults?.RegistrarUrl
+                </div>
+            }
+            @if(!string.IsNullOrWhiteSpace(_searchResults?.RegistrarWhoIsServer))
+            {
+                <div>
+                    Registrar WHOIS Server:
+                </div>
+                <div>
+                    @_searchResults?.RegistrarWhoIsServer
+                </div>
+            }
+            @if(_searchResults.RegistrarRegistrationExpirationDate is not null)
+            {
+                <div>
+                    Registrar Registration Expiration Date:
+                </div>
+                <div>
+                    @_searchResults?.RegistrarRegistrationExpirationDate
+                </div>
+            }
+        </div>
+        <div class="results-section-header">Registrant Information</div>
+        <div class="results-table">
+            @if(!string.IsNullOrWhiteSpace(_searchResults?.RegistrantOrganization))
+            {
+                <div>
+                    Registrant Organization:
+                </div>
+                <div>
+                    @_searchResults?.RegistrantOrganization
+                </div>
+            }
+            @if(!string.IsNullOrWhiteSpace(_searchResults?.RegistrantEmail))
+            {
+                <div>
+                    Registrant Email:
+                </div>
+                <div>
+                    @_searchResults?.RegistrantEmail
+                </div>
+            }
+            @if(!string.IsNullOrWhiteSpace(_searchResults?.RegistrantCountry))
+            {
+                <div>
+                    Registrar Country:
+                </div>
+                <div>
+                    @_searchResults?.RegistrantCountry
+                </div>
+            }
+            @if(!string.IsNullOrWhiteSpace(_searchResults?.RegistrantState))
+            {
+                <div>
+                    Registrant State:
+                </div>
+                <div>
+                    @_searchResults?.RegistrantState
+                </div>
+            }
         </div>
     </div>
 }
