@@ -8,10 +8,10 @@ namespace EmailLookup.Test
 	  [Fact]
 	  public async void ValidSearch_ShouldReturnResponse()
 		{
-			if (TestEmailOne is not null)
+			if (TestEmail is not null)
 			{
 				var response = await PersonSearcher
-					.LookupProfileAsync(TestEmailOne)
+					.LookupProfileAsync(TestEmail)
 					.ConfigureAwait(false);
 
 				response.Should().NotBeNull();

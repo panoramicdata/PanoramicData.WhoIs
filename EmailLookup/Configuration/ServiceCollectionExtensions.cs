@@ -8,7 +8,7 @@ namespace Microsoft.Extensions.DependencyInjection
 		{
 			var settings = new EmailLookupConfig(services);
 
-			options?.Invoke(settings);
+			options.Invoke(settings);
 
 			services.AddSingleton(settings);
 			services.AddTransient<EmailLookup.Core.PersonSearcher>();

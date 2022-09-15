@@ -9,8 +9,8 @@ Usage:
 ```C#
 PersonSearcher searcher = new PersonSearcher(googleCx, googleKey, proxyCurlKey)
 
-var response = await nsearcher
-				.LookupProfileAsync(email)
-				.ConfigureAwait(false);
+var response = await searcher
+		.LookupProfileAsync(email)
+		.ConfigureAwait(false);
 ```
 

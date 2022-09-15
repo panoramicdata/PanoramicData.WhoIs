@@ -36,12 +36,9 @@
 			foreach (var searcher in _searchers)
 			{
 				// perform the search function
-				Profile? currentProfile = await searcher.SearchAsync(person);
-				if (currentProfile is not null)
-				{
+				Profile currentProfile = await searcher.SearchAsync(person);
 					// and add that to the list of profiles to be merged
 					profiles.Add(currentProfile);
-				}
 			}
 
 			// merge every profile obtaining from searchers
