@@ -18,13 +18,12 @@
 			var person = new Person(mailAddress);
 			IList<Profile> profiles = new List<Profile>();
 			Profile finalProfile = new();
-			Profile? currentProfile = null;
 
 			// for every object that uses IPersonSearcher
 			foreach (var searcher in _searchers)
 			{
 				// perform the search function
-				currentProfile = await searcher.SearchAsync(person);
+				Profile? currentProfile = await searcher.SearchAsync(person);
 				if (currentProfile is not null)
 				{
 					// and add that to the list of profiles to be merged
@@ -37,7 +36,7 @@
 			{
 				ProfileMerger.Merge(profile, finalProfile);
 			}
-			SearchResult result = new SearchResult()
+			var result = new SearchResult()
 			{
 				SearchOutcome = SearchResult.Outcome.Failure
 			};

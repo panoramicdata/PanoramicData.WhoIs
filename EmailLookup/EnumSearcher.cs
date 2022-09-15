@@ -2,13 +2,13 @@
 
 namespace EmailLookup.Core
 {
-	public class SearcherEnum : IEnumerator
+	public class EnumSearcher : IEnumerator
 	{
-		private IPersonSearcher[] _searcher;
+		private readonly IPersonSearcher[] _searcher;
 
 		int _position = -1;
 
-		public SearcherEnum(IPersonSearcher[] searchers)
+		public EnumSearcher(IPersonSearcher[] searchers)
 		{
 			_searcher = searchers;
 		}
@@ -19,18 +19,9 @@ namespace EmailLookup.Core
 			return (_position < _searcher.Length);
 		}
 
-		public void Reset()
-		{
-			_position = -1;
-		}
+		public void Reset() => _position = -1;
 
-		object IEnumerator.Current
-		{
-			get
-			{
-				return Current;
-			}
-		}
+		object IEnumerator.Current => Current;
 
 		public IPersonSearcher Current
 		{
