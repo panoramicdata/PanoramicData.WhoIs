@@ -8,23 +8,17 @@ namespace EmailLookup.Test
 		[Fact]
 		public async void ValidEmailSearch_ShouldReturnLinkedInPageDetails()
 		{
-			var testPerson = new Person("satish.margabandhu@genpact.com");
 
-			var response = await ProxyCurlSearcher
-				.SearchAsync(testPerson)
-				.ConfigureAwait(false);
+			if (TestEmailTwo is not null)
+			{
+				var testPerson = new Person(TestEmailTwo);
 
-			response.Should().NotBeNull();
-		}
+				var response = await ProxyCurlSearcher
+					.SearchAsync(testPerson)
+					.ConfigureAwait(false);
 
-		[Fact]
-		public async void ValidEmailSearch_ShouldReturnGoogleResults()
-		{
-			var response = await ProxyCurlSearcher
-				.SearchGoogleAsync("david.bond@panoramicdata.com", default)
-				.ConfigureAwait(false);
-
-			response.Should().NotBeNull();
+				response.Should().NotBeNull();
+			}
 		}
 	}
 }

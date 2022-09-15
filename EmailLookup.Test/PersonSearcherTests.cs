@@ -8,11 +8,14 @@ namespace EmailLookup.Test
 	  [Fact]
 	  public async void ValidSearch_ShouldReturnResponse()
 		{
-			var response = await PersonSearcher
-				.LookupProfileAsync("satish.margabandhu@genpact.com")
-				.ConfigureAwait(false);
+			if (TestEmailOne is not null)
+			{
+				var response = await PersonSearcher
+					.LookupProfileAsync(TestEmailOne)
+					.ConfigureAwait(false);
 
-			response.Should().NotBeNull();
+				response.Should().NotBeNull();
+			}
 		}
    }
 }
