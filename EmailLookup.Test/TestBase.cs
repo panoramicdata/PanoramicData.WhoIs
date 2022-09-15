@@ -22,8 +22,7 @@ public abstract class TestBase
 		   appSettings.ProxyCurlKey
 		);
 
-		var TestEmailOne = appSettings.TestEmailOne;
-		var TestEmailTwo = appSettings.TestEmailTwo;
+		var TestEmail = appSettings.TestEmail;
 
 		//PersonSearcher = new Core.PersonSearcher(
 		//   appSettings.GoogleCx,
@@ -40,6 +39,5 @@ public abstract class TestBase
 
 	protected ProxyCurlSearcher ProxyCurlSearcher { get; }
 	protected Core.PersonSearcher PersonSearcher { get; }
-	protected string? TestEmailOne { get; }
-	protected string? TestEmailTwo { get; }
+	protected string? TestEmail { get; }
 }

@@ -9,9 +9,9 @@ namespace EmailLookup.Test
 		public async void ValidEmailSearch_ShouldReturnLinkedInPageDetails()
 		{
 
-			if (TestEmailTwo is not null)
+			if (TestEmail is not null)
 			{
-				var testPerson = new Person(TestEmailTwo);
+				var testPerson = new Person(TestEmail);
 
 				var response = await ProxyCurlSearcher
 					.SearchAsync(testPerson)
