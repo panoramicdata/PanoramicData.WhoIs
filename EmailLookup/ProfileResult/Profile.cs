@@ -1,4 +1,6 @@
-﻿namespace EmailLookup.Core
+﻿using EmailLookup.Core;
+
+namespace EmailLookup.ProfileResult
 {
 	public class Profile
 	{

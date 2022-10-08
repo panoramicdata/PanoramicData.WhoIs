@@ -1,4 +1,4 @@
-﻿using EmailLookup.Core;
+﻿using EmailLookup.ProfileResult;
 
 namespace EmailLookup
 {

@@ -1,5 +1,4 @@
-﻿using EmailLookup.Core;
-using EmailLookup.Demo.Web.Models;
+﻿using EmailLookup.Demo.Web.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using cre = EmailLookup.Core;

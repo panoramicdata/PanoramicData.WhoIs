@@ -1,4 +1,4 @@
-﻿namespace EmailLookup
+﻿namespace EmailLookup.ProfileResult
 {
 	public class ProfileProject
 	{

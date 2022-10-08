@@ -1,6 +1,7 @@
-﻿using EmailLookup.Core.ProxyCurl;
+﻿using EmailLookup.Core;
+using EmailLookup.Core.ProxyCurl;
 
-namespace EmailLookup.Core
+namespace EmailLookup.ProfileResult
 {
 	internal class ProfileMerger
 	{
