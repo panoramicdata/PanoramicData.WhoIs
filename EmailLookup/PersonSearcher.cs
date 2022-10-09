@@ -4,6 +4,10 @@ namespace EmailLookup.Core
 {
 	public class PersonSearcher : IDisposable
 	{
+		/// <summary>
+		/// Main class for EmailLookup - creates the person object, iterates
+		/// through the searchers, forms the final profile and returns it
+		/// </summary>
 		private bool _disposedValue;
 		private readonly IList<Core.IPersonSearcher> _searchers = new List<Core.IPersonSearcher>(10);
 
