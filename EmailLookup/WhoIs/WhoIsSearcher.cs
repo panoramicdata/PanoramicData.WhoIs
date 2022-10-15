@@ -14,7 +14,7 @@ namespace EmailLookup.Core.WhoIs
 				.LookupAsync(domain)
 				.ConfigureAwait(false);
 
-			Profile? profile;
+			Profile profile;
 			if (response != null)
 			{
 				profile = response.ToProfile();

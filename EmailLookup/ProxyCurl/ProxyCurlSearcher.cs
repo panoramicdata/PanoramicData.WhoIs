@@ -86,8 +86,9 @@ namespace EmailLookup.Core.ProxyCurl
 			return searchResponse.Url;
 		}
 
-		public async Task<DetailedPersonInformation?> PersonProfileLookupAsync(string googleUrl, CancellationToken cancellationToken)
+		public async Task<DetailedPersonInformation> PersonProfileLookupAsync(string googleUrl, CancellationToken cancellationToken)
 		{
+
 			var url = "https://nubela.co/proxycurl/api/v2/linkedin?url=" + googleUrl + "&fallback_to_cache=on-error&use_cache=if-present&skills=include&inferred_salary=include&personal_email=include&personal_contact_number=include&twitter_profile_id=include&facebook_profile_id=include&github_profile_id=include&extra=include";
 
 			_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _config.ProxyCurlKey);
@@ -101,18 +102,18 @@ namespace EmailLookup.Core.ProxyCurl
 
 				if (detailedPersonInformation is null)
 				{
-					return null;
+					return new DetailedPersonInformation();
 				}
 				return detailedPersonInformation;
 			}
 			catch
 			{
 				// TODO: Log issue
-				return null;
+				return new DetailedPersonInformation();
 			}
 		}
 
-		public async Task<GoogleSearchResponse?> SearchGoogleAsync(
+		public async Task<GoogleSearchResponse> SearchGoogleAsync(
 			string address,
 			CancellationToken cancellationToken
 		 )
@@ -132,7 +133,7 @@ namespace EmailLookup.Core.ProxyCurl
 
 			if (googleResponseList is null || googleResponseList.Queries.Request[0].Count <= 0)
 			{
-				return null;
+				return new GoogleSearchResponse();
 			}
 
 			// makes a score based on the likelihood of the obtained url being the linkedin profile url

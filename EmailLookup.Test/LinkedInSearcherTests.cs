@@ -16,8 +16,9 @@ namespace EmailLookup.Test
 				var response = await ProxyCurlSearcher
 					.SearchAsync(testPerson)
 					.ConfigureAwait(false);
+				Console.WriteLine(response.FirstName);
 
-				response.Should().NotBeNull();
+				response.FirstName.Should().Be("David");
 			}
 		}
 	}
