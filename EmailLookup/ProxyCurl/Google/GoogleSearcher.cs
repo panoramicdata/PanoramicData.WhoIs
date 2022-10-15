@@ -1,35 +1,38 @@
-﻿using Newtonsoft.Json;
+﻿using EmailLookup.ProfileResult;
+using Newtonsoft.Json;
 using System.Net.Http.Headers;
 
 namespace EmailLookup.Core.ProxyCurl.Google
 {
-	public class GoogleSearcherTest
+	public class GoogleSearcher
 	{
 		private readonly string _googleCx;
 		private readonly string _googleKey;
 		private readonly string _linkedInKey;
 		private readonly HttpClient _client = new();
 
-		public GoogleSearcherTest(string googleCx, string googleKey, string linkedInKey)
+		public GoogleSearcher(string googleCx, string googleKey, string linkedInKey)
 		{
 			_googleCx = googleCx;
 			_googleKey = googleKey;
 			_linkedInKey = linkedInKey;
 		}
 
-		public async Task<Profile?> SearchLinkedInAsync(
+		public async Task<Profile> SearchLinkedInAsync(
 		   string address,
 		   CancellationToken cancellationToken
 		   )
 		{
+			Profile emptyProfile = new Profile();
+
 			var googleSearchResponse = await SearchGoogleAsync(address, cancellationToken)
 				.ConfigureAwait(false);
 
 			// Do we have a response?
 			if (googleSearchResponse is null)
 			{
-				// No - return null
-				return null;
+				// No - return empty profile
+				return emptyProfile;
 			}
 
 			var googleUrl = googleSearchResponse.Url;
@@ -44,8 +47,12 @@ namespace EmailLookup.Core.ProxyCurl.Google
 					.ConfigureAwait(false);
 
 				LinkSearchResponse? searchResponse = JsonConvert.DeserializeObject<LinkSearchResponse>(profileResult);
+				if (searchResponse is null)
+				{
+					return emptyProfile;
+				}
 
-				googleUrl = searchResponse?.Url;
+				googleUrl = searchResponse.Url;
 			}
 
 
@@ -57,7 +64,7 @@ namespace EmailLookup.Core.ProxyCurl.Google
 				.ConfigureAwait(false);
 
 			DetailedPersonInformation? detailedPersonInformation = JsonConvert.DeserializeObject<DetailedPersonInformation>(result);
-			Profile? linkedInProfile = null;
+			Profile linkedInProfile = emptyProfile;
 			if (detailedPersonInformation != null)
 			{
 				linkedInProfile = detailedPersonInformation.ToProfile();
@@ -65,7 +72,7 @@ namespace EmailLookup.Core.ProxyCurl.Google
 			return linkedInProfile;
 		}
 
-		public async Task<GoogleSearchResponse?> SearchGoogleAsync(
+		public async Task<GoogleSearchResponse> SearchGoogleAsync(
 		 string address,
 		 CancellationToken cancellationToken
 		 )
@@ -75,6 +82,7 @@ namespace EmailLookup.Core.ProxyCurl.Google
 			var nameQuery = Uri.EscapeDataString($"{person.FirstName} {person.LastName} {person.CompanyName}");
 
 			var googleApiUrl = $"https://customsearch.googleapis.com/customsearch/v1?cx={_googleCx}&q={nameQuery}&key={_googleKey}";
+			GoogleSearchResponse current = new();
 
 			var googleStringResponse = await _client
 			   .GetStringAsync(googleApiUrl, cancellationToken)
@@ -83,11 +91,10 @@ namespace EmailLookup.Core.ProxyCurl.Google
 
 			if (googleResponseList is null || googleResponseList.Queries.Request[0].Count <= 0)
 			{
-				return null;
+				return current;
 			}
 
-			int? currentBestScore = null;
-			GoogleSearchResponse current = new();
+			int currentBestScore = 0;
 			foreach (var item in googleResponseList.Items)
 			{
 				var score = 0;
@@ -116,7 +123,7 @@ namespace EmailLookup.Core.ProxyCurl.Google
 				}
 
 				if (
-				   currentBestScore is null // There is no current best score
+				   currentBestScore == 0 // There is no current best score
 				   || // OR
 				   score > currentBestScore // The current score is better than the current best score
 				   )

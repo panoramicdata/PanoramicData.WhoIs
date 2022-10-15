@@ -28,9 +28,9 @@ namespace EmailLookup.ProfileResult
 		public string RegistryDomainId { get; set; } = string.Empty;
 		public string RegistrarWhoIsServer { get; set; } = string.Empty;
 		public string RegistrarUrl { get; set; } = string.Empty;
-		public DateTime? UpdatedDate { get; set; }
-		public DateTime? CreationDate { get; set; }
-		public DateTime? RegistrarRegistrationExpirationDate { get; set; }
+		public DateTime UpdatedDate { get; set; }
+		public DateTime CreationDate { get; set; }
+		public DateTime RegistrarRegistrationExpirationDate { get; set; }
 		public string Registrar { get; set; } = string.Empty;
 		public string RegistrarIANAId { get; set; } = string.Empty;
 		public string RegistrarAbuseContactEmail { get; set; } = string.Empty;

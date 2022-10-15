@@ -1,4 +1,5 @@
 ﻿using EmailLookup.Core.ProxyCurl;
+using EmailLookup.ProfileResult;
 using Whois;
 
 namespace EmailLookup.Core.WhoIs

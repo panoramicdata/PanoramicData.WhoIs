@@ -1,4 +1,5 @@
 ﻿using EmailLookup.Core.ProxyCurl.Google;
+using EmailLookup.ProfileResult;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
 
@@ -37,7 +38,7 @@ namespace EmailLookup.Core.ProxyCurl
 				googleUrl = await ReverseWorkEmailLookupAsync(person.Email, cancellationToken)
 					.ConfigureAwait(false);
 
-				if (googleUrl is null)
+				if (googleUrl.Equals("", StringComparison.Ordinal))
 				{
 					return new Profile()
 					{
@@ -67,7 +68,7 @@ namespace EmailLookup.Core.ProxyCurl
 			return profile;
 		}
 
-		public async Task<string?> ReverseWorkEmailLookupAsync(string address, CancellationToken cancellationToken)
+		public async Task<string> ReverseWorkEmailLookupAsync(string address, CancellationToken cancellationToken)
 		{
 			var url = "https://nubela.co/proxycurl/api/linkedin/profile/resolve/email?work_email=" + address;
 
@@ -80,7 +81,7 @@ namespace EmailLookup.Core.ProxyCurl
 			LinkSearchResponse? searchResponse = JsonConvert.DeserializeObject<LinkSearchResponse>(result);
 			if (searchResponse is null)
 			{
-				return null;
+				return "";
 			}
 			return searchResponse.Url;
 		}

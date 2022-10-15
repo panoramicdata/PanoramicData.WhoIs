@@ -1,4 +1,6 @@
-﻿namespace EmailLookup.Core.ProxyCurl
+﻿using EmailLookup.ProfileResult;
+
+namespace EmailLookup.Core.ProxyCurl
 {
 	internal static class DetailedPersonInformationExtensions
 	{

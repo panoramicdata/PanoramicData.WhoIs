@@ -15,7 +15,7 @@ namespace EmailLookup.Core
 	public class PersonSearcher : IDisposable
 	{
 		private bool _disposedValue;
-		private readonly IList<Core.IPersonSearcher> _searchers = new List<Core.IPersonSearcher>(10);
+		private readonly IEnumerable<Core.IPersonSearcher> _searchers;
 
 		/// <summary>
 		/// Initializes a new instance of PersonSearcher and
@@ -28,29 +28,9 @@ namespace EmailLookup.Core
 		/// Users can choose which searchers to include in their lookup
 		/// by passing them into the searchers parameter.
 		/// </para></remarks>
-		public PersonSearcher(IList<Core.IPersonSearcher> searchers)
+		public PersonSearcher(IEnumerable<Core.IPersonSearcher> searchers)
 		{
 			_searchers = searchers;
-		}
-
-		// temporary constructor while configuration is being figured out
-		/// <summary>
-		/// Initializes a new instance of PersonSearcher and creates a
-		/// ProxyCurlConfig object to pass to the searchers.
-		/// </summary>
-		/// <param name="googleCx">The public key for a custom Google Search.</param>
-		/// <param name="googleKey">The private key for a custom Google Search.</param>
-		/// <param name="proxyCurlKey">The private key for a ProxyCurl account.</param>
-		public PersonSearcher(string googleCx, string googleKey, string proxyCurlKey)
-		{
-			var config = new Core.ProxyCurl.ProxyCurlConfig
-			{
-				GoogleCx = googleCx,
-				GoogleKey = googleKey,
-				ProxyCurlKey = proxyCurlKey
-			};
-			_searchers.Add(new Core.ProxyCurl.ProxyCurlSearcher(config));
-			_searchers.Add(new Core.WhoIs.WhoIsSearcher());
 		}
 
 		/// <summary>
