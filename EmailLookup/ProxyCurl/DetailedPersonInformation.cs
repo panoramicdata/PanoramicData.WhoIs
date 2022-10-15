@@ -150,7 +150,7 @@ namespace EmailLookup.Core.ProxyCurl
 		/// Total count of LinkedIn connections
 		/// </summary>
 		[DataMember(Name = "connections")]
-		public int Connections { get; set; }
+		public int? Connections { get; set; }
 
 		/// <summary>
 		/// List of other LinkedIn profiles closely related to this user
