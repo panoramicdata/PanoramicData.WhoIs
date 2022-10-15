@@ -1,6 +1,7 @@
 ﻿using EmailLookup.Core.ProxyCurl.Google;
 using EmailLookup.ProfileResult;
 using Newtonsoft.Json;
+using System.Net;
 using System.Net.Http.Headers;
 
 namespace EmailLookup.Core.ProxyCurl
@@ -49,6 +50,24 @@ namespace EmailLookup.Core.ProxyCurl
 			if (googleSearchResponse is not null)
 			{
 				googleUrl = googleSearchResponse.Url;
+			}
+
+			if (!googleUrl.Contains("/in/"))
+			{
+				var getProfileUrl = "https://nubela.co/proxycurl/api/linkedin/profile/resolve/email?work_email=" + person.Email;
+				_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _config.ProxyCurlKey);
+
+				var profileResult = await _client
+					.GetStringAsync(getProfileUrl, cancellationToken)
+					.ConfigureAwait(false);
+
+				LinkSearchResponse? searchResponse = JsonConvert.DeserializeObject<LinkSearchResponse>(profileResult);
+				if (searchResponse is null)
+				{
+					return new Profile();
+				}
+
+				googleUrl = searchResponse.Url;
 			}
 
 			// use the obtained profile url to get information using proxycurl endpoint

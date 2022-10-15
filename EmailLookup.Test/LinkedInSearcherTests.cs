@@ -6,20 +6,13 @@ namespace EmailLookup.Test
 	public class LinkedInSearcherTests : TestBase
 	{
 		[Fact]
-		public async void ValidEmailSearch_ShouldReturnLinkedInPageDetails()
+		public async void LinkedInSearcher_ShouldReturnResults()
 		{
+			var response = await ProxyCurlSearcher
+				.SearchAsync(new Person("david.bond@panoramicdata.com"))
+				.ConfigureAwait(false);
 
-			if (TestEmail is not null)
-			{
-				var testPerson = new Person(TestEmail);
-
-				var response = await ProxyCurlSearcher
-					.SearchAsync(testPerson)
-					.ConfigureAwait(false);
-				Console.WriteLine(response.FirstName);
-
-				response.FirstName.Should().Be("David");
-			}
+			response.FirstName.Should().Be("David");
 		}
 	}
 }

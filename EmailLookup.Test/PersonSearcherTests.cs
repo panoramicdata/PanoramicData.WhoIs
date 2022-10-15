@@ -5,7 +5,14 @@ namespace EmailLookup.Test
 {
 	public class PersonSearcherTests : TestBase
 	{
-		[Test]
-		public 
+		[Fact]
+		public async void PersonSearcher_ShouldReturnResults()
+		{
+			var response = await PersonSearcher
+				.LookupProfileAsync("david.bond@panoramicdata.com")
+				.ConfigureAwait(false);
+
+			response.Profile.FirstName.Should().Be("David");
+		}
 	}
 }

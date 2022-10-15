@@ -6,6 +6,10 @@ namespace EmailLookup.Test;
 
 public abstract class TestBase
 {
+	protected ProxyCurlSearcher ProxyCurlSearcher { get; }
+	protected Core.PersonSearcher PersonSearcher { get; }
+	protected string TEmail { get; }
+
 	public TestBase()
 	{
 		// Load appsettings
@@ -16,13 +20,14 @@ public abstract class TestBase
 		   .GetSection("AppSettings")
 		   .Get<AppSettings>();
 
+		// TODO: Fix this variable
+		var TEmail = appSettings.TestEmail;
+
 		ProxyCurlSearcher = new ProxyCurlSearcher(
 		   appSettings.GoogleCx,
 		   appSettings.GoogleKey,
 		   appSettings.ProxyCurlKey
 		);
-
-		var TestEmail = appSettings.TestEmail;
 
 		//PersonSearcher = new Core.PersonSearcher(
 		//   appSettings.GoogleCx,
@@ -37,7 +42,4 @@ public abstract class TestBase
 
 	}
 
-	protected ProxyCurlSearcher ProxyCurlSearcher { get; }
-	protected Core.PersonSearcher PersonSearcher { get; }
-	protected string? TestEmail { get; }
 }
