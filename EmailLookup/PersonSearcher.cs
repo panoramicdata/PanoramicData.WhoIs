@@ -1,4 +1,5 @@
 ﻿using EmailLookup.ProfileResult;
+using EmailLookup.CustomExceptions;
 
 namespace EmailLookup.Core
 {
@@ -43,8 +44,16 @@ namespace EmailLookup.Core
 		   string mailAddress
 		   )
 		{
+			Person person;
 			// create person object from mail address to pass as parameter in searchers
-			var person = new Person(mailAddress);
+			if (CheckEmailValidity(mailAddress))
+			{
+				person = new Person(mailAddress);
+			}
+			else
+			{
+				throw new InvalidEmailException(mailAddress);
+			}
 			IList<Profile> profiles = new List<Profile>();
 			Profile finalProfile = new();
 
@@ -72,6 +81,19 @@ namespace EmailLookup.Core
 				result.Profile = finalProfile;
 			}
 			return result;
+		}
+
+		public static bool CheckEmailValidity(string address)
+		{
+			try
+			{
+				var emailAddress = new System.Net.Mail.MailAddress(address.Trim());
+				return emailAddress.Address == address.Trim();
+			}
+			catch
+			{
+				return false;
+			}
 		}
 
 		protected virtual void Dispose(bool disposing)
