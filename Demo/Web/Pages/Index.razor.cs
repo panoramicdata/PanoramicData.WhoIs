@@ -44,7 +44,8 @@ namespace EmailLookup.Demo.Web.Pages
 				{
 					Logger.LogError(ex, "Lookup failed! Message: {Message}", ex.Message);
 				}
-				_message = "Lookup failed. See log for details.";
+				// _message = "Lookup failed. See log for details.";
+				_message = ("Lookup failed! " + ex.Message);
 			}
 			finally
 			{

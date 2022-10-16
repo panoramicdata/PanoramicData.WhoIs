@@ -9,7 +9,10 @@ namespace EmailLookup.Test
 		[Fact]
 		public async void NotAnEmail_ShouldThrowException()
 		{
-			Func<Task> getResponse = async () => { await PersonSearcher.LookupProfileAsync("asdfghjkl").ConfigureAwait(false); };
+			Func<Task> getResponse = async () => { await PersonSearcher
+				.LookupProfileAsync("asdfghjkl")
+				.ConfigureAwait(false); 
+			};
 
 			await getResponse.Should().ThrowAsync<InvalidEmailException>();
 		}

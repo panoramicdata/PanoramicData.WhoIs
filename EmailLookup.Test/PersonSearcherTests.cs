@@ -9,7 +9,7 @@ namespace EmailLookup.Test
 		public async void PersonSearcher_ShouldReturnResults()
 		{
 			var response = await PersonSearcher
-				.LookupProfileAsync("david.bond@panoramicdata.com")
+				.LookupProfileAsync(TEmail)
 				.ConfigureAwait(false);
 
 			response.Profile.FirstName.Should().Be("David");

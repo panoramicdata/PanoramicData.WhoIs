@@ -1,4 +1,5 @@
 ﻿using EmailLookup.Core.ProxyCurl.Google;
+using EmailLookup.CustomExceptions;
 using EmailLookup.ProfileResult;
 using Newtonsoft.Json;
 using System.Net;
@@ -31,7 +32,7 @@ namespace EmailLookup.Core.ProxyCurl
 			var googleSearchResponse = await SearchGoogleAsync(person.Email, cancellationToken)
 				.ConfigureAwait(false);
 
-			var googleUrl = "";
+			var googleUrl = "not found";
 
 			if (googleSearchResponse is null || (googleSearchResponse is not null && !googleSearchResponse.Url.Contains("/in/")))
 			{
@@ -39,7 +40,7 @@ namespace EmailLookup.Core.ProxyCurl
 				googleUrl = await ReverseWorkEmailLookupAsync(person.Email, cancellationToken)
 					.ConfigureAwait(false);
 
-				if (googleUrl.Equals("", StringComparison.Ordinal))
+				if (googleUrl.Equals("not found", StringComparison.Ordinal))
 				{
 					return new Profile()
 					{
@@ -74,13 +75,13 @@ namespace EmailLookup.Core.ProxyCurl
 			var detailedProfile = await PersonProfileLookupAsync(googleUrl, cancellationToken)
 				.ConfigureAwait(false);
 
-			if (detailedProfile is null)
-			{
-				return new Profile()
-				{
-					Outcome = LookupOutcomes.NotFound
-				};
-			}
+			//if (detailedProfile is null)
+			//{
+			//	return new Profile()
+			//	{
+			//		Outcome = LookupOutcomes.NotFound
+			//	};
+			//}
 
 			var profile = detailedProfile.ToProfile();
 
@@ -98,9 +99,9 @@ namespace EmailLookup.Core.ProxyCurl
 				.ConfigureAwait(false);
 
 			LinkSearchResponse? searchResponse = JsonConvert.DeserializeObject<LinkSearchResponse>(result);
-			if (searchResponse is null)
+			if (searchResponse is null || searchResponse.Url is null)
 			{
-				return "";
+				return "not found";
 			}
 			return searchResponse.Url;
 		}
@@ -125,8 +126,12 @@ namespace EmailLookup.Core.ProxyCurl
 				}
 				return detailedPersonInformation;
 			}
-			catch
+			catch (Exception ex)
 			{
+				if (ex.Message.Contains("404"))
+				{
+					throw new ProxyCurlNotFoundException("No LinkedIn profile found.");
+				}
 				// TODO: Log issue
 				return new DetailedPersonInformation();
 			}
