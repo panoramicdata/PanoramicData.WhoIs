@@ -32,22 +32,13 @@ namespace EmailLookup.Core.ProxyCurl
 			var googleSearchResponse = await SearchGoogleAsync(person, cancellationToken)
 				.ConfigureAwait(false);
 
-			var googleUrl = "not found";
+			var googleUrl = googleSearchResponse.Url;
 
-			if (googleSearchResponse is null || (googleSearchResponse is not null && !googleSearchResponse.Url.Contains("/in/")))
+			if (!googleSearchResponse.Url.Contains("/in/"))
 			{
 				// try backup email searcher
 				googleUrl = await ReverseWorkEmailLookupAsync(person.Email, cancellationToken)
 					.ConfigureAwait(false);
-
-				if (googleUrl.Equals("not found", StringComparison.Ordinal))
-				{
-					throw new NoProfileException("Couldn't find LinkedIn profile link");
-				}
-			}
-			if (googleSearchResponse is not null)
-			{
-				googleUrl = googleSearchResponse.Url;
 			}
 
 			// use the obtained profile url to get information using proxycurl endpoint
@@ -65,16 +56,25 @@ namespace EmailLookup.Core.ProxyCurl
 
 			_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _config.ProxyCurlKey);
 
-			var result = await _client
-				.GetStringAsync(url, cancellationToken)
-				.ConfigureAwait(false);
-
-			LinkSearchResponse? searchResponse = JsonConvert.DeserializeObject<LinkSearchResponse>(result);
-			if (searchResponse is null || searchResponse.Url is null)
+			try
 			{
-				return "not found";
+				var result = await _client
+					.GetStringAsync(url, cancellationToken)
+					.ConfigureAwait(false);
+
+				LinkSearchResponse? searchResponse = JsonConvert.DeserializeObject<LinkSearchResponse>(result);
+				if (searchResponse is null || searchResponse.Url is null)
+				{
+					throw new NoProfileException("LinkedIn profile not found");
+				}
+				return searchResponse.Url;
 			}
-			return searchResponse.Url;
+			catch (Exception e)
+			{
+				HandleProxyCurlException(e);
+				return "";
+			}
+
 		}
 
 		public async Task<DetailedPersonInformation> PersonProfileLookupAsync(string googleUrl, CancellationToken cancellationToken)
@@ -99,26 +99,7 @@ namespace EmailLookup.Core.ProxyCurl
 			}
 			catch (Exception ex)
 			{
-				if (ex.Message.Contains("401") || ex.Message.Contains("500"))
-				{
-					throw new ProxyCurlException("Invalid API Key");
-				}
-				if (ex.Message.Contains("403"))
-				{
-					throw new ProxyCurlException("You have run out of credits");
-				}
-				if (ex.Message.Contains("404"))
-				{
-					throw new ProxyCurlException("The requested resource could not be found.");
-				}
-				if (ex.Message.Contains("429"))
-				{
-					throw new ProxyCurlException("Rate limited - please retry");
-				}
-				if (ex.Message.Contains("503"))
-				{
-					throw new ProxyCurlException("Enrichment failed, please retry.");
-				}
+				HandleProxyCurlException(ex);
 				// TODO: Log issue
 				return new DetailedPersonInformation();
 			}
@@ -186,6 +167,30 @@ namespace EmailLookup.Core.ProxyCurl
 			}
 
 			return current;
+		}
+
+		public static void HandleProxyCurlException(Exception ex)
+		{
+			if (ex.Message.Contains("401") || ex.Message.Contains("500"))
+			{
+				throw new ProxyCurlException("Invalid API Key");
+			}
+			if (ex.Message.Contains("403"))
+			{
+				throw new ProxyCurlException("You have run out of credits");
+			}
+			if (ex.Message.Contains("404"))
+			{
+				throw new ProxyCurlException("The requested resource could not be found.");
+			}
+			if (ex.Message.Contains("429"))
+			{
+				throw new ProxyCurlException("Rate limited - please retry");
+			}
+			if (ex.Message.Contains("503"))
+			{
+				throw new ProxyCurlException("Enrichment failed, please retry.");
+			}
 		}
 	}
 }

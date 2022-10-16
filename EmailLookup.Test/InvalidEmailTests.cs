@@ -22,7 +22,7 @@ namespace EmailLookup.Test
 		{
 			Func<Task> getResponse = async () => {
 				await PersonSearcher
-				.LookupProfileAsync("asd.fghjkl@hotmail.com")
+				.LookupProfileAsync("fakename.daniels@hotmail.com")
 				.ConfigureAwait(false);
 			};
 
