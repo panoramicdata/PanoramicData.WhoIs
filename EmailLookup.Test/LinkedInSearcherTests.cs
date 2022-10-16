@@ -1,4 +1,5 @@
 ﻿using EmailLookup.Core;
+using EmailLookup.Core.ProxyCurl;
 using EmailLookup.CustomExceptions;
 using FluentAssertions;
 using System.Runtime.CompilerServices;
@@ -26,7 +27,21 @@ namespace EmailLookup.Test
 				.ConfigureAwait(false);
 			};
 
-			await getResponse.Should().ThrowAsync<ProxyCurlNotFoundException>();
+			await getResponse.Should().ThrowAsync<ProxyCurlException>();
+		}
+
+		[Fact]
+		public async void LinkedInSearcher_WithInvalidKey_ShouldThrowException()
+		{
+			ProxyCurlSearcher badKeySearcher = new ProxyCurlSearcher("invalid", "invalid", "invalid");
+
+			Func<Task> getResponse = async () => {
+				await badKeySearcher
+				.PersonProfileLookupAsync("TProfile", default)
+				.ConfigureAwait(false);
+			};
+
+			await getResponse.Should().ThrowAsync<ProxyCurlException>();
 		}
 	}
 }

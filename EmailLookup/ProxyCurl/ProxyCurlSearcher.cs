@@ -29,7 +29,7 @@ namespace EmailLookup.Core.ProxyCurl
 			CancellationToken cancellationToken = default;
 
 			// attempt to get linkedin profile url from a google search
-			var googleSearchResponse = await SearchGoogleAsync(person.Email, cancellationToken)
+			var googleSearchResponse = await SearchGoogleAsync(person, cancellationToken)
 				.ConfigureAwait(false);
 
 			var googleUrl = "not found";
@@ -128,9 +128,17 @@ namespace EmailLookup.Core.ProxyCurl
 			}
 			catch (Exception ex)
 			{
+				if (ex.Message.Contains("401") || ex.Message.Contains("500"))
+				{
+					throw new ProxyCurlException("Invalid API Key");
+				}
 				if (ex.Message.Contains("404"))
 				{
-					throw new ProxyCurlNotFoundException("No LinkedIn profile found.");
+					throw new ProxyCurlException("No LinkedIn profile found.");
+				}
+				if (ex.Message.Contains("429"))
+				{
+					throw new ProxyCurlException("Rate limited - please retry");
 				}
 				// TODO: Log issue
 				return new DetailedPersonInformation();
@@ -138,14 +146,11 @@ namespace EmailLookup.Core.ProxyCurl
 		}
 
 		public async Task<GoogleSearchResponse> SearchGoogleAsync(
-			string address,
+			Person person,
 			CancellationToken cancellationToken
 		 )
 		{
 			// this is redundant and will be removed
-			var person = new Person(address);
-
-
 			var nameQuery = Uri.EscapeDataString($"{person.FirstName} {person.LastName} {person.CompanyName}");
 
 			var googleApiUrl = $"https://customsearch.googleapis.com/customsearch/v1?cx={_config.GoogleCx}&q={nameQuery}&key={_config.GoogleKey}";

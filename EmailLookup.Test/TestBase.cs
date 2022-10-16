@@ -20,8 +20,9 @@ public abstract class TestBase
 		   .GetSection("AppSettings")
 		   .Get<AppSettings>();
 
-		// TODO: Fix this variable
+		// TODO: Fix these variable
 		var TEmail = appSettings.TestEmail;
+		var TProfile = appSettings.TestProfile;
 
 		ProxyCurlSearcher = new ProxyCurlSearcher(
 		   appSettings.GoogleCx,

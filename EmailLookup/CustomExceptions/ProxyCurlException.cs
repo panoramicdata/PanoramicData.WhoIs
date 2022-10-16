@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 namespace EmailLookup.CustomExceptions
 {
 	[Serializable]
-	public class ProxyCurlNotFoundException : Exception
+	public class ProxyCurlException : Exception
 	{
-		public ProxyCurlNotFoundException() { }
-		public ProxyCurlNotFoundException(string message)
+		public ProxyCurlException() { }
+		public ProxyCurlException(string message)
 			: base(message)
 		{ }
 
-		protected ProxyCurlNotFoundException(SerializationInfo serializationInfo, StreamingContext streamingContext)
+		protected ProxyCurlException(SerializationInfo serializationInfo, StreamingContext streamingContext)
 		{
 			throw new NotImplementedException();
 		}

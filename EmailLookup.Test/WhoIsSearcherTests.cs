@@ -10,7 +10,7 @@ namespace EmailLookup.Test
 	  public async void ValidDomainSearch_ShouldReturnWhoIsResponse()
 	  {
 		 var response = await new WhoIsSearcher()
-			.SearchAsync(new Person("david.bond@panoramicdata.com"))
+			.SearchAsync(new Person(TEmail))
 			.ConfigureAwait(false);
 
 		response.Should().NotBeNull();
