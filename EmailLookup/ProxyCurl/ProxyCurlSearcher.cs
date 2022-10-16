@@ -42,10 +42,7 @@ namespace EmailLookup.Core.ProxyCurl
 
 				if (googleUrl.Equals("not found", StringComparison.Ordinal))
 				{
-					return new Profile()
-					{
-						Outcome = LookupOutcomes.NotFound
-					};
+					throw new NoProfileException("Couldn't find LinkedIn profile link");
 				}
 			}
 			if (googleSearchResponse is not null)
@@ -53,35 +50,9 @@ namespace EmailLookup.Core.ProxyCurl
 				googleUrl = googleSearchResponse.Url;
 			}
 
-			if (!googleUrl.Contains("/in/"))
-			{
-				var getProfileUrl = "https://nubela.co/proxycurl/api/linkedin/profile/resolve/email?work_email=" + person.Email;
-				_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _config.ProxyCurlKey);
-
-				var profileResult = await _client
-					.GetStringAsync(getProfileUrl, cancellationToken)
-					.ConfigureAwait(false);
-
-				LinkSearchResponse? searchResponse = JsonConvert.DeserializeObject<LinkSearchResponse>(profileResult);
-				if (searchResponse is null)
-				{
-					return new Profile();
-				}
-
-				googleUrl = searchResponse.Url;
-			}
-
 			// use the obtained profile url to get information using proxycurl endpoint
 			var detailedProfile = await PersonProfileLookupAsync(googleUrl, cancellationToken)
 				.ConfigureAwait(false);
-
-			//if (detailedProfile is null)
-			//{
-			//	return new Profile()
-			//	{
-			//		Outcome = LookupOutcomes.NotFound
-			//	};
-			//}
 
 			var profile = detailedProfile.ToProfile();
 
@@ -132,13 +103,21 @@ namespace EmailLookup.Core.ProxyCurl
 				{
 					throw new ProxyCurlException("Invalid API Key");
 				}
+				if (ex.Message.Contains("403"))
+				{
+					throw new ProxyCurlException("You have run out of credits");
+				}
 				if (ex.Message.Contains("404"))
 				{
-					throw new ProxyCurlException("No LinkedIn profile found.");
+					throw new ProxyCurlException("The requested resource could not be found.");
 				}
 				if (ex.Message.Contains("429"))
 				{
 					throw new ProxyCurlException("Rate limited - please retry");
+				}
+				if (ex.Message.Contains("503"))
+				{
+					throw new ProxyCurlException("Enrichment failed, please retry.");
 				}
 				// TODO: Log issue
 				return new DetailedPersonInformation();

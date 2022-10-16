@@ -8,7 +8,8 @@ public abstract class TestBase
 {
 	protected ProxyCurlSearcher ProxyCurlSearcher { get; }
 	protected Core.PersonSearcher PersonSearcher { get; }
-	protected string TEmail { get; }
+	protected string TEmail { get; } = string.Empty;
+	protected string TProfile { get; } = string.Empty;
 
 	public TestBase()
 	{

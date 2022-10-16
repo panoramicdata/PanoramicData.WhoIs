@@ -37,7 +37,7 @@ namespace EmailLookup.Test
 
 			Func<Task> getResponse = async () => {
 				await badKeySearcher
-				.PersonProfileLookupAsync("TProfile", default)
+				.PersonProfileLookupAsync(TProfile, default)
 				.ConfigureAwait(false);
 			};
 

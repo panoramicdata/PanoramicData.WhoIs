@@ -16,5 +16,17 @@ namespace EmailLookup.Test
 
 			await getResponse.Should().ThrowAsync<InvalidEmailException>();
 		}
+
+		[Fact]
+		public async void FakeEmail_ShouldThrowLinkedInException()
+		{
+			Func<Task> getResponse = async () => {
+				await PersonSearcher
+				.LookupProfileAsync("asd.fghjkl@hotmail.com")
+				.ConfigureAwait(false);
+			};
+
+			await getResponse.Should().ThrowAsync<NoProfileException>();
+		}
 	}
 }
