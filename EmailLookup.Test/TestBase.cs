@@ -21,9 +21,8 @@ public abstract class TestBase
 		   .GetSection("AppSettings")
 		   .Get<AppSettings>();
 
-		// TODO: Fix these variable
-		var TEmail = appSettings.TestEmail;
-		var TProfile = appSettings.TestProfile;
+		TEmail = appSettings.TestEmail;
+		TProfile = appSettings.TestProfile;
 
 		ProxyCurlSearcher = new ProxyCurlSearcher(
 		   appSettings.GoogleCx,
