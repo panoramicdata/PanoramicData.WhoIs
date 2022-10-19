@@ -8,8 +8,9 @@ public abstract class TestBase
 {
 	protected ProxyCurlSearcher ProxyCurlSearcher { get; }
 	protected Core.PersonSearcher PersonSearcher { get; }
-	protected string TEmail { get; } = string.Empty;
-	protected string TProfile { get; } = string.Empty;
+	protected string ValidEmailAddress { get; } = string.Empty;
+	protected string ValidFirstname { get; } = string.Empty;
+	protected string ValidProfileUrl { get; } = string.Empty;
 
 	public TestBase()
 	{
@@ -21,8 +22,9 @@ public abstract class TestBase
 		   .GetSection("AppSettings")
 		   .Get<AppSettings>();
 
-		TEmail = appSettings.TestEmail;
-		TProfile = appSettings.TestProfile;
+		ValidEmailAddress = appSettings.ValidEmailAddress;
+		ValidFirstname = appSettings.ValidFirstname;
+		ValidProfileUrl = appSettings.ValidProfileUrl;
 
 		ProxyCurlSearcher = new ProxyCurlSearcher(
 		   appSettings.GoogleCx,

@@ -9,10 +9,10 @@ namespace EmailLookup.Test
 		public async void PersonSearcher_ShouldReturnResults()
 		{
 			var response = await PersonSearcher
-				.LookupProfileAsync(TEmail)
+				.LookupProfileAsync(ValidEmailAddress)
 				.ConfigureAwait(false);
 
-			response.Profile.FirstName.Should().Be("David");
+			response.Profile.FirstName.Should().Be(ValidFirstname);
 		}
 	}
 }

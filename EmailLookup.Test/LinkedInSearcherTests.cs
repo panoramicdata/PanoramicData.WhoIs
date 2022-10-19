@@ -2,7 +2,6 @@
 using EmailLookup.Core.ProxyCurl;
 using EmailLookup.CustomExceptions;
 using FluentAssertions;
-using System.Runtime.CompilerServices;
 
 namespace EmailLookup.Test
 {
@@ -12,16 +11,17 @@ namespace EmailLookup.Test
 		public async void LinkedInSearcher_ShouldReturnResults()
 		{
 			var response = await ProxyCurlSearcher
-				.SearchAsync(new Person(TEmail))
+				.SearchAsync(new Person(ValidEmailAddress))
 				.ConfigureAwait(false);
 
-			response.FirstName.Should().Be("David");
+			response.FirstName.Should().Be(ValidFirstname);
 		}
 
 		[Fact]
 		public async void LinkedInSearcher_WithInvalidEmail_ShouldThrowException()
 		{
-			Func<Task> getResponse = async () => {
+			Func<Task> getResponse = async () =>
+			{
 				await ProxyCurlSearcher
 				.PersonProfileLookupAsync("https://www.linkedin.com/in/thisprofiledoesnotexist", default)
 				.ConfigureAwait(false);
@@ -35,9 +35,10 @@ namespace EmailLookup.Test
 		{
 			ProxyCurlSearcher badKeySearcher = new ProxyCurlSearcher("invalid", "invalid", "invalid");
 
-			Func<Task> getResponse = async () => {
+			Func<Task> getResponse = async () =>
+			{
 				await badKeySearcher
-				.PersonProfileLookupAsync(TProfile, default)
+				.PersonProfileLookupAsync(ValidProfileUrl, default)
 				.ConfigureAwait(false);
 			};
 
