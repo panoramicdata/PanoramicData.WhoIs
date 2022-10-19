@@ -6,7 +6,7 @@ namespace EmailLookup.Test
 	public class PersonSearcherTests : TestBase
 	{
 		[Fact]
-		public async void PersonSearcher_ShouldReturnResults()
+		public async void PersonSearcher_WithValidEmailAddress_ShouldReturnResults()
 		{
 			var response = await PersonSearcher
 				.LookupProfileAsync(ValidEmailAddress)

@@ -7,20 +7,23 @@ namespace EmailLookup.Test
 	public class InvalidEmailTests : TestBase
 	{
 		[Fact]
-		public async void NotAnEmail_ShouldThrowException()
+		public async void LookupProfileAsync_NotAnEmailAddress_ShouldThrowInvalidEmailException()
 		{
-			Func<Task> getResponse = async () => { await PersonSearcher
+			Func<Task> getResponse = async () =>
+			{
+				await PersonSearcher
 				.LookupProfileAsync("asdfghjkl")
-				.ConfigureAwait(false); 
+				.ConfigureAwait(false);
 			};
 
 			await getResponse.Should().ThrowAsync<InvalidEmailException>();
 		}
 
 		[Fact]
-		public async void FakeEmail_ShouldThrowLinkedInException()
+		public async void LookupProfileAsync_FakeEmailAddress_ShouldThrowNoProfileException()
 		{
-			Func<Task> getResponse = async () => {
+			Func<Task> getResponse = async () =>
+			{
 				await PersonSearcher
 				.LookupProfileAsync("fakename.daniels@hotmail.com")
 				.ConfigureAwait(false);

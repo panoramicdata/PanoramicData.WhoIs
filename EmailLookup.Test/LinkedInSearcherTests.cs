@@ -8,7 +8,7 @@ namespace EmailLookup.Test
 	public class LinkedInSearcherTests : TestBase
 	{
 		[Fact]
-		public async void LinkedInSearcher_ShouldReturnResults()
+		public async void LinkedInSearcher_WithValidEmailAddress_ShouldReturnResults()
 		{
 			var response = await ProxyCurlSearcher
 				.SearchAsync(new Person(ValidEmailAddress))
@@ -33,7 +33,7 @@ namespace EmailLookup.Test
 		[Fact]
 		public async void LinkedInSearcher_WithInvalidKey_ShouldThrowException()
 		{
-			ProxyCurlSearcher badKeySearcher = new ProxyCurlSearcher("invalid", "invalid", "invalid");
+			var badKeySearcher = new ProxyCurlSearcher("invalid", "invalid", "invalid");
 
 			Func<Task> getResponse = async () =>
 			{
