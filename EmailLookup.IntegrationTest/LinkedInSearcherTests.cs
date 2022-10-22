@@ -3,7 +3,7 @@ using EmailLookup.Core.ProxyCurl;
 using EmailLookup.CustomExceptions;
 using FluentAssertions;
 
-namespace EmailLookup.Test
+namespace EmailLookup.IntegrationTest
 {
 	public class LinkedInSearcherTests : TestBase
 	{

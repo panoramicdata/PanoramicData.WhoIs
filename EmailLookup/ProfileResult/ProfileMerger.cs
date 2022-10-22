@@ -92,18 +92,9 @@ namespace EmailLookup.ProfileResult
 			{
 				finalProfile.RegistrarUrl = sourceProfile.RegistrarUrl;
 			}
-			if (finalProfile.UpdatedDate is null)
-			{
-				finalProfile.UpdatedDate = sourceProfile.UpdatedDate;
-			}
-			if (finalProfile.CreationDate is null)
-			{
-				finalProfile.CreationDate = sourceProfile.CreationDate;
-			}
-			if (finalProfile.RegistrarRegistrationExpirationDate is null)
-			{
-				finalProfile.RegistrarRegistrationExpirationDate = sourceProfile.RegistrarRegistrationExpirationDate;
-			}
+			finalProfile.UpdatedDate ??= sourceProfile.UpdatedDate;
+			finalProfile.CreationDate ??= sourceProfile.CreationDate;
+			finalProfile.RegistrarRegistrationExpirationDate ??= sourceProfile.RegistrarRegistrationExpirationDate;
 			if (string.IsNullOrEmpty(finalProfile.Registrar))
 			{
 				finalProfile.Registrar = sourceProfile.Registrar;

@@ -2,7 +2,7 @@ using EmailLookup.Core;
 using EmailLookup.Core.WhoIs;
 using FluentAssertions;
 
-namespace EmailLookup.Test
+namespace EmailLookup.IntegrationTest
 {
    public class WhoIsSearcherTests : TestBase
    {

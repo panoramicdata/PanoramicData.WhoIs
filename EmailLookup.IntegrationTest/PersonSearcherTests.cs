@@ -1,7 +1,7 @@
 ﻿using EmailLookup.Core;
 using FluentAssertions;
 
-namespace EmailLookup.Test
+namespace EmailLookup.IntegrationTest
 {
 	public class PersonSearcherTests : TestBase
 	{
