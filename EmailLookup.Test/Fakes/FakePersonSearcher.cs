@@ -1,0 +1,25 @@
+﻿using EmailLookup.Core;
+using EmailLookup.ProfileResult;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace EmailLookup.Test.Fakes
+{
+	public class FakePersonSearcher : IPersonSearcher
+	{
+		private readonly Profile _config = new();
+
+		public FakePersonSearcher(Profile config)
+		{
+			_config = config;
+		}
+
+		public async Task<Profile> SearchAsync(Person person)
+		{
+			return _config;
+		}
+	}
+}
