@@ -65,7 +65,7 @@ namespace EmailLookup.Core.ProxyCurl
 				LinkSearchResponse? searchResponse = JsonConvert.DeserializeObject<LinkSearchResponse>(result);
 				if (searchResponse is null || searchResponse.Url is null)
 				{
-					throw new NoProfileException("LinkedIn profile not found");
+					throw new ProxyCurlException("404");
 				}
 				return searchResponse.Url;
 			}
@@ -179,7 +179,7 @@ namespace EmailLookup.Core.ProxyCurl
 			{
 				throw new ProxyCurlException("You have run out of credits");
 			}
-			if (ex.Message.Contains("404") || ex.Message.Equals("LinkedIn profile not found"))
+			if (ex.Message.Contains("404"))
 			{
 				throw new ProxyCurlException("The requested resource could not be found.");
 			}

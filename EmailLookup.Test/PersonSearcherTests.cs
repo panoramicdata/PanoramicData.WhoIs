@@ -9,7 +9,7 @@ namespace EmailLookup.Test
 	public class PersonSearcherTests : TestBase
 	{
 		[Fact]
-		public async void PersonSearcher_WithValidEmailAddress_ShouldReturnResults()
+		public async void PersonSearcher_WithInvalidEmailAddress_ShouldThrowException()
 		{
 			PersonSearcher searcher = new PersonSearcher(new List<IPersonSearcher>() { fakeSearcher });
 

@@ -1,7 +1,6 @@
 ﻿using EmailLookup.Core.ProxyCurl;
 using EmailLookup.ProfileResult;
 using EmailLookup.Test.Fakes;
-using EmailLookup.Test.Helpers;
 using Microsoft.Extensions.Configuration;
 
 namespace EmailLookup.Test;
