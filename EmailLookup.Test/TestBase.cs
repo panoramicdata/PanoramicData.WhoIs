@@ -7,18 +7,18 @@ namespace EmailLookup.Test;
 
 public abstract class TestBase
 {
-	protected FakePersonSearcher fakeSearcher { get; } = new();
-	protected FakePersonSearcher anotherFakeSearcher { get; } = new();
+	protected FakePersonSearcher fakeSearcher { get; }
+	protected FakePersonSearcher anotherFakeSearcher { get; }
 
 	public TestBase()
 	{
-		FakePersonSearcher fakeSearcher = new FakePersonSearcher(new Profile
+		fakeSearcher = new FakePersonSearcher(new Profile
 		{
 			FirstName = "first",
 			Languages = new List<string>() { "english" },
 			Outcome = Core.LookupOutcomes.Found
 		});
-		FakePersonSearcher anotherFakeSearcher = new FakePersonSearcher(new Profile
+		anotherFakeSearcher = new FakePersonSearcher(new Profile
 		{
 			FirstName = "second",
 			Languages = new List<string>() { "french" },
