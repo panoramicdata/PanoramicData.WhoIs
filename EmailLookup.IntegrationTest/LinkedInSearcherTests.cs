@@ -33,7 +33,12 @@ namespace EmailLookup.IntegrationTest
 		[Fact]
 		public async void LinkedInSearcher_WithInvalidKey_ShouldThrowException()
 		{
-			var badKeySearcher = new ProxyCurlSearcher("invalid", "invalid", "invalid");
+			var badKeySearcher = new ProxyCurlSearcher(new ProxyCurlConfig
+			{
+				GoogleCx = "invalid",
+				GoogleKey = "invalid",
+				ProxyCurlKey = "invalid"
+			});
 
 			Func<Task> getResponse = async () =>
 			{

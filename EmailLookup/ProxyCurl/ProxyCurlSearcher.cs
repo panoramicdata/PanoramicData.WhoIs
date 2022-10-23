@@ -7,23 +7,26 @@ using System.Net.Http.Headers;
 
 namespace EmailLookup.Core.ProxyCurl
 {
+	/// <summary>
+	/// An interface that interacts with the Nubela ProxyCurl API, as well as the Google API, to
+	/// return information on someone derived from their LinkedIn page. Requires API keys for
+	/// ProxyCurl and Google Custom search, as well as a Google Custom Search CX, to work.
+	/// </summary>
 	public class ProxyCurlSearcher : IPersonSearcher
 	{
 		private readonly HttpClient _client = new();
 		private readonly ProxyCurlConfig _config = new();
-
-		public ProxyCurlSearcher(string googleCx, string googleKey, string proxyCurlKey)
-		{
-			_config.GoogleCx = googleCx;
-			_config.GoogleKey = googleKey;
-			_config.ProxyCurlKey = proxyCurlKey;
-		}
 
 		public ProxyCurlSearcher(ProxyCurlConfig config)
 		{
 			_config = config;
 		}
 
+		/// <summary>
+		/// Attempts to get a LinkedIn URL from a Google Custom Search, and uses the ProxyCurl
+		/// ReverseEmailLookup if the first method fails. Then uses the URL to get data from a
+		/// person's LinkedIn page, stores that information in a Profile object and returns that.
+		/// </summary>
 		public async Task<Profile> SearchAsync(Person person)
 		{
 			CancellationToken cancellationToken = default;
@@ -50,6 +53,10 @@ namespace EmailLookup.Core.ProxyCurl
 			return profile;
 		}
 
+		/// <summary>
+		/// Uses the ProxyCurl ReverseEmailLookup endpoint to get a LinkedIn profile link from a
+		/// work email.
+		/// </summary>
 		public async Task<string> ReverseWorkEmailLookupAsync(string address, CancellationToken cancellationToken)
 		{
 			var url = "https://nubela.co/proxycurl/api/linkedin/profile/resolve/email?work_email=" + address;
@@ -77,6 +84,10 @@ namespace EmailLookup.Core.ProxyCurl
 
 		}
 
+		/// <summary>
+		/// Uses a LinkedIn profile link to send a HTTP request to Nubela's ProxyCurl API, then
+		/// deserialises that data into a DetailedPersonInformation object.
+		/// </summary>
 		public async Task<DetailedPersonInformation> PersonProfileLookupAsync(string googleUrl, CancellationToken cancellationToken)
 		{
 
@@ -105,6 +116,12 @@ namespace EmailLookup.Core.ProxyCurl
 			}
 		}
 
+		/// <summary>
+		/// Searches a Google Custom Search that only returns results from LinkedIn, with the query
+		/// 'First Name + Last Name + Company Name', with the aim of getting their LinkedIn profile
+		/// ID. Does this by scoring each search result based on the likelihood of that result
+		/// being the correct LinkedIn profile.
+		/// </summary>
 		public async Task<GoogleSearchResponse> SearchGoogleAsync(
 			Person person,
 			CancellationToken cancellationToken
@@ -169,6 +186,10 @@ namespace EmailLookup.Core.ProxyCurl
 			return current;
 		}
 
+
+		/// <summary>
+		/// Handles any HTTP exceptions that could be thrown from ProxyCurl requests.
+		/// </summary>
 		public static void HandleProxyCurlException(Exception ex)
 		{
 			if (ex.Message.Contains("401") || ex.Message.Contains("500"))

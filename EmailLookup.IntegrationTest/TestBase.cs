@@ -26,17 +26,12 @@ public abstract class TestBase
 		ValidFirstname = appSettings.ValidFirstname;
 		ValidProfileUrl = appSettings.ValidProfileUrl;
 
-		ProxyCurlSearcher = new ProxyCurlSearcher(
-		   appSettings.GoogleCx,
-		   appSettings.GoogleKey,
-		   appSettings.ProxyCurlKey
-		);
-
-		//PersonSearcher = new Core.PersonSearcher(
-		//   appSettings.GoogleCx,
-		//   appSettings.GoogleKey,
-		//   appSettings.ProxyCurlKey
-		//);
+		ProxyCurlSearcher = new ProxyCurlSearcher(new ProxyCurlConfig
+		{
+			GoogleCx = appSettings.GoogleCx,
+			GoogleKey = appSettings.GoogleKey,
+			ProxyCurlKey = appSettings.ProxyCurlKey
+		});
 
 		PersonSearcher = new PersonSearcherBuilder()
 			.WithProxyCurlSearcher()

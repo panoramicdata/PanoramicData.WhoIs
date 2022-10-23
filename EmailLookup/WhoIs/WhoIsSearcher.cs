@@ -4,8 +4,16 @@ using Whois;
 
 namespace EmailLookup.Core.WhoIs
 {
+	/// <summary>
+	/// An interface that interacts with the WHOIS Lookup API, which returns detailed information
+	/// on a company's domain information.
+	/// </summary>
 	public class WhoIsSearcher : IPersonSearcher
 	{
+		/// <summary>
+		/// Searches the WHOIS database for information on a domain and stores that information in a
+		/// Profile object, which is then returned.
+		/// </summary>
 		public async Task<Profile> SearchAsync(Person person)
 		{
 			var domain = person.Domain;

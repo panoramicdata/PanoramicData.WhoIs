@@ -2,8 +2,17 @@
 
 namespace EmailLookup.Core
 {
+	/// <summary>
+	/// Stores the basic information extracted from just the email address.
+	/// </summary>
 	public class Person
 	{
+		/// <summary>
+		/// Takes an email address and seperates it into the User and Host, gets the company name
+		/// from the Host, and (if the email is in the format "firstname.surname@company.com")
+		/// gets the first and last name from the User.
+		/// </summary>
+		/// <param name="address"></param>
 		public Person(string address)
 		{
 			MailAddressEmail = new MailAddress(address);

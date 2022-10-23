@@ -4,14 +4,12 @@ using EmailLookup.CustomExceptions;
 namespace EmailLookup.Core
 {
 	/// <summary>
-	/// The <c>PersonSearcher</c> class is created by the user to
-	/// perform the EmailLookup
+	/// Created by the user to perform the EmailLookup.
 	/// </summary>
 	/// <remarks>
-	/// <para>This is the only class that users will interact
-	/// with - it's responsible for creating every other object
-	/// used in the EmailLookup process, and determines the order
-	/// in which the program executes.</para>
+	/// <para>This is the only class that users will interact with - it's responsible for creating
+	/// every other object used in the EmailLookup process, and determines the order in which the
+	/// program executes.</para>
 	/// </remarks>
 	public class PersonSearcher : IDisposable
 	{
@@ -19,16 +17,14 @@ namespace EmailLookup.Core
 		private readonly IEnumerable<Core.IPersonSearcher> _searchers;
 
 		/// <summary>
-		/// Initializes a new instance of PersonSearcher and
-		/// assigns the given searcher list to an internal variable.
+		/// Initializes a new instance of PersonSearcher and assigns the given searcher list to an
+		/// internal variable.
 		/// </summary>
-		/// <param name="searchers">A list of objects that use the
-		/// IPersonSearcher interface.</param>
+		/// <param name="searchers">A list of objects that use the IPersonSearcher interface.</param>
 		/// <remarks>
-		/// <para>
-		/// Users can choose which searchers to include in their lookup
-		/// by passing them into the searchers parameter.
-		/// </para></remarks>
+		/// <para> Users can choose which searchers to include in their lookup by passing them into
+		/// the searchers parameter.</para>
+		/// </remarks>
 		public PersonSearcher(IEnumerable<Core.IPersonSearcher> searchers)
 		{
 			_searchers = searchers;
@@ -39,7 +35,8 @@ namespace EmailLookup.Core
 		/// searchers and returns the resulting profile.
 		/// </summary>
 		/// <param name="mailAddress">The email address the user wants to lookup.</param>
-		/// <returns>A SearchResult object containing information on the inputted email address.</returns>
+		/// <returns>A SearchResult object containing information on the inputted email
+		/// address.</returns>
 		public async Task<SearchResult> LookupProfileAsync(
 		   string mailAddress
 		   )
@@ -83,6 +80,13 @@ namespace EmailLookup.Core
 			return result;
 		}
 
+		/// <summary>
+		/// Checks whether an email address is in a valid format by attempting to create a
+		/// MailAddress object with it. Returns true if successful, returns false if creating the
+		/// MailAddress throws an exception.
+		/// </summary>
+		/// <param name="address"> The address to be checked.</param>
+		/// <returns>A Boolean indicating a valid or invalid address.</returns>
 		public static bool CheckEmailValidity(string address)
 		{
 			try
