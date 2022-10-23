@@ -44,5 +44,17 @@ namespace EmailLookup.IntegrationTest
 
 			await getResponse.Should().ThrowAsync<ProxyCurlException>();
 		}
+		[Fact]
+		public async void LookupProfileAsync_FakeEmailAddress_ShouldThrowNoProfileException()
+		{
+			Func<Task> getResponse = async () =>
+			{
+				await PersonSearcher
+				.LookupProfileAsync("fakename.daniels@hotmail.com")
+				.ConfigureAwait(false);
+			};
+
+			await getResponse.Should().ThrowAsync<ProxyCurlException>();
+		}
 	}
 }

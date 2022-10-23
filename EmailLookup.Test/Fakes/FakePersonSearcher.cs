@@ -12,6 +12,10 @@ namespace EmailLookup.Test.Fakes
 	{
 		private readonly Profile _config = new();
 
+		public FakePersonSearcher()
+		{
+		}
+
 		public FakePersonSearcher(Profile config)
 		{
 			_config = config;

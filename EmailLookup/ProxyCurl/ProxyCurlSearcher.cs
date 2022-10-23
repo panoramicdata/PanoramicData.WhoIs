@@ -179,7 +179,7 @@ namespace EmailLookup.Core.ProxyCurl
 			{
 				throw new ProxyCurlException("You have run out of credits");
 			}
-			if (ex.Message.Contains("404"))
+			if (ex.Message.Contains("404") || ex.Message.Equals("LinkedIn profile not found"))
 			{
 				throw new ProxyCurlException("The requested resource could not be found.");
 			}

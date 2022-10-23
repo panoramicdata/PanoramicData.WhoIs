@@ -62,8 +62,8 @@ namespace EmailLookup.Core
 			{
 				// perform the search function
 				Profile currentProfile = await searcher.SearchAsync(person);
-					// and add that to the list of profiles to be merged
-					profiles.Add(currentProfile);
+				// and add that to the list of profiles to be merged
+				profiles.Add(currentProfile);
 			}
 
 			// merge every profile obtaining from searchers
