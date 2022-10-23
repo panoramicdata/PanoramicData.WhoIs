@@ -9,6 +9,8 @@ public abstract class TestBase
 {
 	protected FakePersonSearcher fakeSearcher { get; }
 	protected FakePersonSearcher anotherFakeSearcher { get; }
+	protected FakePersonSearcher notFoundSearcher { get; }
+	protected string exampleEmail { get; } = string.Empty;
 
 	public TestBase()
 	{
@@ -24,6 +26,12 @@ public abstract class TestBase
 			Languages = new List<string>() { "french" },
 			Outcome = Core.LookupOutcomes.Found
 		});
+		notFoundSearcher = new FakePersonSearcher(new Profile
+		{
+			FirstName = "",
+			Outcome = Core.LookupOutcomes.NotFound
+		});
+		exampleEmail = "example@hotmail.com";
 	}
 
 }

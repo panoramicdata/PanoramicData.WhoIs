@@ -28,7 +28,7 @@ namespace EmailLookup.Test
 			PersonSearcher searcher = new PersonSearcher(new List<IPersonSearcher>() { fakeSearcher, anotherFakeSearcher});
 
 			var response = await searcher
-				.LookupProfileAsync("example@hotmail.com")
+				.LookupProfileAsync(exampleEmail)
 				.ConfigureAwait(false);
 			response.Profile.FirstName.Should().Be("first");
 		}
@@ -38,10 +38,19 @@ namespace EmailLookup.Test
 		{
 			PersonSearcher searcher = new PersonSearcher(new List<IPersonSearcher>() { fakeSearcher, anotherFakeSearcher });
 			var response = await searcher
-				.LookupProfileAsync("example@hotmail.com")
+				.LookupProfileAsync(exampleEmail)
 				.ConfigureAwait(false);
 			response.Profile.Languages.Should().Contain("english");
 			response.Profile.Languages.Should().Contain("french");
+		}
+		[Fact]
+		public async void ProfileMerger_IfFirstProfileNotFound_SecondShouldOverride()
+		{
+			PersonSearcher searcher = new PersonSearcher(new List<IPersonSearcher>() { notFoundSearcher, fakeSearcher });
+			var response = await searcher
+				.LookupProfileAsync(exampleEmail)
+				.ConfigureAwait(false);
+			response.Profile.FirstName.Should().Be("first");
 		}
 	}
 }

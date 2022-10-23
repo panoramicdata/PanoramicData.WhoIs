@@ -21,9 +21,6 @@ namespace EmailLookup.Test.Fakes
 			_config = config;
 		}
 
-		public async Task<Profile> SearchAsync(Person person)
-		{
-			return _config;
-		}
+		public Task<Profile> SearchAsync(Person person) => Task.FromResult(_config);
 	}
 }
