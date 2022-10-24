@@ -14,8 +14,16 @@ public abstract class TestBase
 
 	public TestBase()
 	{
+		var currentDirectoryInfo = new DirectoryInfo(Directory.GetCurrentDirectory());
+		var rootDirectoryInfo = currentDirectoryInfo.Parent?.Parent?.Parent;
+		if (rootDirectoryInfo is null)
+		{
+			throw new InvalidOperationException("Failed to identify root directory for this project!");
+		}
+
 		// Load appsettings
 		var builder = new ConfigurationBuilder();
+		builder.SetBasePath(rootDirectoryInfo.FullName);
 		builder.AddJsonFile("appsettings.json");
 		var configuration = builder.Build();
 		var appSettings = configuration

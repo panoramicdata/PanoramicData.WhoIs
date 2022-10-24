@@ -9,7 +9,15 @@ namespace EmailLookup.IntegrationTest.Helpers
 
 		public PersonSearcherBuilder()
 		{
+			var currentDirectoryInfo = new DirectoryInfo(Directory.GetCurrentDirectory());
+			var rootDirectoryInfo = currentDirectoryInfo.Parent?.Parent?.Parent;
+			if (rootDirectoryInfo is null)
+			{
+				throw new InvalidOperationException("Failed to identify root directory for this project!");
+			}
+
 			var builder = new ConfigurationBuilder();
+			builder.SetBasePath(rootDirectoryInfo.FullName);
 			builder.AddJsonFile("appsettings.json");
 			var configuration = builder.Build();
 			_appSettings = configuration
