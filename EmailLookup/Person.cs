@@ -12,7 +12,7 @@ namespace EmailLookup.Core
 		/// from the Host, and (if the email is in the format "firstname.surname@company.com")
 		/// gets the first and last name from the User.
 		/// </summary>
-		/// <param name="address"></param>
+		/// <param name="address">The email address that is to be manipulated</param>
 		public Person(string address)
 		{
 			MailAddressEmail = new MailAddress(address);
