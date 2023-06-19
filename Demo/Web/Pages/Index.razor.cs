@@ -1,7 +1,6 @@
 ﻿using EmailLookup.Demo.Web.Models;
 using EmailLookup.ProfileResult;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Mvc.Formatters;
 using cre = EmailLookup.Core;
 
 namespace EmailLookup.Demo.Web.Pages
@@ -9,7 +8,7 @@ namespace EmailLookup.Demo.Web.Pages
 	public partial class Index
 	{
 		private bool _showResults;
-		private bool _searchDisabled = false;
+		private bool _searchDisabled;
 		private LookupModel _lookupData = new LookupModel();
 		private string _message = string.Empty;
 		private Profile _searchResults = new Profile();
@@ -21,7 +20,10 @@ namespace EmailLookup.Demo.Web.Pages
 
 		private async Task LookupAsync()
 		{
-			if (Searcher is null) return;
+			if (Searcher is null)
+			{
+				return;
+			}
 
 			try
 			{
@@ -44,7 +46,6 @@ namespace EmailLookup.Demo.Web.Pages
 				{
 					Logger.LogError(ex, "Lookup failed! Message: {Message}", ex.Message);
 				}
-				// _message = "Lookup failed. See log for details.";
 				_message = ("Lookup failed! " + ex.Message);
 			}
 			finally

@@ -10,7 +10,7 @@ public abstract class TestBase
 	protected FakePersonSearcher NotFoundSearcher { get; }
 	protected string exampleEmail { get; } = string.Empty;
 
-	public TestBase()
+	protected TestBase()
 	{
 		FakeSearcher = new FakePersonSearcher(new Profile
 		{
