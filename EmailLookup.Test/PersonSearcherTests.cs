@@ -9,7 +9,7 @@ namespace EmailLookup.Test
 		[Fact]
 		public async void PersonSearcher_WithInvalidEmailAddress_ShouldThrowException()
 		{
-			var searcher = new PersonSearcher(new List<IPersonSearcher>() { FakeSearcher });
+			var searcher = new PersonSearcher(new List<IPersonSearcher> { FakeSearcher });
 
 			Func<Task> getResponse = async () =>
 			{
@@ -23,7 +23,7 @@ namespace EmailLookup.Test
 		[Fact]
 		public async void PersonSearcher_WithTwoSearchers_ShouldPrioritiseFirstSearcherResults()
 		{
-			var searcher = new PersonSearcher(new List<IPersonSearcher>() { FakeSearcher, AnotherFakeSearcher });
+			var searcher = new PersonSearcher(new List<IPersonSearcher> { FakeSearcher, AnotherFakeSearcher });
 
 			var response = await searcher
 				.LookupProfileAsync(exampleEmail)
@@ -34,7 +34,7 @@ namespace EmailLookup.Test
 		[Fact]
 		public async void ProfileMerger_MergingTwoProfilesWithPopulatedLanguageLists_CanMergeSuccessfully()
 		{
-			var searcher = new PersonSearcher(new List<IPersonSearcher>() { FakeSearcher, AnotherFakeSearcher });
+			var searcher = new PersonSearcher(new List<IPersonSearcher> { FakeSearcher, AnotherFakeSearcher });
 			var response = await searcher
 				.LookupProfileAsync(exampleEmail)
 				.ConfigureAwait(false);
@@ -45,7 +45,7 @@ namespace EmailLookup.Test
 		[Fact]
 		public async void ProfileMerger_IfFirstProfileNotFound_SecondShouldOverride()
 		{
-			var searcher = new PersonSearcher(new List<IPersonSearcher>() { NotFoundSearcher, FakeSearcher });
+			var searcher = new PersonSearcher(new List<IPersonSearcher> { NotFoundSearcher, FakeSearcher });
 			var response = await searcher
 				.LookupProfileAsync(exampleEmail)
 				.ConfigureAwait(false);

@@ -1,9 +1,8 @@
 ﻿using EmailLookup.Core;
-using EmailLookup.Core.ProxyCurl;
 
 namespace EmailLookup.ProfileResult
 {
-	internal class ProfileMerger
+	internal static class ProfileMerger
 	{
 
 		internal static void Merge(Profile sourceProfile, Profile finalProfile)

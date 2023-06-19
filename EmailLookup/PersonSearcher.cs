@@ -68,7 +68,7 @@ namespace EmailLookup.Core
 			{
 				ProfileMerger.Merge(profile, finalProfile);
 			}
-			var result = new SearchResult()
+			var result = new SearchResult
 			{
 				SearchOutcome = SearchResult.Outcome.Failure
 			};

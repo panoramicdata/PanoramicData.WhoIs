@@ -15,13 +15,13 @@ public abstract class TestBase
 		FakeSearcher = new FakePersonSearcher(new Profile
 		{
 			FirstName = "first",
-			Languages = new List<string>() { "english" },
+			Languages = new List<string> { "english" },
 			Outcome = Core.LookupOutcomes.Found
 		});
 		AnotherFakeSearcher = new FakePersonSearcher(new Profile
 		{
 			FirstName = "second",
-			Languages = new List<string>() { "french" },
+			Languages = new List<string> { "french" },
 			Outcome = Core.LookupOutcomes.Found
 		});
 		NotFoundSearcher = new FakePersonSearcher(new Profile
