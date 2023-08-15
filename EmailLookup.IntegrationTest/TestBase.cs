@@ -12,7 +12,7 @@ public abstract class TestBase
 	protected string ValidFirstname { get; } = string.Empty;
 	protected string ValidProfileUrl { get; } = string.Empty;
 
-	public TestBase()
+	protected TestBase()
 	{
 		var currentDirectoryInfo = new DirectoryInfo(Directory.GetCurrentDirectory());
 		var rootDirectoryInfo = currentDirectoryInfo.Parent?.Parent?.Parent;
