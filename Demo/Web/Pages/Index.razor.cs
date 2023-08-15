@@ -9,7 +9,7 @@ namespace EmailLookup.Demo.Web.Pages
 	{
 		private bool _showResults;
 		private bool _searchDisabled;
-		private LookupModel _lookupData = new LookupModel();
+		private readonly LookupModel _lookupData = new LookupModel();
 		private string _message = string.Empty;
 		private Profile _searchResults = new Profile();
 		private SearchResult _result = new SearchResult();

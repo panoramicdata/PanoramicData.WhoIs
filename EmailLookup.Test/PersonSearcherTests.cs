@@ -7,7 +7,7 @@ namespace EmailLookup.Test
 	public class PersonSearcherTests : TestBase
 	{
 		[Fact]
-		public async void PersonSearcher_WithInvalidEmailAddress_ShouldThrowException()
+		public async Task PersonSearcher_WithInvalidEmailAddress_ShouldThrowException()
 		{
 			var searcher = new PersonSearcher(new List<IPersonSearcher> { FakeSearcher });
 
@@ -21,7 +21,7 @@ namespace EmailLookup.Test
 		}
 
 		[Fact]
-		public async void PersonSearcher_WithTwoSearchers_ShouldPrioritiseFirstSearcherResults()
+		public async Task PersonSearcher_WithTwoSearchers_ShouldPrioritiseFirstSearcherResults()
 		{
 			var searcher = new PersonSearcher(new List<IPersonSearcher> { FakeSearcher, AnotherFakeSearcher });
 
@@ -32,7 +32,7 @@ namespace EmailLookup.Test
 		}
 
 		[Fact]
-		public async void ProfileMerger_MergingTwoProfilesWithPopulatedLanguageLists_CanMergeSuccessfully()
+		public async Task ProfileMerger_MergingTwoProfilesWithPopulatedLanguageLists_CanMergeSuccessfully()
 		{
 			var searcher = new PersonSearcher(new List<IPersonSearcher> { FakeSearcher, AnotherFakeSearcher });
 			var response = await searcher
@@ -43,7 +43,7 @@ namespace EmailLookup.Test
 		}
 
 		[Fact]
-		public async void ProfileMerger_IfFirstProfileNotFound_SecondShouldOverride()
+		public async Task ProfileMerger_IfFirstProfileNotFound_SecondShouldOverride()
 		{
 			var searcher = new PersonSearcher(new List<IPersonSearcher> { NotFoundSearcher, FakeSearcher });
 			var response = await searcher

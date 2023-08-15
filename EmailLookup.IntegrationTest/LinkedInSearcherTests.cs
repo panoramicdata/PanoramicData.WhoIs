@@ -8,7 +8,7 @@ namespace EmailLookup.IntegrationTest
 	public class LinkedInSearcherTests : TestBase
 	{
 		[Fact]
-		public async void LinkedInSearcher_WithValidEmailAddress_ShouldReturnResults()
+		public async Task LinkedInSearcher_WithValidEmailAddress_ShouldReturnResults()
 		{
 			var response = await ProxyCurlSearcher
 				.SearchAsync(new Person(ValidEmailAddress))
@@ -18,7 +18,7 @@ namespace EmailLookup.IntegrationTest
 		}
 
 		[Fact]
-		public async void LinkedInSearcher_WithInvalidEmail_ShouldThrowException()
+		public async Task LinkedInSearcher_WithInvalidEmail_ShouldThrowException()
 		{
 			Func<Task> getResponse = async () =>
 			{
@@ -31,7 +31,7 @@ namespace EmailLookup.IntegrationTest
 		}
 
 		[Fact]
-		public async void LinkedInSearcher_WithInvalidKey_ShouldThrowException()
+		public async Task LinkedInSearcher_WithInvalidKey_ShouldThrowException()
 		{
 			var badKeySearcher = new ProxyCurlSearcher(new ProxyCurlConfig
 			{
@@ -50,7 +50,7 @@ namespace EmailLookup.IntegrationTest
 			await getResponse.Should().ThrowAsync<ProxyCurlException>();
 		}
 		[Fact]
-		public async void LookupProfileAsync_FakeEmailAddress_ShouldThrowNoProfileException()
+		public async Task LookupProfileAsync_FakeEmailAddress_ShouldThrowNoProfileException()
 		{
 			Func<Task> getResponse = async () =>
 			{
