@@ -2,16 +2,11 @@
 
 namespace EmailLookup.Core;
 
-public class EnumSearcher : IEnumerator
+public class EnumSearcher(IPersonSearcher[] searchers) : IEnumerator
 {
-	private readonly IPersonSearcher[] _searcher;
+	private readonly IPersonSearcher[] _searcher = searchers;
 
 	int _position = -1;
-
-	public EnumSearcher(IPersonSearcher[] searchers)
-	{
-		_searcher = searchers;
-	}
 
 	public bool MoveNext()
 	{

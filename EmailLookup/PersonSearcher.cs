@@ -11,24 +11,19 @@ namespace EmailLookup.Core;
 /// every other object used in the EmailLookup process, and determines the order in which the
 /// program executes.</para>
 /// </remarks>
-public class PersonSearcher : IDisposable
+/// <remarks>
+/// Initializes a new instance of PersonSearcher and assigns the given searcher list to an
+/// internal variable.
+/// </remarks>
+/// <param name="searchers">A list of objects that use the IPersonSearcher interface.</param>
+/// <remarks>
+/// <para> Users can choose which searchers to include in their lookup by passing them into
+/// the searchers parameter.</para>
+/// </remarks>
+public class PersonSearcher(IEnumerable<Core.IPersonSearcher> searchers) : IDisposable
 {
 	private bool _disposedValue;
-	private readonly IEnumerable<Core.IPersonSearcher> _searchers;
-
-	/// <summary>
-	/// Initializes a new instance of PersonSearcher and assigns the given searcher list to an
-	/// internal variable.
-	/// </summary>
-	/// <param name="searchers">A list of objects that use the IPersonSearcher interface.</param>
-	/// <remarks>
-	/// <para> Users can choose which searchers to include in their lookup by passing them into
-	/// the searchers parameter.</para>
-	/// </remarks>
-	public PersonSearcher(IEnumerable<Core.IPersonSearcher> searchers)
-	{
-		_searchers = searchers;
-	}
+	private readonly IEnumerable<Core.IPersonSearcher> _searchers = searchers;
 
 	/// <summary>
 	/// Takes an email address, passes it to the list of

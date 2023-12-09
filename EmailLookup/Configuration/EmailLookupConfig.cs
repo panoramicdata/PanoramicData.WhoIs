@@ -2,12 +2,7 @@
 
 namespace EmailLookup.Core.Configuration;
 
-public class EmailLookupConfig
+public class EmailLookupConfig(IServiceCollection services)
 {
-	public EmailLookupConfig(IServiceCollection services)
-	{
-		Services = services;
-	}
-
-	internal IServiceCollection Services { get; set; }
+	internal IServiceCollection Services { get; set; } = services;
 }

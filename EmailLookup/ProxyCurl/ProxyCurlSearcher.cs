@@ -11,15 +11,10 @@ namespace EmailLookup.Core.ProxyCurl;
 /// return information on someone derived from their LinkedIn page. Requires API keys for
 /// ProxyCurl and Google Custom search, as well as a Google Custom Search CX, to work.
 /// </summary>
-public class ProxyCurlSearcher : IPersonSearcher
+public class ProxyCurlSearcher(ProxyCurlConfig config) : IPersonSearcher
 {
 	private readonly HttpClient _client = new();
-	private readonly ProxyCurlConfig _config = new();
-
-	public ProxyCurlSearcher(ProxyCurlConfig config)
-	{
-		_config = config;
-	}
+	private readonly ProxyCurlConfig _config = config;
 
 	/// <summary>
 	/// Attempts to get a LinkedIn URL from a Google Custom Search, and uses the ProxyCurl

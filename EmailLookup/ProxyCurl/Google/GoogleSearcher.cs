@@ -4,19 +4,12 @@ using System.Net.Http.Headers;
 
 namespace EmailLookup.Core.ProxyCurl.Google;
 
-public class GoogleSearcher
+public class GoogleSearcher(string googleCx, string googleKey, string linkedInKey)
 {
-	private readonly string _googleCx;
-	private readonly string _googleKey;
-	private readonly string _linkedInKey;
+	private readonly string _googleCx = googleCx;
+	private readonly string _googleKey = googleKey;
+	private readonly string _linkedInKey = linkedInKey;
 	private readonly HttpClient _client = new();
-
-	public GoogleSearcher(string googleCx, string googleKey, string linkedInKey)
-	{
-		_googleCx = googleCx;
-		_googleKey = googleKey;
-		_linkedInKey = linkedInKey;
-	}
 
 	public async Task<Profile> SearchLinkedInAsync(
 	   string address,
