@@ -4,7 +4,8 @@ namespace EmailLookup.Test;
 
 public class CompanySearcherTests : TestBase
 {
-	private List<string> Words { get; set; } = [
+	private readonly CompanySearcher _defaultSearcher = new();
+	private readonly CompanySearcher _suppliedWordsSearcher = new([
 		"am",
 		"bar",
 		"or",
@@ -12,22 +13,14 @@ public class CompanySearcherTests : TestBase
 		"Panoramic",
 		"Panoramic/M",
 		"data"
-	];
+	]);
 
-	[Fact]
-	public void CompanySearcher_WithSuppliedWordList_WithFindableCompany_Succeeds()
+	[Theory]
+	[InlineData("panoramicdata", "Panoramic Data")]
+	[InlineData("startingot", "Start Ingot")]
+	public void CompanySearcher_WithFindableCompany_Succeeds(string fqdnFirstPart, string companyName)
 	{
-		var searcher = new CompanySearcher(Words);
-
-		var result = searcher.GetCompanyNameFromDomain("panoramicdata");
-		result.Should().Be("Panoramic Data");
-	}
-
-	[Fact]
-	public void CompanySearcher_WithNoSuppliedWordList_WithFindableCompany_Succeeds()
-	{
-		var searcher = new CompanySearcher();
-		var result = searcher.GetCompanyNameFromDomain("panoramicdata");
-		result.Should().Be("Panoramic Data");
+		_defaultSearcher.GetCompanyNameFromDomain(fqdnFirstPart).Should().Be(companyName);
+		_suppliedWordsSearcher.GetCompanyNameFromDomain(fqdnFirstPart).Should().Be(companyName);
 	}
 }

@@ -28,7 +28,8 @@ public partial class CompanySearcher(IReadOnlyCollection<string>? words = null)
 				// Exclude swear words
 				.Where(w => !w.Contains('!'))
 				// Ignore characters after a slash
-				.Select(w => w.Split('/')[0].ToLowerInvariant())
+				.Select(w => w.Split('/')[0].ToLowerInvariant().Trim())
+				.Distinct()
 				.ToList();
 			_hasLowerCased = true;
 		}
@@ -67,7 +68,7 @@ public partial class CompanySearcher(IReadOnlyCollection<string>? words = null)
 		}
 
 		var wordsThatStartTheRemainingString = _words
-			.Where(w => w.StartsWith(remainingString[0]))
+			.Where(w => remainingString.StartsWith(w, StringComparison.Ordinal))
 			.OrderByDescending(w => w.Length)
 			.ToList();
 
