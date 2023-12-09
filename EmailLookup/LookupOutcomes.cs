@@ -1,11 +1,10 @@
-﻿namespace EmailLookup.Core
+﻿namespace EmailLookup.Core;
+
+/// <summary>
+/// Enum indicating whether a searcher succeeding in populating a profile.
+/// </summary>
+public enum LookupOutcomes
 {
-	/// <summary>
-	/// Enum indicating whether a searcher succeeding in populating a profile.
-	/// </summary>
-	public enum LookupOutcomes
-	{
-		NotFound = 0,
-		Found = 1
-	}
+	NotFound = 0,
+	Found = 1
 }

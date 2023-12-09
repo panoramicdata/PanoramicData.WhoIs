@@ -2,54 +2,53 @@
 using EmailLookup.CustomExceptions;
 using FluentAssertions;
 
-namespace EmailLookup.Test
+namespace EmailLookup.Test;
+
+public class PersonSearcherTests : TestBase
 {
-	public class PersonSearcherTests : TestBase
+	[Fact]
+	public async Task PersonSearcher_WithInvalidEmailAddress_ShouldThrowException()
 	{
-		[Fact]
-		public async Task PersonSearcher_WithInvalidEmailAddress_ShouldThrowException()
+		var searcher = new PersonSearcher(new List<IPersonSearcher> { FakeSearcher });
+
+		Func<Task> getResponse = async () =>
 		{
-			var searcher = new PersonSearcher(new List<IPersonSearcher> { FakeSearcher });
+			await searcher
+			.LookupProfileAsync("asdfghjkl")
+			.ConfigureAwait(false);
+		};
+		await getResponse.Should().ThrowAsync<InvalidEmailException>();
+	}
 
-			Func<Task> getResponse = async () =>
-			{
-				await searcher
-				.LookupProfileAsync("asdfghjkl")
-				.ConfigureAwait(false);
-			};
-			await getResponse.Should().ThrowAsync<InvalidEmailException>();
-		}
+	[Fact]
+	public async Task PersonSearcher_WithTwoSearchers_ShouldPrioritiseFirstSearcherResults()
+	{
+		var searcher = new PersonSearcher(new List<IPersonSearcher> { FakeSearcher, AnotherFakeSearcher });
 
-		[Fact]
-		public async Task PersonSearcher_WithTwoSearchers_ShouldPrioritiseFirstSearcherResults()
-		{
-			var searcher = new PersonSearcher(new List<IPersonSearcher> { FakeSearcher, AnotherFakeSearcher });
+		var response = await searcher
+			.LookupProfileAsync(exampleEmail)
+			.ConfigureAwait(false);
+		response.Profile.FirstName.Should().Be("first");
+	}
 
-			var response = await searcher
-				.LookupProfileAsync(exampleEmail)
-				.ConfigureAwait(false);
-			response.Profile.FirstName.Should().Be("first");
-		}
+	[Fact]
+	public async Task ProfileMerger_MergingTwoProfilesWithPopulatedLanguageLists_CanMergeSuccessfully()
+	{
+		var searcher = new PersonSearcher(new List<IPersonSearcher> { FakeSearcher, AnotherFakeSearcher });
+		var response = await searcher
+			.LookupProfileAsync(exampleEmail)
+			.ConfigureAwait(false);
+		response.Profile.Languages.Should().Contain("english");
+		response.Profile.Languages.Should().Contain("french");
+	}
 
-		[Fact]
-		public async Task ProfileMerger_MergingTwoProfilesWithPopulatedLanguageLists_CanMergeSuccessfully()
-		{
-			var searcher = new PersonSearcher(new List<IPersonSearcher> { FakeSearcher, AnotherFakeSearcher });
-			var response = await searcher
-				.LookupProfileAsync(exampleEmail)
-				.ConfigureAwait(false);
-			response.Profile.Languages.Should().Contain("english");
-			response.Profile.Languages.Should().Contain("french");
-		}
-
-		[Fact]
-		public async Task ProfileMerger_IfFirstProfileNotFound_SecondShouldOverride()
-		{
-			var searcher = new PersonSearcher(new List<IPersonSearcher> { NotFoundSearcher, FakeSearcher });
-			var response = await searcher
-				.LookupProfileAsync(exampleEmail)
-				.ConfigureAwait(false);
-			response.Profile.FirstName.Should().Be("first");
-		}
+	[Fact]
+	public async Task ProfileMerger_IfFirstProfileNotFound_SecondShouldOverride()
+	{
+		var searcher = new PersonSearcher(new List<IPersonSearcher> { NotFoundSearcher, FakeSearcher });
+		var response = await searcher
+			.LookupProfileAsync(exampleEmail)
+			.ConfigureAwait(false);
+		response.Profile.FirstName.Should().Be("first");
 	}
 }

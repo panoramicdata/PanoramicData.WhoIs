@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 
-namespace EmailLookup.Core.ProxyCurl.Google
-{
+namespace EmailLookup.Core.ProxyCurl.Google;
+
     public class PageMapMetatags
     {
         [JsonProperty("og:description")]
@@ -13,4 +13,3 @@ namespace EmailLookup.Core.ProxyCurl.Google
         [JsonProperty("og:title")]
         public string OgTitle { get; set; } = string.Empty;
     }
-}

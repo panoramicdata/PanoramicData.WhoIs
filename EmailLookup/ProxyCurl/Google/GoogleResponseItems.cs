@@ -1,5 +1,5 @@
-﻿namespace EmailLookup.Core.ProxyCurl.Google
-{
+﻿namespace EmailLookup.Core.ProxyCurl.Google;
+
     public class GoogleResponseItems
     {
         public string Kind { get; set; } = string.Empty;
@@ -12,4 +12,3 @@
 
         public ResponseItemPageMap PageMap { get; set; } = new();
     }
-}

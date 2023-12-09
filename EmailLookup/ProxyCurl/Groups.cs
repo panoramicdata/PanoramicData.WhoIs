@@ -1,7 +1,7 @@
 ﻿using System.Runtime.Serialization;
 
-namespace EmailLookup.Core.ProxyCurl
-{
+namespace EmailLookup.Core.ProxyCurl;
+
     /// <summary>
     /// List of LinkedIn groups that this user is a part of
     /// </summary>
@@ -20,4 +20,3 @@ namespace EmailLookup.Core.ProxyCurl
         [DataMember(Name = "url")]
         public string Url { get; set; } = string.Empty;
     }
-}

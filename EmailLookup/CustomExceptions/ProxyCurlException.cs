@@ -5,19 +5,18 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EmailLookup.CustomExceptions
-{
-	[Serializable]
-	public class ProxyCurlException : Exception
-	{
-		public ProxyCurlException() { }
-		public ProxyCurlException(string message)
-			: base(message)
-		{ }
+namespace EmailLookup.CustomExceptions;
 
-		protected ProxyCurlException(SerializationInfo serializationInfo, StreamingContext streamingContext)
-		{
-			throw new NotImplementedException();
-		}
+[Serializable]
+public class ProxyCurlException : Exception
+{
+	public ProxyCurlException() { }
+	public ProxyCurlException(string message)
+		: base(message)
+	{ }
+
+	protected ProxyCurlException(SerializationInfo serializationInfo, StreamingContext streamingContext)
+	{
+		throw new NotImplementedException();
 	}
 }

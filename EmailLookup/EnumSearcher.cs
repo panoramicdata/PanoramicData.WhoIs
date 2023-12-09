@@ -1,40 +1,39 @@
 ﻿using System.Collections;
 
-namespace EmailLookup.Core
+namespace EmailLookup.Core;
+
+public class EnumSearcher : IEnumerator
 {
-	public class EnumSearcher : IEnumerator
+	private readonly IPersonSearcher[] _searcher;
+
+	int _position = -1;
+
+	public EnumSearcher(IPersonSearcher[] searchers)
 	{
-		private readonly IPersonSearcher[] _searcher;
+		_searcher = searchers;
+	}
 
-		int _position = -1;
+	public bool MoveNext()
+	{
+		_position++;
+		return (_position < _searcher.Length);
+	}
 
-		public EnumSearcher(IPersonSearcher[] searchers)
+	public void Reset() => _position = -1;
+
+	object IEnumerator.Current => Current;
+
+	public IPersonSearcher Current
+	{
+		get
 		{
-			_searcher = searchers;
-		}
-
-		public bool MoveNext()
-		{
-			_position++;
-			return (_position < _searcher.Length);
-		}
-
-		public void Reset() => _position = -1;
-
-		object IEnumerator.Current => Current;
-
-		public IPersonSearcher Current
-		{
-			get
+			try
 			{
-				try
-				{
-					return _searcher[_position];
-				}
-				catch
-				{
-					throw new InvalidOperationException();
-				}
+				return _searcher[_position];
+			}
+			catch
+			{
+				throw new InvalidOperationException();
 			}
 		}
 	}

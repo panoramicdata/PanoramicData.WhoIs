@@ -1,11 +1,10 @@
 ﻿using EmailLookup.ProfileResult;
 using Whois;
 
-namespace EmailLookup.Core
+namespace EmailLookup.Core;
+
+public class PersonSearcherResult
 {
-	public class PersonSearcherResult
-	{
-		public WhoisResponse? WhoIs { get; set; }
-		public Profile? ProxyCurl { get; set; }
-	}
+	public WhoisResponse? WhoIs { get; set; }
+	public Profile? ProxyCurl { get; set; }
 }

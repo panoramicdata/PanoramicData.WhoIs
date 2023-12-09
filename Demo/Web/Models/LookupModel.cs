@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace EmailLookup.Demo.Web.Models
+namespace EmailLookup.Demo.Web.Models;
+
+public class LookupModel
 {
-	public class LookupModel
-	{
-		[Required]
-		public string EmailAddress { get; set; } = string.Empty;
-	}
+	[Required]
+	public string EmailAddress { get; set; } = string.Empty;
 }

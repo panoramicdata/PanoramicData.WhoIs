@@ -1,9 +1,8 @@
-﻿namespace EmailLookup.Core.ProxyCurl.Google
-{
+﻿namespace EmailLookup.Core.ProxyCurl.Google;
+
    public class GoogleResponseUrl
    {
-	  public string Type { get; set; } = string.Empty;
+  public string Type { get; set; } = string.Empty;
 
-	  public string Template { get; set; } = string.Empty;
+  public string Template { get; set; } = string.Empty;
    }
-}

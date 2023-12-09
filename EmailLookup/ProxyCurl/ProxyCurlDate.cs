@@ -1,7 +1,7 @@
 ﻿using System.Runtime.Serialization;
 
-namespace EmailLookup.Core.ProxyCurl
-{
+namespace EmailLookup.Core.ProxyCurl;
+
     /// <summary>
     /// Date
     /// </summary>
@@ -26,4 +26,3 @@ namespace EmailLookup.Core.ProxyCurl
         [DataMember(Name = "year")]
         public int Year { get; set; }
     }
-}

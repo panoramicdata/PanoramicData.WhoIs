@@ -1,7 +1,7 @@
 ﻿using System.Runtime.Serialization;
 
-namespace EmailLookup.Core.ProxyCurl
-{
+namespace EmailLookup.Core.ProxyCurl;
+
     /// <summary>
     /// List of historic work experiences
     /// </summary>
@@ -50,4 +50,3 @@ namespace EmailLookup.Core.ProxyCurl
         [DataMember(Name = "description")]
         public string Description { get; set; } = string.Empty;
     }
-}

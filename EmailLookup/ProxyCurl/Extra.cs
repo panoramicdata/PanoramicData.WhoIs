@@ -1,7 +1,7 @@
 ﻿using System.Runtime.Serialization;
 
-namespace EmailLookup.Core.ProxyCurl
-{
+namespace EmailLookup.Core.ProxyCurl;
+
     /// <summary>
     /// Bundle of extra data on the user
     /// </summary>
@@ -26,4 +26,3 @@ namespace EmailLookup.Core.ProxyCurl
         [DataMember(Name = "twitter_profile_id")]
         public string TwitterProfileId { get; set; } = string.Empty;
     }
-}

@@ -1,7 +1,7 @@
 ﻿using System.Runtime.Serialization;
 
-namespace EmailLookup.Core.ProxyCurl
-{
+namespace EmailLookup.Core.ProxyCurl;
+
     /// <summary>
     /// A list of other LinkedIn profiles closely related to this user
     /// </summary>
@@ -32,4 +32,3 @@ namespace EmailLookup.Core.ProxyCurl
         [DataMember(Name = "location")]
         public string Location { get; set; } = string.Empty;
     }
-}

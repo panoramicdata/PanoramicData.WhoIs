@@ -3,63 +3,62 @@ using EmailLookup.Core.ProxyCurl;
 using EmailLookup.CustomExceptions;
 using FluentAssertions;
 
-namespace EmailLookup.IntegrationTest
+namespace EmailLookup.IntegrationTest;
+
+public class LinkedInSearcherTests : TestBase
 {
-	public class LinkedInSearcherTests : TestBase
+	[Fact]
+	public async Task LinkedInSearcher_WithValidEmailAddress_ShouldReturnResults()
 	{
-		[Fact]
-		public async Task LinkedInSearcher_WithValidEmailAddress_ShouldReturnResults()
+		var response = await ProxyCurlSearcher
+			.SearchAsync(new Person(ValidEmailAddress))
+			.ConfigureAwait(false);
+
+		response.FirstName.Should().Be(ValidFirstname);
+	}
+
+	[Fact]
+	public async Task LinkedInSearcher_WithInvalidEmail_ShouldThrowException()
+	{
+		Func<Task> getResponse = async () =>
 		{
-			var response = await ProxyCurlSearcher
-				.SearchAsync(new Person(ValidEmailAddress))
-				.ConfigureAwait(false);
+			await ProxyCurlSearcher
+			.PersonProfileLookupAsync("https://www.linkedin.com/in/thisprofiledoesnotexist", default)
+			.ConfigureAwait(false);
+		};
 
-			response.FirstName.Should().Be(ValidFirstname);
-		}
+		await getResponse.Should().ThrowAsync<ProxyCurlException>();
+	}
 
-		[Fact]
-		public async Task LinkedInSearcher_WithInvalidEmail_ShouldThrowException()
+	[Fact]
+	public async Task LinkedInSearcher_WithInvalidKey_ShouldThrowException()
+	{
+		var badKeySearcher = new ProxyCurlSearcher(new ProxyCurlConfig
 		{
-			Func<Task> getResponse = async () =>
-			{
-				await ProxyCurlSearcher
-				.PersonProfileLookupAsync("https://www.linkedin.com/in/thisprofiledoesnotexist", default)
-				.ConfigureAwait(false);
-			};
+			GoogleCx = "invalid",
+			GoogleKey = "invalid",
+			ProxyCurlKey = "invalid"
+		});
 
-			await getResponse.Should().ThrowAsync<ProxyCurlException>();
-		}
-
-		[Fact]
-		public async Task LinkedInSearcher_WithInvalidKey_ShouldThrowException()
+		Func<Task> getResponse = async () =>
 		{
-			var badKeySearcher = new ProxyCurlSearcher(new ProxyCurlConfig
-			{
-				GoogleCx = "invalid",
-				GoogleKey = "invalid",
-				ProxyCurlKey = "invalid"
-			});
+			await badKeySearcher
+			.PersonProfileLookupAsync(ValidProfileUrl, default)
+			.ConfigureAwait(false);
+		};
 
-			Func<Task> getResponse = async () =>
-			{
-				await badKeySearcher
-				.PersonProfileLookupAsync(ValidProfileUrl, default)
-				.ConfigureAwait(false);
-			};
-
-			await getResponse.Should().ThrowAsync<ProxyCurlException>();
-		}
-		[Fact]
-		public async Task LookupProfileAsync_FakeEmailAddress_ShouldThrowNoProfileException()
+		await getResponse.Should().ThrowAsync<ProxyCurlException>();
+	}
+	[Fact]
+	public async Task LookupProfileAsync_FakeEmailAddress_ShouldThrowNoProfileException()
+	{
+		Func<Task> getResponse = async () =>
 		{
-			Func<Task> getResponse = async () =>
-			{
-				await PersonSearcher
-				.LookupProfileAsync("fakename.daniels@hotmail.com")
-				.ConfigureAwait(false);
-			};
+			await PersonSearcher
+			.LookupProfileAsync("fakename.daniels@hotmail.com")
+			.ConfigureAwait(false);
+		};
 
-			await getResponse.Should().ThrowAsync<ProxyCurlException>();
-		}
+		await getResponse.Should().ThrowAsync<ProxyCurlException>();
 	}
 }

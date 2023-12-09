@@ -1,7 +1,7 @@
 ﻿using System.Runtime.Serialization;
 
-namespace EmailLookup.Core.ProxyCurl
-{
+namespace EmailLookup.Core.ProxyCurl;
+
     /// <summary>
     /// List of noteworthy certifications accomplished by this user
     /// </summary>
@@ -50,4 +50,3 @@ namespace EmailLookup.Core.ProxyCurl
         [DataMember(Name = "url")]
         public string Url { get; set; } = string.Empty;
     }
-}
