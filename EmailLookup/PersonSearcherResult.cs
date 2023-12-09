@@ -1,5 +1,4 @@
-﻿using EmailLookup.Core.ProxyCurl;
-using EmailLookup.Core.ProxyCurl.Google;
+﻿using EmailLookup.ProfileResult;
 using Whois;
 
 namespace EmailLookup.Core

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using EmailLookup.IntegrationTest;
+using Microsoft.Extensions.Configuration;
 
 namespace EmailLookup.Test.Helpers
 {
