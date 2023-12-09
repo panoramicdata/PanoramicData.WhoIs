@@ -6,13 +6,13 @@ namespace EmailLookup.Core.Configuration
 	public static class EmailLookupConfigExtensions
 	{
 
-		public static EmailLookupConfig AddProxyCurl(this EmailLookupConfig options, string googleCx, string googleKey, string linkedInKey)
+		public static EmailLookupConfig AddProxyCurl(this EmailLookupConfig options, string googleCx, string googleKey, string proxyCurlKey)
 		{
-			ProxyCurl.ProxyCurlConfig proxyCurlConfig = new()
+			ProxyCurlConfig proxyCurlConfig = new()
 			{
 				GoogleCx = googleCx,
 				GoogleKey = googleKey,
-				ProxyCurlKey = linkedInKey
+				ProxyCurlKey = proxyCurlKey
 			};
 
 			options.Services.AddTransient<IPersonSearcher, ProxyCurlSearcher>();

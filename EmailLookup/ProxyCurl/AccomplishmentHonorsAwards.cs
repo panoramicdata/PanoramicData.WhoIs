@@ -24,7 +24,7 @@ namespace EmailLookup.Core.ProxyCurl
         /// Date honor/award was issued on
         /// </summary>
         [DataMember(Name = "issued_on")]
-        public Date IssuedOn { get; set; } = new();
+        public ProxyCurlDate IssuedOn { get; set; } = new();
 
         /// <summary>
         /// Description

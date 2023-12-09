@@ -12,18 +12,24 @@ namespace EmailLookup.Core.ProxyCurl
         /// Start date of project
         /// </summary>
         [DataMember(Name = "starts_at")]
-        public Date StartsAt { get; set; } = new();
+        public ProxyCurlDate StartsAt { get; set; } = new();
 
         /// <summary>
         /// End date of project
         /// </summary>
         [DataMember(Name = "ends_at")]
-        public Date EndsAt { get; set; } = new();
+        public ProxyCurlDate EndsAt { get; set; } = new();
 
-        /// <summary>
-        /// Organisation body that issued the patent
-        /// </summary>
-        [DataMember(Name = "issuer")]
-        public string Issuer { get; set; } = string.Empty;
-    }
+		/// <summary>
+		/// Name of the project that has been or is currently being worked on.
+		/// </summary>
+		[DataMember(Name = "title")]
+        public string Title { get; set; } = string.Empty;
+
+		/// <summary>
+		/// Description of the project.
+		/// </summary>
+		[DataMember(Name = "description")]
+		public string Description { get; set; } = string.Empty;
+	}
 }

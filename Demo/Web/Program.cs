@@ -1,16 +1,19 @@
 using EmailLookup.Core.Configuration;
+using EmailLookup.Core.ProxyCurl;
 
 namespace EmailLookup.Demo.Web;
 
-public class Program
+public static class Program
 {
 	public static void Main(string[] args)
 	{
 		var builder = WebApplication.CreateBuilder(args);
+		var proxyCurlConfig = builder.Configuration
+			.GetSection("ProxyCurlConfig")
+			.Get<ProxyCurlConfig>();
 
-		// TODO: Replace with lookup of values from config
 		builder.Services.AddEmailLookup(opt => opt
-			.AddProxyCurl("1501e4a4050ced422", "AIzaSyAyujHqqnhB8SAdn2DsmuWD75PfzlXbfdY", "jRnkhB5kx8UwrdNRDltJtg")
+			.AddProxyCurl(proxyCurlConfig.GoogleCx, proxyCurlConfig.GoogleKey, proxyCurlConfig.ProxyCurlKey)
 			.AddWhoIs()
 			);
 

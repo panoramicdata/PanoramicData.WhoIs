@@ -24,7 +24,7 @@ namespace EmailLookup.Core.ProxyCurl
         /// Date test was assessed
         /// </summary>
         [DataMember(Name = "date_on")]
-        public Date DateOn { get; set; } = new();
+        public ProxyCurlDate DateOn { get; set; } = new();
 
         /// <summary>
         /// Description of the test score

@@ -1,40 +1,35 @@
-﻿using EmailLookup.Core.ProxyCurl;
-using EmailLookup.Test.Helpers;
-using Microsoft.Extensions.Configuration;
+﻿using EmailLookup.ProfileResult;
+using EmailLookup.Test.Fakes;
 
 namespace EmailLookup.Test;
 
 public abstract class TestBase
 {
-	public TestBase()
+	protected FakePersonSearcher FakeSearcher { get; }
+	protected FakePersonSearcher AnotherFakeSearcher { get; }
+	protected FakePersonSearcher NotFoundSearcher { get; }
+	protected string exampleEmail { get; } = string.Empty;
+
+	protected TestBase()
 	{
-		// Load appsettings
-		var builder = new ConfigurationBuilder();
-		builder.AddJsonFile("appsettings.json");
-		var configuration = builder.Build();
-		var appSettings = configuration
-		   .GetSection("AppSettings")
-		   .Get<AppSettings>();
-
-		ProxyCurlSearcher = new ProxyCurlSearcher(
-		   appSettings.GoogleCx,
-		   appSettings.GoogleKey,
-		   appSettings.ProxyCurlKey
-		);
-
-		//PersonSearcher = new Core.PersonSearcher(
-		//   appSettings.GoogleCx,
-		//   appSettings.GoogleKey,
-		//   appSettings.ProxyCurlKey
-		//);
-
-		PersonSearcher = new PersonSearcherBuilder()
-			.WithProxyCurlSearcher()
-			.WithWhoIsSearcher()
-			.Build();
-
+		FakeSearcher = new FakePersonSearcher(new Profile
+		{
+			FirstName = "first",
+			Languages = new List<string> { "english" },
+			Outcome = Core.LookupOutcomes.Found
+		});
+		AnotherFakeSearcher = new FakePersonSearcher(new Profile
+		{
+			FirstName = "second",
+			Languages = new List<string> { "french" },
+			Outcome = Core.LookupOutcomes.Found
+		});
+		NotFoundSearcher = new FakePersonSearcher(new Profile
+		{
+			FirstName = "",
+			Outcome = Core.LookupOutcomes.NotFound
+		});
+		exampleEmail = "example@hotmail.com";
 	}
 
-	protected ProxyCurlSearcher ProxyCurlSearcher { get; }
-	protected Core.PersonSearcher PersonSearcher { get; }
 }

@@ -8,17 +8,7 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="appsettings.example.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="appsettings.example.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
+<ItemGroup>
     <PackageReference Include="FluentAssertions" Version="6.6.0" />
     <PackageReference Include="FluentValidation" Version="11.0.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0" />
@@ -33,10 +23,10 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-  </ItemGroup>
+</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\EmailLookup\EmailLookup.csproj" />
-  </ItemGroup>
+<ItemGroup>
+	<ProjectReference Include="..\EmailLookup\EmailLookup.csproj" />
+</ItemGroup>
 
 </Project>

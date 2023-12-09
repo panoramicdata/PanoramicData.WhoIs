@@ -6,7 +6,7 @@ namespace EmailLookup.Core.ProxyCurl
     /// Date
     /// </summary>
     [DataContract]
-    public class Date
+    public class ProxyCurlDate
     {
         /// <summary>
         /// Day

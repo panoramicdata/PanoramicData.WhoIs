@@ -1,4 +1,5 @@
-﻿using Whois;
+﻿using EmailLookup.ProfileResult;
+using Whois;
 
 namespace EmailLookup.Core.ProxyCurl
 {
@@ -7,24 +8,26 @@ namespace EmailLookup.Core.ProxyCurl
 
 		internal static Profile ToProfile(this WhoisResponse personInformation)
 		{
-			Profile profile = new Profile();
-
-			profile.DomainName = personInformation.DomainName.Value;
-			profile.RegistryDomainId = personInformation.RegistryDomainId;
-			profile.RegistrarWhoIsServer = personInformation.WhoisServer.Value;
-			profile.RegistrarUrl = personInformation.Registrar.Url;
-			profile.UpdatedDate = personInformation.Updated;
-			profile.CreationDate = personInformation.Registered;
-			profile.RegistrarRegistrationExpirationDate = personInformation.Expiration;
-			profile.Registrar = personInformation.Registrar.Name;
-			profile.RegistrarIANAId = personInformation.Registrar.IanaId;
-			profile.RegistrarAbuseContactEmail = personInformation.Registrar.AbuseEmail;
-			profile.RegistrarAbuseContactPhone = personInformation.Registrar.AbuseTelephoneNumber;
-			profile.DomainStatus = personInformation.DomainStatus[0];
-			profile.RegistrantOrganization = personInformation.Registrant.Organization;
-			profile.RegistrantState = personInformation.Registrant.Address[0];
-			profile.RegistrantCountry = personInformation.Registrant.Address[1];
-			profile.RegistrantEmail = personInformation.Registrant.Email;
+			var profile = new Profile
+			{
+				Outcome = LookupOutcomes.Found,
+				DomainName = personInformation.DomainName?.Value ?? string.Empty,
+				RegistryDomainId = personInformation.RegistryDomainId,
+				RegistrarWhoIsServer = personInformation.WhoisServer.Value,
+				RegistrarUrl = personInformation.Registrar.Url,
+				UpdatedDate = personInformation.Updated,
+				CreationDate = personInformation.Registered,
+				RegistrarRegistrationExpirationDate = personInformation.Expiration,
+				Registrar = personInformation.Registrar.Name,
+				RegistrarIANAId = personInformation.Registrar.IanaId,
+				RegistrarAbuseContactEmail = personInformation.Registrar.AbuseEmail,
+				RegistrarAbuseContactPhone = personInformation.Registrar.AbuseTelephoneNumber,
+				DomainStatus = personInformation.DomainStatus[0],
+				RegistrantOrganization = personInformation.Registrant.Organization,
+				RegistrantState = personInformation.Registrant.Address[0],
+				RegistrantCountry = personInformation.Registrant.Address[1],
+				RegistrantEmail = personInformation.Registrant.Email
+			};
 
 			return profile;
 		}

@@ -150,7 +150,7 @@ namespace EmailLookup.Core.ProxyCurl
 		/// Total count of LinkedIn connections
 		/// </summary>
 		[DataMember(Name = "connections")]
-		public int Connections { get; set; }
+		public int? Connections { get; set; }
 
 		/// <summary>
 		/// List of other LinkedIn profiles closely related to this user
@@ -192,7 +192,7 @@ namespace EmailLookup.Core.ProxyCurl
 		/// Birth date of the user
 		/// </summary>
 		[DataMember(Name = "birth_date")]
-		public Date BirthDate { get; set; } = new();
+		public ProxyCurlDate BirthDate { get; set; } = new();
 
 		/// <summary>
 		/// Industry that the user works in

@@ -24,7 +24,7 @@ namespace EmailLookup.Core.ProxyCurl
 		/// Date of publishing
 		/// </summary>
 		[DataMember(Name = "published_date")]
-		public Date PublishedDate { get; set; } = new();
+		public ProxyCurlDate PublishedDate { get; set; } = new();
 
 		/// <summary>
 		/// Author

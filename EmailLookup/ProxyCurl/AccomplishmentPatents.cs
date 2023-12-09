@@ -24,7 +24,7 @@ namespace EmailLookup.Core.ProxyCurl
         /// Date of patent issuance
         /// </summary>
         [DataMember(Name = "issued_on")]
-        public Date IssuedOn { get; set; } = new();
+        public ProxyCurlDate IssuedOn { get; set; } = new();
 
         /// <summary>
         /// Application number of the patent

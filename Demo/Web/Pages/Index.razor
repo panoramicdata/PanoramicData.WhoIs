@@ -6,13 +6,427 @@
 
 <EditForm Model="_lookupData" OnValidSubmit="LookupAsync">
     <DataAnnotationsValidator/>
-    <div>
-        <label>Email Address:</label>
-        <InputText @bind-Value="_lookupData.EmailAddress" />
-        <button type="submit">Look up</button>
+    <div class="parameters-section">
+        <div>
+            <label>Email Address:</label>
+        </div>
+        <div>
+            <InputText class="email-input" @bind-Value="_lookupData.EmailAddress" />
+            <ValidationMessage For="() => _lookupData.EmailAddress" />
+        </div>
+        <div></div>
+        <div class="action-buttons">
+            <input type="submit" value="Look up" disabled="@_searchDisabled" />
+        </div>
     </div>
 </EditForm>
 
-<div>
+<div class="results-message">
     @_message
 </div>
+
+@if (_showResults)
+{
+    <h2>Personal Information</h2>
+    <div class="results-section">
+        <div class="results-section-header">Basic details:</div>
+        <div class="results-table">
+            <div>
+                First Name:
+            </div>
+            <div>
+                @_searchResults?.FirstName
+            </div>
+            <div>
+                Last Name:
+            </div>
+            <div>
+                @_searchResults?.LastName
+            </div>
+            @if(!string.IsNullOrWhiteSpace(_searchResults?.Occupation))
+            {
+                <div>
+                    Occupation:
+                </div>
+                <div>
+                    @_searchResults?.Occupation
+                </div>
+            }
+            @if(_searchResults?.Age > 0)
+            {
+                <div>
+                    Age:
+                </div>
+                <div>
+                    @_searchResults?.Age
+                </div>
+            }
+            @if (!string.IsNullOrWhiteSpace(_searchResults?.Gender))
+            {
+                <div>
+                    Gender:
+                </div>
+                <div>
+                    @_searchResults?.Gender
+                </div>
+            }
+            @if(!string.IsNullOrWhiteSpace(_searchResults?.Country))
+            {
+                <div>
+                    Country:
+                </div>
+                <div>
+                    @_searchResults?.Country
+                </div>
+            }
+            @if(!string.IsNullOrWhiteSpace(_searchResults?.City))
+            {
+                <div>
+                    City:
+                </div>
+                <div>
+                    @_searchResults?.City
+                </div>
+            }
+            @if(!string.IsNullOrWhiteSpace(_searchResults?.State))
+            {
+                <div>
+                    State:
+                </div>
+                <div>
+                    @_searchResults?.State
+                </div>
+            }
+            @if((!string.IsNullOrWhiteSpace(_searchResults?.InferredSalaryMax)) && (!string.IsNullOrWhiteSpace(_searchResults?.InferredSalaryMin)))
+            {
+                <div>
+                    Inferred Salary:
+                </div>
+                <div>
+                    @_searchResults?.InferredSalaryMin
+                </div>
+                <div>
+                    @_searchResults?.InferredSalaryMax
+                </div>
+            }
+        </div>
+        @if (_searchResults?.Languages.Count > 0)
+        {
+            <div class="results-section-header">Languages:</div>
+            <div class="results-table">
+                @foreach (var lang in _searchResults.Languages)
+                {
+                    <div>
+                        @lang
+                    </div>
+                }
+            </div>
+        }
+        @if (_searchResults?.PersonalEmails.Count > 0)
+        {
+            <div class="results-section-header">Emails:</div>
+            <div class="results-table">
+                @foreach (var email in _searchResults.PersonalEmails)
+                {
+                    <div>
+                        @email
+                    </div>
+                    <br />
+                }
+            </div>
+        }
+        @if (_searchResults?.PersonalNumbers.Count > 0)
+        {
+            <div class="results-section-header">Phone numbers:</div>
+            <div class="results-table">
+                @foreach (var number in _searchResults.PersonalNumbers)
+                {
+                    <div>
+                        @number
+                    </div>
+                    <br />
+                }
+            </div>
+        }
+        @if (_searchResults?.Education.Count > 0)
+        {
+            <div class="results-section-header">Education:</div>
+            <div class="results-table">
+                @foreach (var award in _searchResults.Education)
+                {
+                    <div>
+                        Field of Study:
+                    </div>
+                    <div>
+                        @award.FieldOfStudy
+                    </div>
+                    <div>
+                        Degree Name:
+                    </div>
+                    <div>
+                        @award.DegreeName
+                    </div>
+                    <div>
+                        School:
+                    </div>
+                    <div>
+                        @award.School
+                    </div>
+                    <div>
+                        Description:
+                    </div>
+                    <div>
+                        @award.Description
+                    </div>
+                    <div>
+                        ---
+                    </div>
+                    <div>
+                        ---
+                    </div>
+                }
+            </div>
+        }
+        @if (_searchResults?.Experiences.Count > 0)
+        {
+            <div class="results-section-header">Experiences:</div>
+            <div class="results-table">
+                @foreach (var experience in _searchResults.Experiences)
+                {
+                    <div>
+                        Company:
+                    </div>
+                    <div>
+                        @experience.Company
+                    </div>
+                    <div>
+                        Title:
+                    </div>
+                    <div>
+                        @experience.Title
+                    </div>
+                    <div>
+                        Description:
+                    </div>
+                    <div>
+                        @experience.Description
+                    </div>
+                    <div>
+                        Location:
+                    </div>
+                    <div>
+                        @experience.Location
+                    </div>
+                    <div>
+                        ---
+                    </div>
+                    <div>
+                        ---
+                    </div>
+                }
+            </div>
+        }
+        @if (_searchResults?.Awards.Count > 0)
+        {
+            <div class="results-section-header">Awards:</div>
+            <div class="results-table">
+                @foreach (var award in _searchResults.Awards)
+                {
+                    <div>
+                        Title:
+                    </div>
+                    <div>
+                        @award.Title
+                    </div>
+                    <div>
+                        Issuer:
+                    </div>
+                    <div>
+                        @award.Issuer
+                    </div>
+                    <div>
+                        Description:
+                    </div>
+                    <div>
+                        @award.Description
+                    </div>
+                }
+            </div>
+        }
+        @if (_searchResults?.Courses.Count > 0)
+        {
+            <div class="results-section-header">Courses:</div>
+            <div class="results-table">
+                @foreach (var course in _searchResults.Courses)
+                {
+                    <div>
+                        Course Name:
+                    </div>
+                    <div>
+                        @course.Name
+                    </div>
+                }
+            </div>
+        }
+        @if (_searchResults?.Projects.Count > 0)
+        {
+            <div class="results-section-header">Awards:</div>
+            <div class="results-table">
+                @foreach (var project in _searchResults.Projects)
+                {
+                    <div>
+                        Title:
+                    </div>
+                    <div>
+                        @project.Title
+                    </div>
+                    <div>
+                        Description:
+                    </div>
+                    <div>
+                        @project.Description
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+    <h2>Company Information</h2>
+    <div class="results-section">
+        <div class="results-section-header">Domain Information</div>
+        <div class="results-table">
+            @if(!string.IsNullOrWhiteSpace(_searchResults?.DomainName))
+            {
+                <div>
+                    Domain Name:
+                </div>
+                <div>
+                    @_searchResults?.DomainName
+                </div>
+            }
+            @if(!string.IsNullOrWhiteSpace(_searchResults?.DomainStatus))
+            {
+                <div>
+                    Domain Status:
+                </div>
+                <div>
+                    @_searchResults?.DomainStatus
+                </div>
+            }
+            @if(_searchResults?.CreationDate is not null)
+            {
+                <div>
+                    Creation Date:
+                </div>
+                <div>
+                    @_searchResults?.CreationDate
+                </div>
+            }
+            @if(_searchResults?.UpdatedDate is not null)
+            {
+                <div>
+                    Updated:
+                </div>
+                <div>
+                    @_searchResults?.UpdatedDate
+                </div>
+            }
+            @if(_searchResults?.RegistryDomainId is not null)
+            {
+                <div>
+                    Registry Domain ID:
+                </div>
+                <div>
+                    @_searchResults?.RegistryDomainId
+                </div>
+            }
+        </div>
+        <div class="results-section-header">Registrar Information</div>
+        <div class="results-table">
+            @if(!string.IsNullOrWhiteSpace(_searchResults?.Registrar))
+            {
+                <div>
+                    Registrar:
+                </div>
+                <div>
+                    @_searchResults?.Registrar
+                </div>
+            }
+            @if(!string.IsNullOrWhiteSpace(_searchResults?.RegistrarAbuseContactEmail))
+            {
+                <div>
+                    Registrar Contact Email:
+                </div>
+                <div>
+                    @_searchResults?.RegistrarAbuseContactEmail
+                </div>
+            }
+            @if(!string.IsNullOrWhiteSpace(_searchResults?.RegistrarAbuseContactPhone))
+            {
+                <div>
+                    Registrar Phone Contact:
+                </div>
+                <div>
+                    @_searchResults?.RegistrarAbuseContactPhone
+                </div>
+            }
+            @if(!string.IsNullOrWhiteSpace(_searchResults?.RegistrarUrl))
+            {
+                <div>
+                    Registrar URL:
+                </div>
+                <div>
+                    @_searchResults?.RegistrarUrl
+                </div>
+            }
+            @if(!string.IsNullOrWhiteSpace(_searchResults?.RegistrarWhoIsServer))
+            {
+                <div>
+                    Registrar WHOIS Server:
+                </div>
+                <div>
+                    @_searchResults?.RegistrarWhoIsServer
+                </div>
+            }
+        </div>
+        <div class="results-section-header">Registrant Information</div>
+        <div class="results-table">
+            @if(!string.IsNullOrWhiteSpace(_searchResults?.RegistrantOrganization))
+            {
+                <div>
+                    Registrant Organization:
+                </div>
+                <div>
+                    @_searchResults?.RegistrantOrganization
+                </div>
+            }
+            @if(!string.IsNullOrWhiteSpace(_searchResults?.RegistrantEmail))
+            {
+                <div>
+                    Registrant Email:
+                </div>
+                <div>
+                    @_searchResults?.RegistrantEmail
+                </div>
+            }
+            @if(!string.IsNullOrWhiteSpace(_searchResults?.RegistrantCountry))
+            {
+                <div>
+                    Registrar Country:
+                </div>
+                <div>
+                    @_searchResults?.RegistrantCountry
+                </div>
+            }
+            @if(!string.IsNullOrWhiteSpace(_searchResults?.RegistrantState))
+            {
+                <div>
+                    Registrant State:
+                </div>
+                <div>
+                    @_searchResults?.RegistrantState
+                </div>
+            }
+        </div>
+    </div>
+}
