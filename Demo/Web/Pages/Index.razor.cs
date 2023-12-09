@@ -1,7 +1,7 @@
-﻿using EmailLookup.Demo.Web.Models;
+﻿using EmailLookup.Core;
+using EmailLookup.Demo.Web.Models;
 using EmailLookup.ProfileResult;
 using Microsoft.AspNetCore.Components;
-using cre = EmailLookup.Core;
 
 namespace EmailLookup.Demo.Web.Pages;
 
@@ -14,7 +14,7 @@ public partial class Index
 	private Profile _searchResults = new();
 	private SearchResult _result = new();
 
-	[Inject] protected cre.PersonSearcher? Searcher { get; set; }
+	[Inject] protected PersonSearcher? Searcher { get; set; }
 
 	[Inject] protected ILogger<Index>? Logger { get; set; }
 
@@ -42,10 +42,7 @@ public partial class Index
 		}
 		catch (Exception ex)
 		{
-			if (Logger is not null)
-			{
-				Logger.LogError(ex, "Lookup failed! Message: {Message}", ex.Message);
-			}
+			Logger?.LogError(ex, "Lookup failed! Message: {Message}", ex.Message);
 
 			_message = ("Lookup failed! " + ex.Message);
 		}
