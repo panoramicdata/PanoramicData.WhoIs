@@ -9,10 +9,10 @@ public partial class Index
 {
 	private bool _showResults;
 	private bool _searchDisabled;
-	private readonly LookupModel _lookupData = new LookupModel();
+	private readonly LookupModel _lookupData = new();
 	private string _message = string.Empty;
-	private Profile _searchResults = new Profile();
-	private SearchResult _result = new SearchResult();
+	private Profile _searchResults = new();
+	private SearchResult _result = new();
 
 	[Inject] protected cre.PersonSearcher? Searcher { get; set; }
 
