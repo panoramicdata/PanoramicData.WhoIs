@@ -5,7 +5,10 @@ namespace EmailLookup.Test;
 public class CompanySearcherTests : TestBase
 {
 	private List<string> Words { get; set; } = [
+		"am",
 		"bar",
+		"or",
+		"pan",
 		"Panoramic",
 		"data"
 	];

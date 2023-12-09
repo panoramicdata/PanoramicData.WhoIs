@@ -4,7 +4,9 @@ namespace EmailLookup;
 
 public class CompanySearcher(IReadOnlyCollection<string> words)
 {
-	private readonly IReadOnlyCollection<string> _words = words;
+	private readonly IReadOnlyCollection<string> _originalWordList = words ?? throw new ArgumentNullException(nameof(words));
+	private IReadOnlyCollection<string> _words = [];
+	private bool _hasLowerCased;
 
 	/// <summary>
 	/// Uses a dictionary of English words to try to find the company name from the domain
@@ -14,14 +16,22 @@ public class CompanySearcher(IReadOnlyCollection<string> words)
 	/// <returns></returns>
 	public string GetCompanyNameFromDomain(string fqdnFirstPart)
 	{
+		ArgumentNullException.ThrowIfNull(fqdnFirstPart, nameof(fqdnFirstPart));
+
+		var companyName = fqdnFirstPart.ToLowerInvariant();
+
 		// Use a tree search to find the shortest set of longest words, all of which must be in the dictionary
 		// If the strategy fails, return the first part of the domain name
-		var companyName = fqdnFirstPart.ToLowerInvariant();
+		if (!_hasLowerCased)
+		{
+			_words = _originalWordList.Select(w => w.ToLowerInvariant()).ToList();
+			_hasLowerCased = true;
+		}
 
 		// Determine the list of words that are in the FQDN first part
 		var wordsInFqdnFirstPart = _words
 			.Select(w => w.ToLowerInvariant())
-			.Where(fqdnFirstPart.Contains)
+			.Where(companyName.Contains)
 			.ToList();
 
 		// If there are no words in the FQDN first part, return the first part of the domain name
