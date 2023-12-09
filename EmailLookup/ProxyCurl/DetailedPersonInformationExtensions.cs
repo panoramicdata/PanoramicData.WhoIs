@@ -22,6 +22,7 @@ namespace EmailLookup.Core.ProxyCurl
 					profile.Age = DateTime.Now.Year - personInformation.BirthDate.Year;
 				}
 			}
+
 			profile.Country = personInformation.CountryFullName;
 			profile.City = personInformation.City;
 			profile.State = personInformation.State;
@@ -38,6 +39,7 @@ namespace EmailLookup.Core.ProxyCurl
 					Location = experience.Location
 				});
 			}
+
 			foreach (var education in personInformation.Education)
 			{
 				profile.Education.Add(new ProfileEducation
@@ -48,6 +50,7 @@ namespace EmailLookup.Core.ProxyCurl
 					Description = education.Description
 				});
 			}
+
 			foreach (var award in personInformation.AccomplishmentHonorsAwards)
 			{
 				profile.Awards.Add(new ProfileAwards
@@ -57,6 +60,7 @@ namespace EmailLookup.Core.ProxyCurl
 					Description = award.Description
 				});
 			}
+
 			foreach (var course in personInformation.AccomplishmentCourses)
 			{
 				profile.Courses.Add(new ProfileCourses
@@ -65,6 +69,7 @@ namespace EmailLookup.Core.ProxyCurl
 					Number = course.Number
 				});
 			}
+
 			foreach (var project in personInformation.AccomplishmentProjects)
 			{
 				profile.Projects.Add(new ProfileProject
@@ -73,6 +78,7 @@ namespace EmailLookup.Core.ProxyCurl
 					Description = project.Description
 				});
 			}
+
 			return profile;
 		}
 	}

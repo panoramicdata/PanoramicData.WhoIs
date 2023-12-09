@@ -25,6 +25,7 @@ namespace EmailLookup.Core
 				FirstName = personName[..personName.IndexOf(".", StringComparison.Ordinal)];
 				LastName = personName[(personName.IndexOf(".", StringComparison.Ordinal) + 1)..];
 			}
+
 			CompanyName = MailAddressEmail.Host[..MailAddressEmail.Host.IndexOf(".", StringComparison.Ordinal)];
 			Domain = MailAddressEmail.Host;
 		}

@@ -51,6 +51,7 @@ namespace EmailLookup.Core
 			{
 				throw new InvalidEmailException(mailAddress);
 			}
+
 			IList<Profile> profiles = new List<Profile>();
 			Profile finalProfile = new();
 
@@ -68,6 +69,7 @@ namespace EmailLookup.Core
 			{
 				ProfileMerger.Merge(profile, finalProfile);
 			}
+
 			var result = new SearchResult
 			{
 				SearchOutcome = SearchResult.Outcome.Failure
@@ -77,6 +79,7 @@ namespace EmailLookup.Core
 				result.SearchOutcome = SearchResult.Outcome.Success;
 				result.Profile = finalProfile;
 			}
+
 			return result;
 		}
 

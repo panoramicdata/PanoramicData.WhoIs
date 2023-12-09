@@ -69,6 +69,7 @@ namespace EmailLookup.Core.ProxyCurl.Google
 			{
 				linkedInProfile = detailedPersonInformation.ToProfile();
 			}
+
 			return linkedInProfile;
 		}
 

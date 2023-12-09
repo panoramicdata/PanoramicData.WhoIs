@@ -2,7 +2,6 @@
 using EmailLookup.CustomExceptions;
 using EmailLookup.ProfileResult;
 using Newtonsoft.Json;
-using System.Net;
 using System.Net.Http.Headers;
 
 namespace EmailLookup.Core.ProxyCurl
@@ -74,6 +73,7 @@ namespace EmailLookup.Core.ProxyCurl
 				{
 					throw new ProxyCurlException("404");
 				}
+
 				return searchResponse.Url;
 			}
 			catch (Exception e)
@@ -106,6 +106,7 @@ namespace EmailLookup.Core.ProxyCurl
 				{
 					return new DetailedPersonInformation();
 				}
+
 				return detailedPersonInformation;
 			}
 			catch (Exception ex)
@@ -196,18 +197,22 @@ namespace EmailLookup.Core.ProxyCurl
 			{
 				throw new ProxyCurlException("Invalid API Key");
 			}
+
 			if (ex.Message.Contains("403"))
 			{
 				throw new ProxyCurlException("You have run out of credits");
 			}
+
 			if (ex.Message.Contains("404"))
 			{
 				throw new ProxyCurlException("The requested resource could not be found.");
 			}
+
 			if (ex.Message.Contains("429"))
 			{
 				throw new ProxyCurlException("Rate limited - please retry");
 			}
+
 			if (ex.Message.Contains("503"))
 			{
 				throw new ProxyCurlException("Enrichment failed, please retry.");

@@ -28,6 +28,7 @@ namespace EmailLookup.Core.WhoIs
 				profile = response.ToProfile();
 				return profile;
 			}
+
 			profile = new Profile
 			{
 				Outcome = LookupOutcomes.NotFound
