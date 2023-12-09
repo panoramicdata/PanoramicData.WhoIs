@@ -2,9 +2,9 @@
 
 namespace EmailLookup;
 
-public class CompanySearcher(IReadOnlyCollection<string> words)
+public partial class CompanySearcher(IReadOnlyCollection<string>? words = null)
 {
-	private readonly IReadOnlyCollection<string> _originalWordList = words ?? throw new ArgumentNullException(nameof(words));
+	private readonly IReadOnlyCollection<string>? _suppliedWordList = words;
 	private IReadOnlyCollection<string> _words = [];
 	private bool _hasLowerCased;
 
@@ -24,7 +24,12 @@ public class CompanySearcher(IReadOnlyCollection<string> words)
 		// If the strategy fails, return the first part of the domain name
 		if (!_hasLowerCased)
 		{
-			_words = _originalWordList.Select(w => w.ToLowerInvariant()).ToList();
+			_words = (_suppliedWordList ?? EnglishWords.Split('\n'))
+				// Exclude swear words
+				.Where(w => !w.Contains('!'))
+				// Ignore characters after a slash
+				.Select(w => w.Split('/')[0].ToLowerInvariant())
+				.ToList();
 			_hasLowerCased = true;
 		}
 
