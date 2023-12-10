@@ -20,10 +20,10 @@ namespace EmailLookup.Core;
 /// <para> Users can choose which searchers to include in their lookup by passing them into
 /// the searchers parameter.</para>
 /// </remarks>
-public class PersonSearcher(IEnumerable<Core.IPersonSearcher> searchers) : IDisposable
+public class PersonSearcher(IEnumerable<IPersonSearcher> searchers) : IDisposable
 {
 	private bool _disposedValue;
-	private readonly IEnumerable<Core.IPersonSearcher> _searchers = searchers;
+	private readonly IEnumerable<IPersonSearcher> _searchers = searchers;
 
 	/// <summary>
 	/// Takes an email address, passes it to the list of
