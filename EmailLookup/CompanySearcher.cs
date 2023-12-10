@@ -14,8 +14,10 @@ public partial class CompanySearcher(IReadOnlyCollection<string>? words = null)
 	/// <param name="fqdnFirstPart">The first part of a domain name</param>
 	/// <param name="englishWords">A dictionary of valid words</param>
 	/// <returns></returns>
-	public string GetCompanyNameFromDomain(string fqdnFirstPart)
+	public Task<string> GetCompanyNameFromDomainAsync(string fqdnFirstPart, CancellationToken cancellationToken)
 	{
+		// Note : leave this as an async method so that it can be extended later
+
 		ArgumentNullException.ThrowIfNull(fqdnFirstPart, nameof(fqdnFirstPart));
 
 		var companyName = fqdnFirstPart.ToLowerInvariant();
@@ -34,6 +36,9 @@ public partial class CompanySearcher(IReadOnlyCollection<string>? words = null)
 			_hasLowerCased = true;
 		}
 
+		// TODO : Add DNS record lookup
+		// TODO : Add website string search
+
 		// Determine the list of words that are in the FQDN first part
 		var wordsInFqdnFirstPart = _words
 			.Select(w => w.ToLowerInvariant())
@@ -43,16 +48,14 @@ public partial class CompanySearcher(IReadOnlyCollection<string>? words = null)
 		// If there are no words in the FQDN first part, return the first part of the domain name
 		if (wordsInFqdnFirstPart.Count == 0)
 		{
-			return fqdnFirstPart;
+			return Task.FromResult(fqdnFirstPart);
 		}
 
-
-		return GetWordListRecursive(
-			fqdnFirstPart,
-			out List<string> fewestContiguousWords
-		)
+		companyName = GetWordListRecursive(fqdnFirstPart, out List<string> fewestContiguousWords)
 			? string.Join(" ", fewestContiguousWords.Select(w => w.ToPascalCase()))
 			: fqdnFirstPart;
+
+		return Task.FromResult(companyName);
 	}
 
 	private bool GetWordListRecursive(

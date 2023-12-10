@@ -18,9 +18,9 @@ public class CompanySearcherTests : TestBase
 	[Theory]
 	[InlineData("panoramicdata", "Panoramic Data")]
 	[InlineData("startingot", "Start Ingot")]
-	public void CompanySearcher_WithFindableCompany_Succeeds(string fqdnFirstPart, string companyName)
+	public async void CompanySearcher_WithFindableCompany_Succeeds(string fqdnFirstPart, string companyName)
 	{
-		_defaultSearcher.GetCompanyNameFromDomain(fqdnFirstPart).Should().Be(companyName);
-		_suppliedWordsSearcher.GetCompanyNameFromDomain(fqdnFirstPart).Should().Be(companyName);
+		(await _defaultSearcher.GetCompanyNameFromDomainAsync(fqdnFirstPart, default)).Should().Be(companyName);
+		(_suppliedWordsSearcher.GetCompanyNameFromDomainAsync(fqdnFirstPart, default)).Should().Be(companyName);
 	}
 }
