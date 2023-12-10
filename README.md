@@ -1,28 +1,39 @@
-# PanoramicData.EmailLookup
+# PanoramicData.WhoIs
 
 A nuget package that provides a means of looking
 up various information about a person given just
-their email address. Currently implements two searchers:
+their email address, company domain or other partial information.
+
+Currently implements two searchers:
 	ProxyCurlSearcher - searches Google and LinkedIn for personal data.
 	WhoIsSearcher - searches WHOIS for domain data.
 
-Usage: 
+## Examples (.NET 8.0, C# 12)
+
+### PersonEnhancer usage
 
 ```C#
-ProxyCurlConfig config = new ProxyCurlConfig
+var config = new ProxyCurlConfig
 {
 	GoogleCx = "<Google Custom Search CX goes here>",
 	GoogleKey = "<Google API key goes here>",
 	ProxyCurlKey = "<ProxyCurl API key goes here>"
 };
 
-ProxyCurlSearcher proxyCurlSearcher = new ProxyCurlSearcher(config);
-WhoIsSearcher whoIsSearcher = new WhoIsSearcher();
+var personEnhancer = new PersonEnhancer(
+	[
+		new ProxyCurlSearcher(config),
+		new WhoIsSearcher()
+	]
+);
 
-PersonSearcher searcher = new PersonSearcher(new List<IPersonSearcher> { proxyCurlSearcher, whoIsSearcher });
+var person = new Person
+{
+	Email = "test@test.com"
+};
 
-var response = await searcher
-		.LookupProfileAsync(email)
-		.ConfigureAwait(false);
+person = await personEnhancer
+	.EnhanceAsync(person, cancellationToken)
+	.ConfigureAwait(false);
 ```
 

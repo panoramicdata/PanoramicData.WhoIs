@@ -144,3 +144,7 @@ csharp_style_prefer_top_level_statements = true:silent
 #dotnet_naming_style.constant_field_style.required_prefix = _ NOPE.
 
 # TODO: Fields that are public static readonly must be PascalCase
+# VSSPELL: Spell checker settings from PanoramicData.WhoIs.sln.vsspell
+vsspell_section_id = afb1e5867a9640bfb9ee765da8a169fa
+vsspell_ignored_words_afb1e5867a9640bfb9ee765da8a169fa = File:PanoramicData.WhoIs.sln.vsspell.dic
+
