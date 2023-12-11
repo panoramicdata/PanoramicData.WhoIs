@@ -1,35 +1,53 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<OutputType>Library</OutputType>
 		<TargetFramework>net8.0</TargetFramework>
-		<LangVersion>latest</LangVersion>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>
+		<ApplicationIcon>Panoramic Data.ico</ApplicationIcon>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Copyright>Copyright Panoramic Data Limited 2023</Copyright>
+		<Authors>Panoramic Data Limited</Authors>
+		<LangVersion>latest</LangVersion>
+		<Nullable>enable</Nullable>
+		<EnableNETAnalyzers>true</EnableNETAnalyzers>
+		<AnalysisMode>All</AnalysisMode>
 		<PackageProjectUrl>https://github.com/panoramicdata/PanoramicData.WhoIs</PackageProjectUrl>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/panoramicdata/PanoramicData.WhoIs</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageIcon>Panoramic Data.png</PackageIcon>
+		<PackageTags>Panoramic Data WhoIs email lookup</PackageTags>
 		<Description>
 			A nuget package that provides a means of looking
 			up various information about a person given just
 			their email address, domain name or other partial information.
 		</Description>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<RepositoryUrl>https://github.com/panoramicdata/PanoramicData.WhoIs</RepositoryUrl>
-		<RepositoryType>git</RepositoryType>
-		<PackageTags>Panoramic Data WhoIs email lookup</PackageTags>
-		<PackageReleaseNotes>Initial release</PackageReleaseNotes>
-		<AnalysisLevel>latest-recommended</AnalysisLevel>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<IncludeSymbols>true</IncludeSymbols>
+
+		<DebugSymbols>true</DebugSymbols>
+		<EmbedAllSources>true</EmbedAllSources>
+		<DebugType>portable</DebugType>
+
+		<PackageReleaseNotes>Initial release</PackageReleaseNotes>
+
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+
+		<Title>Panoramic Data WhoIs</Title>
+
+		<AnalysisLevel>latest-recommended</AnalysisLevel>
+
+		<OutputType>Library</OutputType>
+		<ImplicitUsings>enable</ImplicitUsings>
 		<PackageId>$(AssemblyName)</PackageId>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Include="..\.editorconfig" Link=".editorconfig" />
-		<None Include="..\README.md">
-			<Pack>True</Pack>
-			<PackagePath>\</PackagePath>
-		</None>
+		<Content Include="Panoramic Data.ico" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="Panoramic Data.png" Pack="True" PackagePath="\" />
+		<None Include="../README.md" Pack="true" PackagePath="" />
 	</ItemGroup>
 
 	<ItemGroup>
