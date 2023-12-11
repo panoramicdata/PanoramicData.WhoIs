@@ -6,7 +6,7 @@ public abstract class BasicCompanyEnhancer : ICompanyEnhancer
 {
 	public abstract Task<Company> EnhanceAsync(Company company, CancellationToken cancellationToken);
 
-	internal static Company? Merge(Company sourceCompany, Company enhancedCompany) => new()
+	internal static Company Merge(Company sourceCompany, Company enhancedCompany) => new()
 	{
 		Name = sourceCompany.Name ?? enhancedCompany.Name,
 		AdminEmail = sourceCompany.AdminEmail ?? enhancedCompany.AdminEmail,

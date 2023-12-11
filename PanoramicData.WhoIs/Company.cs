@@ -46,4 +46,6 @@ public class Company
 	public string? RegistrantEmail { get; set; }
 
 	public string? AdminEmail { get; set; }
+
+	public string? LinkedInUrl { get; set; }
 }

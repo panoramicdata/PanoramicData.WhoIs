@@ -54,7 +54,7 @@ public partial class NameFinderCompanyEnhancer(IReadOnlyCollection<string>? word
 		{
 			return Task.FromResult(new Company
 			{
-				DomainName = fqdnFirstPart,
+				DomainName = company.DomainName,
 				Name = fqdnFirstPart.ToPascalCase()
 			});
 		}
@@ -65,7 +65,7 @@ public partial class NameFinderCompanyEnhancer(IReadOnlyCollection<string>? word
 
 		return Task.FromResult(new Company
 		{
-			DomainName = fqdnFirstPart,
+			DomainName = company.DomainName,
 			Name = companyName
 		});
 	}

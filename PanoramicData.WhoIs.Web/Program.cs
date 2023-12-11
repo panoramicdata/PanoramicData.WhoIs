@@ -17,7 +17,6 @@ public static class Program
 				proxyCurlConfig.GoogleCx,
 				proxyCurlConfig.GoogleKey,
 				proxyCurlConfig.ProxyCurlKey)
-			.AddWhoIs()
 			);
 
 		// Add services to the container.

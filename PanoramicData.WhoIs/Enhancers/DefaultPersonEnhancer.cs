@@ -7,6 +7,8 @@ public class DefaultPersonEnhancer() : BasicPersonEnhancer
 {
 	public override async Task<Person> EnhanceAsync(Person person, CancellationToken cancellationToken)
 	{
+		person = BasicEnhance(person);
+
 		if (person.Company is null)
 		{
 			return person;
@@ -20,5 +22,9 @@ public class DefaultPersonEnhancer() : BasicPersonEnhancer
 		return person;
 	}
 
-	public override IReadOnlyCollection<ICompanyEnhancer> CompanyEnhancers { get; } = [new NameFinderCompanyEnhancer()];
+	public override IReadOnlyCollection<ICompanyEnhancer> CompanyEnhancers { get; } =
+	[
+		new NameFinderCompanyEnhancer(),
+		new WhoIsCompanyEnhancer(),
+	];
 }

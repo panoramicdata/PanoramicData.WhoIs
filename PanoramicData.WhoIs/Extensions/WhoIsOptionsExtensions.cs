@@ -23,10 +23,4 @@ public static class WhoIsOptionsExtensions
 
 		return options;
 	}
-
-	public static WhoIsOptions AddWhoIs(this WhoIsOptions options)
-	{
-		options.Services.AddTransient<IPersonEnhancer, WhoIsPersonEnhancer>();
-		return options;
-	}
 }

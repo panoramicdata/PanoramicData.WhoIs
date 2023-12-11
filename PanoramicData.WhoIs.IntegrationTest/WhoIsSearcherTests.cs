@@ -9,13 +9,16 @@ public class WhoIsSearcherTests : TestBase
 	[Fact]
 	public async Task ValidDomainSearch_ShouldReturnWhoIsResponse()
 	{
-		var response = await new WhoIsPersonEnhancer()
-			.EnhanceAsync(new Person
+		var company = await new WhoIsCompanyEnhancer()
+			.EnhanceAsync(new Company
 			{
-				MailAddress = ValidMailAddress
+				DomainName = "panoramicdata.com"
 			}, default)
 			.ConfigureAwait(false);
 
-		response.Should().NotBeNull();
+		company.Should().NotBeNull();
+		company.DomainName.Should().Be("panoramicdata.com");
+		company.DomainStatus.Should().Be("clientTransferProhibited");
+		company.Registrar.Should().NotBeNullOrWhiteSpace();
 	}
 }

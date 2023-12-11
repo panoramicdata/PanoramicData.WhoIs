@@ -34,12 +34,6 @@ internal class PersonEnhancerBuilder
 		return this;
 	}
 
-	public PersonEnhancerBuilder WithWhoIsSearcher()
-	{
-		_searchers.Add(new WhoIsPersonEnhancer());
-		return this;
-	}
-
 	public PersonEnhancer Build()
 		=> new(_searchers);
 }

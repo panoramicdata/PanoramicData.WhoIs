@@ -46,8 +46,7 @@ public abstract class TestBase
 		});
 
 		PersonEnhancer = new PersonEnhancerBuilder()
-			.WithProxyCurlSearcher()
-			.WithWhoIsSearcher()
+			.WithProxyCurlEnhancer()
 			.Build();
 	}
 }

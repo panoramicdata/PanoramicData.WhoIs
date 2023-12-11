@@ -24,7 +24,7 @@ internal class PersonEnhancerBuilder
 		   .Get<AppSettings>() ?? throw new Exception("Failed to load appsettings.json");
 	}
 
-	public PersonEnhancerBuilder WithProxyCurlSearcher()
+	public PersonEnhancerBuilder WithProxyCurlEnhancer()
 	{
 		var config = new ProxyCurlConfig
 		{
@@ -34,12 +34,6 @@ internal class PersonEnhancerBuilder
 		};
 
 		_personEnhancers.Add(new ProxyCurlPersonEnhancer(config));
-		return this;
-	}
-
-	public PersonEnhancerBuilder WithWhoIsSearcher()
-	{
-		_personEnhancers.Add(new WhoIsPersonEnhancer());
 		return this;
 	}
 

@@ -21,6 +21,24 @@ public class PersonEnhancerTests : TestBase
 	}
 
 	[Fact]
+	public async Task DefaultPersonEnhancer_DoesAGoodJob()
+	{
+		var searcher = new DefaultPersonEnhancer();
+
+		var response = await searcher
+			.EnhanceAsync(new Person { MailAddress = new MailAddress("john.smith@panoramicdata.com") }, default)
+			.ConfigureAwait(false);
+
+		response.Should().NotBeNull();
+		response.FirstName.Should().Be("John");
+		response.LastName.Should().Be("Smith");
+		response.Company.Should().NotBeNull();
+		response.Company.Name.Should().Be("Panoramic Data");
+		response.Company.DomainName.Should().Be("panoramicdata.com");
+		response.Company.Registrar.Should().NotBeNullOrWhiteSpace();
+	}
+
+	[Fact]
 	public async Task PersonEnhancer_WithTwoSearchers_ShouldPrioritizeFirstSearcherResults()
 	{
 		var searcher = new PersonEnhancer([FakeSearcher, AnotherFakeSearcher]);
