@@ -3,15 +3,15 @@ using PanoramicData.WhoIs.Interfaces;
 
 namespace PanoramicData.WhoIs.Test.Fakes;
 
-public class FakePersonSearcher : BasicPersonEnhancer
+public class FakePersonEnhancer : BasicPersonEnhancer
 {
 	private readonly Person _fakePerson = new();
 
-	public FakePersonSearcher()
+	public FakePersonEnhancer()
 	{
 	}
 
-	public FakePersonSearcher(Person fakePerson)
+	public FakePersonEnhancer(Person fakePerson)
 	{
 		_fakePerson = fakePerson;
 	}

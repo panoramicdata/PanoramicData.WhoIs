@@ -4,10 +4,10 @@ using System.Net.Mail;
 
 namespace PanoramicData.WhoIs.Test;
 
-public class PersonSearcherTests : TestBase
+public class PersonEnhancerTests : TestBase
 {
 	[Fact]
-	public async Task PersonSearcher_WithInvalidEmailAddress_ShouldThrowException()
+	public async Task PersonEnhancer_WithInvalidEmailAddress_ShouldThrowException()
 	{
 		var searcher = new PersonEnhancer([FakeSearcher]);
 
@@ -21,7 +21,7 @@ public class PersonSearcherTests : TestBase
 	}
 
 	[Fact]
-	public async Task PersonSearcher_WithTwoSearchers_ShouldPrioritizeFirstSearcherResults()
+	public async Task PersonEnhancer_WithTwoSearchers_ShouldPrioritizeFirstSearcherResults()
 	{
 		var searcher = new PersonEnhancer([FakeSearcher, AnotherFakeSearcher]);
 

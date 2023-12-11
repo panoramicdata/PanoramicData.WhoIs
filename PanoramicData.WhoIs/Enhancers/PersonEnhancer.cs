@@ -9,7 +9,7 @@ namespace PanoramicData.WhoIs.Enhancers;
 /// <para>This class is responsible for creating every other object used in the
 /// process, and determines the order in which the program executes.</para>
 /// </remarks>
-/// <param name="searchers">A list of objects that use the IPersonSearcher interface.</param>
+/// <param name="searchers">A list of objects that use the IPersonEnhancer interface.</param>
 /// <remarks>
 /// <para> Users can choose which searchers to include in their lookup by passing them into
 /// the searchers parameter.</para>

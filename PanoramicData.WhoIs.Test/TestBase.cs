@@ -5,28 +5,28 @@ namespace PanoramicData.WhoIs.Test;
 
 public abstract class TestBase
 {
-	protected FakePersonSearcher FakeSearcher { get; }
+	protected FakePersonEnhancer FakeSearcher { get; }
 
-	protected FakePersonSearcher AnotherFakeSearcher { get; }
+	protected FakePersonEnhancer AnotherFakeSearcher { get; }
 
-	protected FakePersonSearcher NoEnhancementSearcher { get; }
+	protected FakePersonEnhancer NoEnhancementSearcher { get; }
 
 	protected MailAddress exampleEmail { get; } = new("example@hotmail.com");
 
 	protected TestBase()
 	{
-		FakeSearcher = new FakePersonSearcher(new Person
+		FakeSearcher = new FakePersonEnhancer(new Person
 		{
 			FirstName = "first",
 			Languages = ["english"],
 		});
 
-		AnotherFakeSearcher = new FakePersonSearcher(new Person
+		AnotherFakeSearcher = new FakePersonEnhancer(new Person
 		{
 			FirstName = "second",
 			Languages = ["french"],
 		});
 
-		NoEnhancementSearcher = new FakePersonSearcher(new Person());
+		NoEnhancementSearcher = new FakePersonEnhancer(new Person());
 	}
 }

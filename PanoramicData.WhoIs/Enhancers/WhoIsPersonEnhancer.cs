@@ -16,7 +16,12 @@ public class WhoIsPersonEnhancer : BasicPersonEnhancer
 	{
 		person = BasicEnhance(person);
 
-		var domain = person.Company!.DomainName;
+		if (person.Company is null || string.IsNullOrWhiteSpace(person.Company.DomainName))
+		{
+			return person;
+		}
+
+		var domain = person.Company.DomainName;
 
 		var response = await new WhoisLookup()
 			.LookupAsync(domain)
@@ -37,20 +42,20 @@ public class WhoIsPersonEnhancer : BasicPersonEnhancer
 					AdminEmail = response.AdminContact?.Email,
 					DomainName = response.DomainName.Value,
 					RegistryDomainId = response.RegistryDomainId,
-					RegistrarWhoIsServer = response.WhoisServer.Value,
-					RegistrarUrl = response.Registrar.Url,
+					RegistrarWhoIsServer = response.WhoisServer?.Value,
+					RegistrarUrl = response.Registrar?.Url,
 					UpdatedDate = response.Updated,
 					CreationDate = response.Registered,
 					RegistrarRegistrationExpirationDate = response.Expiration,
-					Registrar = response.Registrar.Name,
-					RegistrarIanaId = response.Registrar.IanaId,
-					RegistrarAbuseContactEmail = response.Registrar.AbuseEmail,
-					RegistrarAbuseContactPhone = response.Registrar.AbuseTelephoneNumber,
-					DomainStatus = response.DomainStatus?[0],
-					RegistrantOrganization = response.Registrant.Organization,
-					RegistrantState = response.Registrant.Address?[0],
-					RegistrantCountry = response.Registrant.Address?[0],
-					RegistrantEmail = response.Registrant.Email,
+					Registrar = response.Registrar?.Name,
+					RegistrarIanaId = response.Registrar?.IanaId,
+					RegistrarAbuseContactEmail = response.Registrar?.AbuseEmail,
+					RegistrarAbuseContactPhone = response.Registrar?.AbuseTelephoneNumber,
+					DomainStatus = response.DomainStatus?.FirstOrDefault(),
+					RegistrantOrganization = response.Registrant?.Organization,
+					RegistrantState = response.Registrant?.Address?.FirstOrDefault(),
+					RegistrantCountry = response.Registrant?.Address?.FirstOrDefault(),
+					RegistrantEmail = response.Registrant?.Email,
 				},
 			}
 		);

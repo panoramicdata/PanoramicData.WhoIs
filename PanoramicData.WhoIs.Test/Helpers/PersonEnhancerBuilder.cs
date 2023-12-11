@@ -6,12 +6,12 @@ using PanoramicData.WhoIs.ProxyCurl;
 
 namespace PanoramicData.WhoIs.Test.Helpers;
 
-internal class PersonSearcherBuilder
+internal class PersonEnhancerBuilder
 {
 	private readonly List<IPersonEnhancer> _searchers = new(10);
 	private readonly AppSettings _appSettings;
 
-	public PersonSearcherBuilder()
+	public PersonEnhancerBuilder()
 	{
 		var builder = new ConfigurationBuilder();
 		builder.AddJsonFile("appsettings.json");
@@ -21,7 +21,7 @@ internal class PersonSearcherBuilder
 		   .Get<AppSettings>() ?? throw new Exception("Unable to deserialize Appsettings.");
 	}
 
-	public PersonSearcherBuilder WithProxyCurlSearcher()
+	public PersonEnhancerBuilder WithProxyCurlSearcher()
 	{
 		var config = new ProxyCurlConfig
 		{
@@ -34,7 +34,7 @@ internal class PersonSearcherBuilder
 		return this;
 	}
 
-	public PersonSearcherBuilder WithWhoIsSearcher()
+	public PersonEnhancerBuilder WithWhoIsSearcher()
 	{
 		_searchers.Add(new WhoIsPersonEnhancer());
 		return this;
