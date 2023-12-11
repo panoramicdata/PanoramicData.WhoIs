@@ -8,16 +8,16 @@
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Copyright>Copyright Panoramic Data Limited 2023</Copyright>
-		<PackageProjectUrl>https://github.com/panoramicdata/PanoramicData.EmailLookup</PackageProjectUrl>
+		<PackageProjectUrl>https://github.com/panoramicdata/PanoramicData.WhoIs</PackageProjectUrl>
 		<Description>
 			A nuget package that provides a means of looking
 			up various information about a person given just
 			their email address, domain name or other partial information.
 		</Description>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<RepositoryUrl>https://github.com/panoramicdata/PanoramicData.EmailLookup</RepositoryUrl>
+		<RepositoryUrl>https://github.com/panoramicdata/PanoramicData.WhoIs</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
-		<PackageTags>email lookup</PackageTags>
+		<PackageTags>Panoramic Data WhoIs email lookup</PackageTags>
 		<PackageReleaseNotes>Initial release</PackageReleaseNotes>
 		<AnalysisLevel>latest-recommended</AnalysisLevel>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
