@@ -84,7 +84,13 @@ if (-not $SkipTests) {
 
 # Step 5: Build and pack the project
 Write-Host "Building and packing the project..." -ForegroundColor Cyan
-dotnet pack "$PSScriptRoot\PanoramicData.WhoIs\PanoramicData.WhoIs.csproj" --configuration Release
+dotnet build "$PSScriptRoot\PanoramicData.WhoIs\PanoramicData.WhoIs.csproj" --configuration Release
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Failed to build the project."
+    exit 1
+}
+
+dotnet pack "$PSScriptRoot\PanoramicData.WhoIs\PanoramicData.WhoIs.csproj" --configuration Release --no-build
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to pack the project."
     exit 1
