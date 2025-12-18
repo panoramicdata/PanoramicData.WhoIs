@@ -1,8 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
-using PanoramicData.HumanWhoIs.IntegrationTest;
 using PanoramicData.WhoIs.Enhancers;
+using PanoramicData.WhoIs.Enhancers.ProxyCurl;
 using PanoramicData.WhoIs.Interfaces;
-using PanoramicData.WhoIs.ProxyCurl;
 
 namespace PanoramicData.WhoIs.IntegrationTest.Helpers;
 

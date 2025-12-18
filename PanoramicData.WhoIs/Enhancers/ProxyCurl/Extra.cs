@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace PanoramicData.WhoIs.ProxyCurl;
+namespace PanoramicData.WhoIs.Enhancers.ProxyCurl;
 
 /// <summary>
 /// Bundle of extra data on the user

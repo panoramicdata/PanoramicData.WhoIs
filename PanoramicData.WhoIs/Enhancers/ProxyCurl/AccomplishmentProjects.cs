@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace PanoramicData.WhoIs.ProxyCurl;
+namespace PanoramicData.WhoIs.Enhancers.ProxyCurl;
 
 /// <summary>
 /// List of noteworthy projects undertaken by this user

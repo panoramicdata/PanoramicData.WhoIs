@@ -1,7 +1,8 @@
+using PanoramicData.WhoIs.Configuration;
+using PanoramicData.WhoIs.Enhancers.ProxyCurl;
 using PanoramicData.WhoIs.Extensions;
-using PanoramicData.WhoIs.ProxyCurl;
 
-namespace PanoramicData.HumanWhoIs.Demo.Web;
+namespace PanoramicData.WhoIs.Web;
 
 public static class Program
 {

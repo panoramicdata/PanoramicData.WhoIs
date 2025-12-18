@@ -5,6 +5,8 @@ namespace PanoramicData.WhoIs.Test;
 
 public abstract class TestBase
 {
+	protected static CancellationToken CancellationToken => TestContext.Current.CancellationToken;
+
 	protected FakePersonEnhancer FakeSearcher { get; }
 
 	protected FakePersonEnhancer AnotherFakeSearcher { get; }

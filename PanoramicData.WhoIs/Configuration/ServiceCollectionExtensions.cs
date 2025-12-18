@@ -1,7 +1,7 @@
-﻿using PanoramicData.WhoIs.Configuration;
+﻿using Microsoft.Extensions.DependencyInjection;
 using PanoramicData.WhoIs.Enhancers;
 
-namespace Microsoft.Extensions.DependencyInjection;
+namespace PanoramicData.WhoIs.Configuration;
 
 public static class ServiceCollectionExtensions
 {

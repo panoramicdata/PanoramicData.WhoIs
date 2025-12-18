@@ -365,3 +365,6 @@ FodyWeavers.xsd
 appsettings.json
 
 **/Cache/**/*
+
+# NuGet API key
+nuget-key.txt

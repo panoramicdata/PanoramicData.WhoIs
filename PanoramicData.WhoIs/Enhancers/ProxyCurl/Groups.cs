@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace PanoramicData.WhoIs.ProxyCurl;
+namespace PanoramicData.WhoIs.Enhancers.ProxyCurl;
 
 /// <summary>
 /// List of LinkedIn groups that this user is a part of

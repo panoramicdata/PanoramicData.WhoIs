@@ -1,0 +1,15 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path=".gitattributes" />
+    <File Path=".gitignore" />
+    <File Path="nuget-key.txt" />
+    <File Path="PanoramicData.WhoIs.sln.vsspell.dic" />
+    <File Path="README.md" />
+    <File Path="version.json" />
+  </Folder>
+  <Project Path="PanoramicData.WhoIs.IntegrationTest/PanoramicData.WhoIs.IntegrationTest.csproj" />
+  <Project Path="PanoramicData.WhoIs.Test/PanoramicData.WhoIs.Test.csproj" />
+  <Project Path="PanoramicData.WhoIs.Web/PanoramicData.WhoIs.Web.csproj" />
+  <Project Path="PanoramicData.WhoIs/PanoramicData.WhoIs.csproj" />
+</Solution>

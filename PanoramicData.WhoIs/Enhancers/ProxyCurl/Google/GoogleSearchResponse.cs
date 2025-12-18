@@ -1,4 +1,4 @@
-﻿namespace PanoramicData.WhoIs.ProxyCurl.Google;
+﻿namespace PanoramicData.WhoIs.Enhancers.ProxyCurl.Google;
 
 public class GoogleSearchResponse
 {

@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Net.Http.Headers;
 
-namespace PanoramicData.WhoIs.ProxyCurl.Google;
+namespace PanoramicData.WhoIs.Enhancers.ProxyCurl.Google;
 
 public class GoogleSearcher(string googleCx, string googleKey, string linkedInKey) : IDisposable
 {

@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
-using PanoramicData.WhoIs.CustomExceptions;
-using PanoramicData.WhoIs.ProxyCurl;
-using PanoramicData.WhoIs.ProxyCurl.Google;
+using PanoramicData.WhoIs.Enhancers.ProxyCurl;
+using PanoramicData.WhoIs.Enhancers.ProxyCurl.Google;
+using PanoramicData.WhoIs.Exceptions;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 

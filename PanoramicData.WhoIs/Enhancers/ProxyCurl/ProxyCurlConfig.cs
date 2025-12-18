@@ -1,4 +1,4 @@
-﻿namespace PanoramicData.WhoIs.ProxyCurl;
+﻿namespace PanoramicData.WhoIs.Enhancers.ProxyCurl;
 
 public class ProxyCurlConfig
 {

@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using PanoramicData.WhoIs.Configuration;
 using PanoramicData.WhoIs.Enhancers;
+using PanoramicData.WhoIs.Enhancers.ProxyCurl;
 using PanoramicData.WhoIs.Interfaces;
-using PanoramicData.WhoIs.ProxyCurl;
 
 namespace PanoramicData.WhoIs.Extensions;
 

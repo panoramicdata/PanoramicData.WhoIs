@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.Configuration;
 using PanoramicData.WhoIs.Enhancers;
+using PanoramicData.WhoIs.Enhancers.ProxyCurl;
 using PanoramicData.WhoIs.IntegrationTest.Helpers;
-using PanoramicData.WhoIs.ProxyCurl;
 using System.Net.Mail;
 
-namespace PanoramicData.HumanWhoIs.IntegrationTest;
+namespace PanoramicData.WhoIs.IntegrationTest;
 
 public abstract class TestBase
 {
@@ -17,6 +17,8 @@ public abstract class TestBase
 	protected string ValidFirstName { get; }
 
 	protected string ValidProfileUrl { get; }
+
+	protected static CancellationToken CancellationToken => TestContext.Current.CancellationToken;
 
 	protected TestBase()
 	{

@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace PanoramicData.WhoIs.ProxyCurl.Google;
+namespace PanoramicData.WhoIs.Enhancers.ProxyCurl.Google;
 
 [DataContract]
 public class LinkSearchResponse

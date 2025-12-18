@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace PanoramicData.WhoIs.ProxyCurl;
+namespace PanoramicData.WhoIs.Enhancers.ProxyCurl;
 
 /// <summary>
 /// A list of other LinkedIn profiles closely related to this user

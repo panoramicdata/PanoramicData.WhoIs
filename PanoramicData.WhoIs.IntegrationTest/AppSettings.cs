@@ -1,4 +1,4 @@
-﻿namespace PanoramicData.HumanWhoIs.IntegrationTest;
+﻿namespace PanoramicData.WhoIs.IntegrationTest;
 
 public class AppSettings
 {

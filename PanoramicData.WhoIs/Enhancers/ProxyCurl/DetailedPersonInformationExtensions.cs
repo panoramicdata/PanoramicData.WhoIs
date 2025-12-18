@@ -1,6 +1,6 @@
 ﻿using PanoramicData.WhoIs.ProfileResult;
 
-namespace PanoramicData.WhoIs.ProxyCurl;
+namespace PanoramicData.WhoIs.Enhancers.ProxyCurl;
 
 internal static class DetailedPersonInformationExtensions
 {

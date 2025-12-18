@@ -1,10 +1,8 @@
-﻿using FluentAssertions;
-using PanoramicData.WhoIs;
-using PanoramicData.WhoIs.CustomExceptions;
-using PanoramicData.WhoIs.Enhancers;
-using PanoramicData.WhoIs.ProxyCurl;
+﻿using PanoramicData.WhoIs.Enhancers;
+using PanoramicData.WhoIs.Enhancers.ProxyCurl;
+using PanoramicData.WhoIs.Exceptions;
 
-namespace PanoramicData.HumanWhoIs.IntegrationTest;
+namespace PanoramicData.WhoIs.IntegrationTest;
 
 public class LinkedInSearcherTests : TestBase
 {
@@ -12,8 +10,7 @@ public class LinkedInSearcherTests : TestBase
 	public async Task LinkedInSearcher_WithValidEmailAddress_ShouldReturnResults()
 	{
 		var response = await ProxyCurlPersonEnhancer
-			.EnhanceAsync(new Person { MailAddress = ValidMailAddress }, default)
-			.ConfigureAwait(false);
+			.EnhanceAsync(new Person { MailAddress = ValidMailAddress }, CancellationToken);
 
 		response.FirstName.Should().Be(ValidFirstName);
 	}
@@ -27,8 +24,7 @@ public class LinkedInSearcherTests : TestBase
 			.EnhanceAsync(new Person
 			{
 				LinkedInUrl = "https://www.linkedin.com/in/thisprofiledoesnotexist"
-			}, default)
-			.ConfigureAwait(false);
+			}, CancellationToken);
 		};
 
 		await getResponse.Should().ThrowAsync<ProxyCurlException>();
@@ -51,8 +47,7 @@ public class LinkedInSearcherTests : TestBase
 				new Person
 				{
 					LinkedInUrl = ValidProfileUrl
-				}, default)
-			.ConfigureAwait(false);
+				}, CancellationToken);
 		};
 
 		await getResponse.Should().ThrowAsync<ProxyCurlException>();
@@ -67,8 +62,7 @@ public class LinkedInSearcherTests : TestBase
 			(new Person
 			{
 				MailAddress = new("fakename.daniels@hotmail.com")
-			}, default)
-			.ConfigureAwait(false);
+			}, CancellationToken);
 		};
 
 		await getResponse.Should().ThrowAsync<ProxyCurlException>();

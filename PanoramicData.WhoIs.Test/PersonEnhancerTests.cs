@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using PanoramicData.WhoIs.Enhancers;
+﻿using PanoramicData.WhoIs.Enhancers;
 using System.Net.Mail;
 
 namespace PanoramicData.WhoIs.Test;
@@ -26,8 +25,7 @@ public class PersonEnhancerTests : TestBase
 		var searcher = new DefaultPersonEnhancer();
 
 		var response = await searcher
-			.EnhanceAsync(new Person { MailAddress = new MailAddress("john.smith@panoramicdata.com") }, default)
-			.ConfigureAwait(false);
+			.EnhanceAsync(new Person { MailAddress = new MailAddress("john.smith@panoramicdata.com") }, CancellationToken);
 
 		response.Should().NotBeNull();
 		response.FirstName.Should().Be("John");
@@ -44,8 +42,7 @@ public class PersonEnhancerTests : TestBase
 		var searcher = new PersonEnhancer([FakeSearcher, AnotherFakeSearcher]);
 
 		var response = await searcher
-			.EnhanceAsync(new Person { MailAddress = exampleEmail }, default)
-			.ConfigureAwait(false);
+			.EnhanceAsync(new Person { MailAddress = exampleEmail }, CancellationToken);
 		response.FirstName.Should().Be("first");
 	}
 
@@ -54,8 +51,7 @@ public class PersonEnhancerTests : TestBase
 	{
 		var searcher = new PersonEnhancer([FakeSearcher, AnotherFakeSearcher]);
 		var response = await searcher
-			.EnhanceAsync(new Person { MailAddress = exampleEmail }, default)
-			.ConfigureAwait(false);
+			.EnhanceAsync(new Person { MailAddress = exampleEmail }, CancellationToken);
 		response.Languages.Should().Contain("english");
 		response.Languages.Should().Contain("french");
 	}
@@ -65,8 +61,7 @@ public class PersonEnhancerTests : TestBase
 	{
 		var searcher = new PersonEnhancer([NoEnhancementSearcher, FakeSearcher]);
 		var response = await searcher
-			.EnhanceAsync(new Person { MailAddress = exampleEmail }, default)
-			.ConfigureAwait(false);
+			.EnhanceAsync(new Person { MailAddress = exampleEmail }, CancellationToken);
 		response.FirstName.Should().Be("first");
 	}
 }

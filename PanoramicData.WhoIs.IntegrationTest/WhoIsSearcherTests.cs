@@ -1,8 +1,6 @@
-using FluentAssertions;
-using PanoramicData.WhoIs;
 using PanoramicData.WhoIs.Enhancers;
 
-namespace PanoramicData.HumanWhoIs.IntegrationTest;
+namespace PanoramicData.WhoIs.IntegrationTest;
 
 public class WhoIsSearcherTests : TestBase
 {
@@ -13,8 +11,7 @@ public class WhoIsSearcherTests : TestBase
 			.EnhanceAsync(new Company
 			{
 				DomainName = "panoramicdata.com"
-			}, default)
-			.ConfigureAwait(false);
+			}, CancellationToken);
 
 		company.Should().NotBeNull();
 		company.DomainName.Should().Be("panoramicdata.com");
