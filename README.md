@@ -1,6 +1,6 @@
 # PanoramicData.WhoIs
 
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/REPLACE_WITH_PROJECT_TOKEN)](https://app.codacy.com/gh/panoramicdata/PanoramicData.WhoIs/dashboard?utm_source=github&utm_medium=referral&utm_content=panoramicdata/PanoramicData.WhoIs&utm_campaign=Badge_Grade)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/af46b05c4d5d4da984a2533d3d3a39cf)](https://app.codacy.com/gh/panoramicdata/PanoramicData.WhoIs/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 A nuget package that provides a means of looking
 up various information about a person given just
