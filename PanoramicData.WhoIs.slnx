@@ -5,6 +5,7 @@
     <File Path=".gitignore" />
     <File Path="nuget-key.txt" />
     <File Path="PanoramicData.WhoIs.sln.vsspell.dic" />
+    <File Path="Publish.ps1" />
     <File Path="README.md" />
     <File Path="version.json" />
   </Folder>
