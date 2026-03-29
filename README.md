@@ -1,5 +1,7 @@
 # PanoramicData.WhoIs
 
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/REPLACE_WITH_PROJECT_TOKEN)](https://app.codacy.com/gh/panoramicdata/PanoramicData.WhoIs/dashboard?utm_source=github&utm_medium=referral&utm_content=panoramicdata/PanoramicData.WhoIs&utm_campaign=Badge_Grade)
+
 A nuget package that provides a means of looking
 up various information about a person given just
 their email address, company domain or other partial information.

@@ -4,10 +4,6 @@
 		<TargetFramework>net10.0</TargetFramework>
 		<ApplicationIcon>Panoramic Data.ico</ApplicationIcon>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<Copyright>Copyright Panoramic Data Limited 2025</Copyright>
-		<Authors>Panoramic Data Limited</Authors>
-		<LangVersion>latest</LangVersion>
-		<Nullable>enable</Nullable>
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
 		<AnalysisMode>All</AnalysisMode>
 		<PackageProjectUrl>https://github.com/panoramicdata/PanoramicData.WhoIs</PackageProjectUrl>
@@ -37,7 +33,6 @@
 		<AnalysisLevel>latest-recommended</AnalysisLevel>
 
 		<OutputType>Library</OutputType>
-		<ImplicitUsings>enable</ImplicitUsings>
 		<PackageId>$(AssemblyName)</PackageId>
 	</PropertyGroup>
 
@@ -51,18 +46,18 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="HtmlAgilityPack" Version="1.12.4" />
-		<PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.3.0" />
-		<PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.1" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.1" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.1" />
-		<PackageReference Include="Nerdbank.GitVersioning" Version="3.9.50">
+		<PackageReference Include="HtmlAgilityPack" />
+		<PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" />
+		<PackageReference Include="Microsoft.Extensions.Configuration" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" />
+		<PackageReference Include="Nerdbank.GitVersioning">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-		<PackageReference Include="System.Configuration.ConfigurationManager" Version="10.0.1" />
-		<PackageReference Include="Whois" Version="3.0.1" />
+		<PackageReference Include="Newtonsoft.Json" />
+		<PackageReference Include="System.Configuration.ConfigurationManager" />
+		<PackageReference Include="Whois" />
 	</ItemGroup>
 
 </Project>

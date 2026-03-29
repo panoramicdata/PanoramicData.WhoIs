@@ -41,10 +41,10 @@ public abstract class TestBase
 
 		ProxyCurlPersonEnhancer = new ProxyCurlPersonEnhancer(new ProxyCurlConfig
 		{
-			GoogleCx = appSettings.GoogleCx,
-			GoogleKey = appSettings.GoogleKey,
-			ProxyCurlKey = appSettings.ProxyCurlKey,
-			ProxyCurlCacheFolder = appSettings.ProxyCurlCacheFolder
+			GoogleCx = appSettings.GoogleCx ?? string.Empty,
+			GoogleKey = appSettings.GoogleKey ?? string.Empty,
+			ProxyCurlKey = appSettings.ProxyCurlKey ?? string.Empty,
+			ProxyCurlCacheFolder = appSettings.ProxyCurlCacheFolder ?? string.Empty
 		});
 
 		PersonEnhancer = new PersonEnhancerBuilder()

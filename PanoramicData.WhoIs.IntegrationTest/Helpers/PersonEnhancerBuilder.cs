@@ -27,9 +27,9 @@ internal class PersonEnhancerBuilder
 	{
 		var config = new ProxyCurlConfig
 		{
-			GoogleCx = _appSettings.GoogleCx,
-			GoogleKey = _appSettings.GoogleKey,
-			ProxyCurlKey = _appSettings.ProxyCurlKey
+			GoogleCx = _appSettings.GoogleCx ?? string.Empty,
+			GoogleKey = _appSettings.GoogleKey ?? string.Empty,
+			ProxyCurlKey = _appSettings.ProxyCurlKey ?? string.Empty
 		};
 
 		_personEnhancers.Add(new ProxyCurlPersonEnhancer(config));
