@@ -11,40 +11,54 @@ public abstract class BasicPersonEnhancer : IPersonEnhancer
 	{
 		Person workingPerson = person;
 		var mailAddress = person.MailAddress;
-		if (mailAddress is not null)
+		if (mailAddress is null)
 		{
-			if (workingPerson.FirstName is null)
-			{
-				workingPerson = Merge(workingPerson, new Person
-				{
-					FirstName = mailAddress.User[..mailAddress.User.IndexOf('.')].ToPascalCase(),
-				});
-			}
+			return workingPerson;
+		}
 
-			if (workingPerson.LastName is null)
-			{
-				workingPerson = Merge(workingPerson, new Person
-				{
-					LastName = mailAddress.User[(mailAddress.User.IndexOf('.') + 1)..].ToPascalCase(),
-				});
-			}
+		workingPerson = EnrichFromMailAddress(workingPerson, mailAddress);
+		workingPerson = EnrichCompanyDomain(workingPerson, mailAddress);
 
-			workingPerson.Company ??= new Company
+		return workingPerson;
+	}
+
+	private static Person EnrichFromMailAddress(Person workingPerson, System.Net.Mail.MailAddress mailAddress)
+	{
+		if (workingPerson.FirstName is null)
+		{
+			workingPerson = Merge(workingPerson, new Person
+			{
+				FirstName = mailAddress.User[..mailAddress.User.IndexOf('.')].ToPascalCase(),
+			});
+		}
+
+		if (workingPerson.LastName is null)
+		{
+			workingPerson = Merge(workingPerson, new Person
+			{
+				LastName = mailAddress.User[(mailAddress.User.IndexOf('.') + 1)..].ToPascalCase(),
+			});
+		}
+
+		return workingPerson;
+	}
+
+	private static Person EnrichCompanyDomain(Person workingPerson, System.Net.Mail.MailAddress mailAddress)
+	{
+		workingPerson.Company ??= new Company
+		{
+			DomainName = mailAddress.Host,
+		};
+
+		workingPerson.Company = new NameFinderCompanyEnhancer()
+			.EnhanceAsync(workingPerson.Company, default).GetAwaiter().GetResult();
+
+		if (workingPerson.Company.DomainName is null)
+		{
+			workingPerson.Company = BasicCompanyEnhancer.Merge(workingPerson.Company, new Company
 			{
 				DomainName = mailAddress.Host,
-			};
-
-			workingPerson.Company = new NameFinderCompanyEnhancer()
-				.EnhanceAsync(workingPerson.Company, default).GetAwaiter().GetResult();
-
-			if (workingPerson.Company.DomainName is null)
-			{
-				workingPerson.Company = BasicCompanyEnhancer.Merge(workingPerson.Company, new Company
-				{
-					DomainName = mailAddress.Host,
-				});
-			}
-
+			});
 		}
 
 		return workingPerson;

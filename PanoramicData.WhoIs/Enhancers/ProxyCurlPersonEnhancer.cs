@@ -103,35 +103,8 @@ public class ProxyCurlPersonEnhancer(ProxyCurlConfig config) : BasicPersonEnhanc
 			return person;
 		}
 
-		DetailedPersonInformation detailedPersonInformation;
-		var fileInfo = new FileInfo(Path.Combine(_config.ProxyCurlCacheFolder ?? string.Empty, $"email_{address}.json"));
-		if (fileInfo.Exists)
-		{
-			var fileContents = await File
-				.ReadAllTextAsync(fileInfo.FullName, cancellationToken)
-				.ConfigureAwait(false);
-
-			// Deserialize
-			detailedPersonInformation = JsonConvert.DeserializeObject<DetailedPersonInformation>(fileContents)
-				?? throw new FormatException("Could not deserialize.");
-		}
-		else
-		{
-			var url = $"https://nubela.co/proxycurl/api/v2/linkedin?url={linkedInUrl}&fallback_to_cache=on-error&use_cache=if-present&skills=include&inferred_salary=include&personal_email=include&personal_contact_number=include&twitter_profile_id=include&facebook_profile_id=include&github_profile_id=include&extra=include";
-			_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _config.ProxyCurlKey);
-
-			try
-			{
-				detailedPersonInformation = await _client
-					.GetFromJsonAsync<DetailedPersonInformation>(url, cancellationToken)
-					.ConfigureAwait(false) ?? throw new FormatException("Could not deserialize.");
-			}
-			catch (Exception e)
-			{
-				HandleProxyCurlException(e);
-				return null;
-			}
-		}
+		var detailedPersonInformation = await GetDetailedPersonInfoAsync(address, linkedInUrl, cancellationToken)
+			.ConfigureAwait(false);
 
 		if (detailedPersonInformation is null)
 		{
@@ -156,6 +129,38 @@ public class ProxyCurlPersonEnhancer(ProxyCurlConfig config) : BasicPersonEnhanc
 			PersonalEmails = detailedPersonInformation.PersonalEmails,
 			PersonalNumbers = detailedPersonInformation.PersonalNumbers,
 		};
+	}
+
+	private async Task<DetailedPersonInformation?> GetDetailedPersonInfoAsync(
+		string address,
+		string linkedInUrl,
+		CancellationToken cancellationToken)
+	{
+		var fileInfo = new FileInfo(Path.Combine(_config.ProxyCurlCacheFolder ?? string.Empty, $"email_{address}.json"));
+		if (fileInfo.Exists)
+		{
+			var fileContents = await File
+				.ReadAllTextAsync(fileInfo.FullName, cancellationToken)
+				.ConfigureAwait(false);
+
+			return JsonConvert.DeserializeObject<DetailedPersonInformation>(fileContents)
+				?? throw new FormatException("Could not deserialize.");
+		}
+
+		var url = $"https://nubela.co/proxycurl/api/v2/linkedin?url={linkedInUrl}&fallback_to_cache=on-error&use_cache=if-present&skills=include&inferred_salary=include&personal_email=include&personal_contact_number=include&twitter_profile_id=include&facebook_profile_id=include&github_profile_id=include&extra=include";
+		_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _config.ProxyCurlKey);
+
+		try
+		{
+			return await _client
+				.GetFromJsonAsync<DetailedPersonInformation>(url, cancellationToken)
+				.ConfigureAwait(false) ?? throw new FormatException("Could not deserialize.");
+		}
+		catch (Exception e)
+		{
+			HandleProxyCurlException(e);
+			return null;
+		}
 	}
 
 	/// <summary>
@@ -185,37 +190,13 @@ public class ProxyCurlPersonEnhancer(ProxyCurlConfig config) : BasicPersonEnhanc
 		GoogleSearchResponse current = new();
 		foreach (var item in googleResponseList.Items)
 		{
-			var score = 0;
-			var link = item.Link;
-			var title = item.Title;
-			var description = item.Snippet;
+			var score = ScoreGoogleItem(item, person);
 
-			if (link.Contains("/in/"))
+			if (score > currentBestScore)
 			{
-				score += 25;
-			}
-
-			if (person.FirstName is not null && title.Contains(person.FirstName, StringComparison.OrdinalIgnoreCase))
-			{
-				score += 25;
-			}
-
-			if (person.LastName is not null && title.Contains(person.LastName, StringComparison.OrdinalIgnoreCase))
-			{
-				score += 25;
-			}
-
-			if (person.Company?.Name is not null && description.Contains(person.Company.Name, StringComparison.OrdinalIgnoreCase))
-			{
-				score += 25;
-			}
-
-			if (score > currentBestScore // The current score is better than the current best score
-			)
-			{
-				current.Title = title;
-				current.Url = link;
-				current.Description = description;
+				current.Title = item.Title;
+				current.Url = item.Link;
+				current.Description = item.Snippet;
 				current.Score = score;
 				currentBestScore = score;
 			}
@@ -224,35 +205,55 @@ public class ProxyCurlPersonEnhancer(ProxyCurlConfig config) : BasicPersonEnhanc
 		return current;
 	}
 
+	private static int ScoreGoogleItem(GoogleResponseItems item, Person person)
+	{
+		var score = 0;
+
+		if (item.Link.Contains("/in/"))
+		{
+			score += 25;
+		}
+
+		if (person.FirstName is not null && item.Title.Contains(person.FirstName, StringComparison.OrdinalIgnoreCase))
+		{
+			score += 25;
+		}
+
+		if (person.LastName is not null && item.Title.Contains(person.LastName, StringComparison.OrdinalIgnoreCase))
+		{
+			score += 25;
+		}
+
+		if (person.Company?.Name is not null && item.Snippet.Contains(person.Company.Name, StringComparison.OrdinalIgnoreCase))
+		{
+			score += 25;
+		}
+
+		return score;
+	}
+
+
+	private static readonly Dictionary<string, string> _httpErrorMessages = new()
+	{
+		["401"] = "Invalid API Key",
+		["500"] = "Invalid API Key",
+		["403"] = "You have run out of credits",
+		["404"] = "The requested resource could not be found.",
+		["429"] = "Rate limited - please retry",
+		["503"] = "Enrichment failed, please retry.",
+	};
 
 	/// <summary>
 	/// Handles any HTTP exceptions that could be thrown from ProxyCurl requests.
 	/// </summary>
 	public static void HandleProxyCurlException(Exception ex)
 	{
-		if (ex.Message.Contains("401") || ex.Message.Contains("500"))
+		foreach (var (code, message) in _httpErrorMessages)
 		{
-			throw new ProxyCurlException("Invalid API Key");
-		}
-
-		if (ex.Message.Contains("403"))
-		{
-			throw new ProxyCurlException("You have run out of credits");
-		}
-
-		if (ex.Message.Contains("404"))
-		{
-			throw new ProxyCurlException("The requested resource could not be found.");
-		}
-
-		if (ex.Message.Contains("429"))
-		{
-			throw new ProxyCurlException("Rate limited - please retry");
-		}
-
-		if (ex.Message.Contains("503"))
-		{
-			throw new ProxyCurlException("Enrichment failed, please retry.");
+			if (ex.Message.Contains(code))
+			{
+				throw new ProxyCurlException(message);
+			}
 		}
 	}
 

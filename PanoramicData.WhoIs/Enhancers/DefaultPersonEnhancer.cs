@@ -3,7 +3,7 @@ using PanoramicData.WhoIs.Interfaces;
 
 namespace PanoramicData.WhoIs.Enhancers;
 
-public class DefaultPersonEnhancer() : BasicPersonEnhancer
+public class DefaultPersonEnhancer : BasicPersonEnhancer
 {
 	public override async Task<Person> EnhanceAsync(Person person, CancellationToken cancellationToken)
 	{

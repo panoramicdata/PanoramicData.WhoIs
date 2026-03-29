@@ -12,24 +12,42 @@ internal static class DetailedPersonInformationExtensions
 			FirstName = personInformation.FirstName,
 			LastName = personInformation.LastName,
 			Gender = personInformation.Gender,
-			Occupation = personInformation.Occupation
+			Occupation = personInformation.Occupation,
+			Country = personInformation.CountryFullName,
+			City = personInformation.City,
+			State = personInformation.State,
+			Languages = personInformation.Languages,
+			PersonalEmails = personInformation.PersonalEmails,
+			PersonalNumbers = personInformation.PersonalNumbers,
 		};
-		if (personInformation.BirthDate is not null)
+
+		ApplyBirthDate(profile, personInformation);
+		MapExperiences(profile, personInformation);
+		MapEducation(profile, personInformation);
+		MapAwards(profile, personInformation);
+		MapCourses(profile, personInformation);
+		MapProjects(profile, personInformation);
+
+		return profile;
+	}
+
+	private static void ApplyBirthDate(Person profile, DetailedPersonInformation info)
+	{
+		if (info.BirthDate is null)
 		{
-			profile.BirthYear = personInformation.BirthDate.Year;
-			if (personInformation.BirthDate.Year != 0)
-			{
-				profile.Age = DateTime.Now.Year - personInformation.BirthDate.Year;
-			}
+			return;
 		}
 
-		profile.Country = personInformation.CountryFullName;
-		profile.City = personInformation.City;
-		profile.State = personInformation.State;
-		profile.Languages = personInformation.Languages;
-		profile.PersonalEmails = personInformation.PersonalEmails;
-		profile.PersonalNumbers = personInformation.PersonalNumbers;
-		foreach (var experience in personInformation.Experiences)
+		profile.BirthYear = info.BirthDate.Year;
+		if (info.BirthDate.Year != 0)
+		{
+			profile.Age = DateTime.Now.Year - info.BirthDate.Year;
+		}
+	}
+
+	private static void MapExperiences(Person profile, DetailedPersonInformation info)
+	{
+		foreach (var experience in info.Experiences)
 		{
 			profile.Experiences.Add(new ProfileExperiences
 			{
@@ -39,8 +57,11 @@ internal static class DetailedPersonInformationExtensions
 				Location = experience.Location
 			});
 		}
+	}
 
-		foreach (var education in personInformation.Education)
+	private static void MapEducation(Person profile, DetailedPersonInformation info)
+	{
+		foreach (var education in info.Education)
 		{
 			profile.Education.Add(new ProfileEducation
 			{
@@ -50,8 +71,11 @@ internal static class DetailedPersonInformationExtensions
 				Description = education.Description
 			});
 		}
+	}
 
-		foreach (var award in personInformation.AccomplishmentHonorsAwards)
+	private static void MapAwards(Person profile, DetailedPersonInformation info)
+	{
+		foreach (var award in info.AccomplishmentHonorsAwards)
 		{
 			profile.Awards.Add(new ProfileAwards
 			{
@@ -60,8 +84,11 @@ internal static class DetailedPersonInformationExtensions
 				Description = award.Description
 			});
 		}
+	}
 
-		foreach (var course in personInformation.AccomplishmentCourses)
+	private static void MapCourses(Person profile, DetailedPersonInformation info)
+	{
+		foreach (var course in info.AccomplishmentCourses)
 		{
 			profile.Courses.Add(new ProfileCourses
 			{
@@ -69,8 +96,11 @@ internal static class DetailedPersonInformationExtensions
 				Number = course.Number
 			});
 		}
+	}
 
-		foreach (var project in personInformation.AccomplishmentProjects)
+	private static void MapProjects(Person profile, DetailedPersonInformation info)
+	{
+		foreach (var project in info.AccomplishmentProjects)
 		{
 			profile.Projects.Add(new ProfileProject
 			{
@@ -78,7 +108,5 @@ internal static class DetailedPersonInformationExtensions
 				Description = project.Description
 			});
 		}
-
-		return profile;
 	}
 }

@@ -1,0 +1,10 @@
+exclude_paths:
+  - "PanoramicData.WhoIs.Web/wwwroot/css/bootstrap/**"
+  - "PanoramicData.WhoIs.Web/wwwroot/css/open-iconic/**"
+  - "PanoramicData.WhoIs/CompanySearcher_Words.cs"
+  - "**/obj/**"
+  - "**/bin/**"
+engines:
+  stylelint:
+    exclude_paths:
+      - "**/*.razor.css"
