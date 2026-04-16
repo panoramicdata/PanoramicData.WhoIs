@@ -1,5 +1,6 @@
 ﻿namespace PanoramicData.WhoIs;
 
+/// <inheritdoc />
 public partial class NameFinderCompanyEnhancer
 {
 	/// <summary>

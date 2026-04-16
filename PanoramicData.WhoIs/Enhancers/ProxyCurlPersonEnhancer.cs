@@ -257,6 +257,13 @@ public class ProxyCurlPersonEnhancer(ProxyCurlConfig config) : BasicPersonEnhanc
 		}
 	}
 
+	/// <summary>
+	/// Releases managed and unmanaged resources held by this instance.
+	/// </summary>
+	/// <param name="disposing">
+	/// <see langword="true"/> to release both managed and unmanaged resources;
+	/// <see langword="false"/> to release only unmanaged resources.
+	/// </param>
 	protected virtual void Dispose(bool disposing)
 	{
 		if (!_disposedValue)
@@ -272,6 +279,9 @@ public class ProxyCurlPersonEnhancer(ProxyCurlConfig config) : BasicPersonEnhanc
 		}
 	}
 
+	/// <summary>
+	/// Releases all resources used by this <see cref="ProxyCurlPersonEnhancer"/>, including the underlying <see cref="System.Net.Http.HttpClient"/>.
+	/// </summary>
 	public void Dispose()
 	{
 		// Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method

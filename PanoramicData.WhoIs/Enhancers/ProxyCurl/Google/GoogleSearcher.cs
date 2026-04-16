@@ -3,6 +3,13 @@ using System.Net.Http.Headers;
 
 namespace PanoramicData.WhoIs.Enhancers.ProxyCurl.Google;
 
+/// <summary>
+/// Searches Google Custom Search for a person's LinkedIn profile URL, then resolves and
+/// fetches the full LinkedIn profile via the ProxyCurl API.
+/// </summary>
+/// <param name="googleCx">The Google Custom Search Engine ID.</param>
+/// <param name="googleKey">The Google API key for Custom Search requests.</param>
+/// <param name="linkedInKey">The ProxyCurl API key used to resolve and fetch LinkedIn profiles.</param>
 public class GoogleSearcher(string googleCx, string googleKey, string linkedInKey) : IDisposable
 {
 	private readonly string _googleCx = googleCx;
@@ -11,6 +18,13 @@ public class GoogleSearcher(string googleCx, string googleKey, string linkedInKe
 	private readonly HttpClient _client = new();
 	private bool _disposedValue;
 
+	/// <summary>
+	/// Searches for the person's LinkedIn profile URL via Google Custom Search and, if found,
+	/// fetches the full profile from ProxyCurl.
+	/// </summary>
+	/// <param name="person">The person whose LinkedIn profile should be located.</param>
+	/// <param name="cancellationToken">A token to cancel the asynchronous operation.</param>
+	/// <returns>A <see cref="Person"/> enriched with LinkedIn profile data, or the original person if no match is found.</returns>
 	public async Task<Person> SearchLinkedInAsync(
 	   Person person,
 	   CancellationToken cancellationToken
@@ -72,6 +86,13 @@ public class GoogleSearcher(string googleCx, string googleKey, string linkedInKe
 		return detailedPersonInformation?.ToProfile() ?? person;
 	}
 
+	/// <summary>
+	/// Searches Google Custom Search for the best-matching LinkedIn profile result for the given person.
+	/// Results are scored on how well the name and company match the page's Open Graph metadata.
+	/// </summary>
+	/// <param name="person">The person to search for.</param>
+	/// <param name="cancellationToken">A token to cancel the asynchronous operation.</param>
+	/// <returns>The highest-scoring <see cref="GoogleSearchResponse"/>, or an empty response if no results are found.</returns>
 	public async Task<GoogleSearchResponse> SearchGoogleAsync(Person person, CancellationToken cancellationToken)
 	{
 		var nameQuery = Uri.EscapeDataString($"{person.FirstName} {person.LastName} {person.Company?.Name}");
@@ -137,6 +158,13 @@ public class GoogleSearcher(string googleCx, string googleKey, string linkedInKe
 		return score;
 	}
 
+	/// <summary>
+	/// Releases managed and unmanaged resources held by this instance.
+	/// </summary>
+	/// <param name="disposing">
+	/// <see langword="true"/> to release both managed and unmanaged resources;
+	/// <see langword="false"/> to release only unmanaged resources.
+	/// </param>
 	protected virtual void Dispose(bool disposing)
 	{
 		if (!_disposedValue)
@@ -152,6 +180,9 @@ public class GoogleSearcher(string googleCx, string googleKey, string linkedInKe
 		}
 	}
 
+	/// <summary>
+	/// Releases all resources used by this <see cref="GoogleSearcher"/>, including the underlying <see cref="System.Net.Http.HttpClient"/>.
+	/// </summary>
 	public void Dispose()
 	{
 		// Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method

@@ -3,10 +3,27 @@ using PanoramicData.WhoIs.Interfaces;
 
 namespace PanoramicData.WhoIs.Enhancers;
 
+/// <summary>
+/// Abstract base class for person enhancers, providing shared enrichment logic
+/// that populates basic person and company fields from the email address.
+/// </summary>
 public abstract class BasicPersonEnhancer : IPersonEnhancer
 {
+	/// <summary>
+	/// Enriches the specified <see cref="Person"/> with additional information
+	/// from the data source implemented by the derived class.
+	/// </summary>
+	/// <param name="person">The person to enrich.</param>
+	/// <param name="cancellationToken">A token to cancel the asynchronous operation.</param>
+	/// <returns>A <see cref="Person"/> populated with as much information as the source provides.</returns>
 	public abstract Task<Person> EnhanceAsync(Person person, CancellationToken cancellationToken);
 
+	/// <summary>
+	/// Performs basic enrichment of a <see cref="Person"/> using only the email address,
+	/// inferring first name, last name, and company domain without calling any external service.
+	/// </summary>
+	/// <param name="person">The person to enrich.</param>
+	/// <returns>A <see cref="Person"/> with name and company fields populated where possible.</returns>
 	protected internal static Person BasicEnhance(Person person)
 	{
 		Person workingPerson = person;
@@ -64,6 +81,14 @@ public abstract class BasicPersonEnhancer : IPersonEnhancer
 		return workingPerson;
 	}
 
+	/// <summary>
+	/// Merges two <see cref="Person"/> instances, preferring non-null values from <paramref name="sourcePerson"/>
+	/// and falling back to values from <paramref name="newInformationPerson"/> for any fields that are missing.
+	/// Collection properties are merged as the distinct union of both sources.
+	/// </summary>
+	/// <param name="sourcePerson">The existing person record, whose values take precedence.</param>
+	/// <param name="newInformationPerson">The newly enriched person record providing additional data.</param>
+	/// <returns>A new <see cref="Person"/> with fields combined from both sources.</returns>
 	protected static Person Merge(Person sourcePerson, Person newInformationPerson) => new()
 	{
 		Age = sourcePerson.Age ?? newInformationPerson.Age,
@@ -92,5 +117,9 @@ public abstract class BasicPersonEnhancer : IPersonEnhancer
 		Projects = sourcePerson.Projects.Union(newInformationPerson.Projects).Distinct().ToList(),
 	};
 
+	/// <summary>
+	/// The collection of company enhancers used alongside this person enhancer.
+	/// Returns an empty collection by default; derived classes may override this.
+	/// </summary>
 	public virtual IReadOnlyCollection<ICompanyEnhancer> CompanyEnhancers => [];
 }

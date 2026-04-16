@@ -2,8 +2,19 @@
 
 namespace PanoramicData.WhoIs.Enhancers;
 
+/// <summary>
+/// Abstract base class for company enhancers, providing shared merge logic
+/// that combines the known source data with newly discovered enrichment data.
+/// </summary>
 public abstract class BasicCompanyEnhancer : ICompanyEnhancer
 {
+	/// <summary>
+	/// Enriches the specified <see cref="Company"/> with additional information
+	/// from the data source implemented by the derived class.
+	/// </summary>
+	/// <param name="company">The company to enrich.</param>
+	/// <param name="cancellationToken">A token to cancel the asynchronous operation.</param>
+	/// <returns>A <see cref="Company"/> populated with as much information as the source provides.</returns>
 	public abstract Task<Company> EnhanceAsync(Company company, CancellationToken cancellationToken);
 
 	internal static Company Merge(Company sourceCompany, Company enhancedCompany) => new()

@@ -1,3 +1,7 @@
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+[![NuGet version](https://img.shields.io/nuget/v/PanoramicData.WhoIs.svg)](https://www.nuget.org/packages/PanoramicData.WhoIs/)
+
 # PanoramicData.WhoIs
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/af46b05c4d5d4da984a2533d3d3a39cf)](https://app.codacy.com/gh/panoramicdata/PanoramicData.WhoIs/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)

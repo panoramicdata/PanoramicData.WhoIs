@@ -3,6 +3,15 @@ using PanoramicData.WhoIs.Extensions;
 
 namespace PanoramicData.WhoIs;
 
+/// <summary>
+/// A company enhancer that uses a built-in dictionary of English words to infer the
+/// company name from the first segment of a domain name (e.g. "acmecorp.com" → "Acme Corp").
+/// A custom word list may be supplied to override or extend the default dictionary.
+/// </summary>
+/// <param name="words">
+/// An optional collection of words to use as the lookup dictionary.
+/// When <see langword="null"/>, the built-in English word list is used.
+/// </param>
 public partial class NameFinderCompanyEnhancer(IReadOnlyCollection<string>? words = null) : BasicCompanyEnhancer
 {
 	private readonly IReadOnlyCollection<string>? _suppliedWordList = words;
@@ -10,10 +19,11 @@ public partial class NameFinderCompanyEnhancer(IReadOnlyCollection<string>? word
 	private bool _hasLowerCased;
 
 	/// <summary>
-	/// Uses a dictionary of English words to try to find the company name from the domain
+	/// Uses a dictionary of English words to try to find the company name from the domain.
 	/// </summary>
-	/// <param name="domain">The company's domain name</param>
-	/// <returns></returns>
+	/// <param name="company">The company whose name should be inferred from its domain name.</param>
+	/// <param name="cancellationToken">A token to cancel the asynchronous operation.</param>
+	/// <returns>A <see cref="Company"/> with the <see cref="Company.Name"/> populated where a match is found.</returns>
 	public override Task<Company> EnhanceAsync(Company company, CancellationToken cancellationToken)
 	{
 		ArgumentNullException.ThrowIfNull(company, nameof(company));

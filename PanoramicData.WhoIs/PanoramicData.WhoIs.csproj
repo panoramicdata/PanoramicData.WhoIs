@@ -1,63 +1,55 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
-	<PropertyGroup>
-		<TargetFramework>net10.0</TargetFramework>
-		<ApplicationIcon>Panoramic Data.ico</ApplicationIcon>
-		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<EnableNETAnalyzers>true</EnableNETAnalyzers>
-		<AnalysisMode>All</AnalysisMode>
-		<PackageProjectUrl>https://github.com/panoramicdata/PanoramicData.WhoIs</PackageProjectUrl>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<RepositoryUrl>https://github.com/panoramicdata/PanoramicData.WhoIs</RepositoryUrl>
-		<RepositoryType>git</RepositoryType>
-		<PackageIcon>Panoramic Data.png</PackageIcon>
-		<PackageTags>Panoramic Data WhoIs email lookup</PackageTags>
-		<Description>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ApplicationIcon>Panoramic Data.ico</ApplicationIcon>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisMode>All</AnalysisMode>
+    <PackageProjectUrl>https://github.com/panoramicdata/PanoramicData.WhoIs</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/panoramicdata/PanoramicData.WhoIs</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageIcon>Panoramic Data.png</PackageIcon>
+    <PackageTags>Panoramic Data WhoIs email lookup</PackageTags>
+    <Description>
 			A nuget package that provides a means of looking
 			up various information about a person given just
 			their email address, domain name or other partial information.
 		</Description>
-		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<IncludeSymbols>true</IncludeSymbols>
-
-		<DebugSymbols>true</DebugSymbols>
-		<EmbedAllSources>true</EmbedAllSources>
-		<DebugType>portable</DebugType>
-
-		<PackageReleaseNotes>Initial release</PackageReleaseNotes>
-
-		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
-
-		<Title>Panoramic Data WhoIs</Title>
-
-		<AnalysisLevel>latest-recommended</AnalysisLevel>
-
-		<OutputType>Library</OutputType>
-		<PackageId>$(AssemblyName)</PackageId>
-	</PropertyGroup>
-
-	<ItemGroup>
-		<Content Include="Panoramic Data.ico" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<None Include="Panoramic Data.png" Pack="True" PackagePath="\" />
-		<None Include="../README.md" Pack="true" PackagePath="" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<PackageReference Include="HtmlAgilityPack" />
-		<PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" />
-		<PackageReference Include="Microsoft.Extensions.Configuration" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Json" />
-		<PackageReference Include="Nerdbank.GitVersioning">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-		<PackageReference Include="Newtonsoft.Json" />
-		<PackageReference Include="System.Configuration.ConfigurationManager" />
-		<PackageReference Include="Whois" />
-	</ItemGroup>
-
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <IncludeSymbols>true</IncludeSymbols>
+    <DebugSymbols>true</DebugSymbols>
+    <EmbedAllSources>true</EmbedAllSources>
+    <DebugType>portable</DebugType>
+    <PackageReleaseNotes>Initial release</PackageReleaseNotes>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Title>Panoramic Data WhoIs</Title>
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <OutputType>Library</OutputType>
+    <PackageId>$(AssemblyName)</PackageId>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <NeutralResourcesLanguage>en</NeutralResourcesLanguage>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="Panoramic Data.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Panoramic Data.png" Pack="True" PackagePath="\" />
+    <None Include="../README.md" Pack="true" PackagePath="" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="HtmlAgilityPack" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" />
+    <PackageReference Include="Nerdbank.GitVersioning">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" />
+    <PackageReference Include="Whois" />
+  </ItemGroup>
 </Project>
