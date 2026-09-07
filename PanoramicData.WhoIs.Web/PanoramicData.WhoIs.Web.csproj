@@ -6,6 +6,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageId>PanoramicData.WhoIs.Web</PackageId>
     <RepositoryUrl>https://github.com/panoramicdata/PanoramicData.WhoIs</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/panoramicdata/PanoramicData.WhoIs</PackageProjectUrl>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
