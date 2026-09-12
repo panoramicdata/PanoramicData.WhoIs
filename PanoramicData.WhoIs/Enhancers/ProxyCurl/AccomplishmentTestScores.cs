@@ -1,34 +1,33 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace PanoramicData.WhoIs.Enhancers.ProxyCurl;
 
 /// <summary>
 /// List of noteworthy test scores accomplished by this user
 /// </summary>
-[DataContract]
 public class AccomplishmentTestScores
 {
 	/// <summary>
 	/// Title of course for which test score was derived from
 	/// </summary>
-	[DataMember(Name = "name")]
+	[JsonPropertyName("name")]
 	public string Name { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Test score
 	/// </summary>
-	[DataMember(Name = "score")]
+	[JsonPropertyName("score")]
 	public string Score { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Date test was assessed
 	/// </summary>
-	[DataMember(Name = "date_on")]
+	[JsonPropertyName("date_on")]
 	public ProxyCurlDate DateOn { get; set; } = new();
 
 	/// <summary>
 	/// Description of the test score
 	/// </summary>
-	[DataMember(Name = "description")]
+	[JsonPropertyName("description")]
 	public string Description { get; set; } = string.Empty;
 }

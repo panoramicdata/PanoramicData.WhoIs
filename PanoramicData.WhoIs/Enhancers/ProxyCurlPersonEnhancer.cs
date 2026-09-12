@@ -1,9 +1,9 @@
-﻿using Newtonsoft.Json;
-using PanoramicData.WhoIs.Enhancers.ProxyCurl;
+﻿using PanoramicData.WhoIs.Enhancers.ProxyCurl;
 using PanoramicData.WhoIs.Enhancers.ProxyCurl.Google;
 using PanoramicData.WhoIs.Exceptions;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Text.Json;
 
 namespace PanoramicData.WhoIs.Enhancers;
 
@@ -143,7 +143,7 @@ public class ProxyCurlPersonEnhancer(ProxyCurlConfig config) : BasicPersonEnhanc
 				.ReadAllTextAsync(fileInfo.FullName, cancellationToken)
 				.ConfigureAwait(false);
 
-			return JsonConvert.DeserializeObject<DetailedPersonInformation>(fileContents)
+			return JsonSerializer.Deserialize<DetailedPersonInformation>(fileContents, ProxyCurlJson.Options)
 				?? throw new FormatException("Could not deserialize.");
 		}
 
@@ -206,31 +206,7 @@ public class ProxyCurlPersonEnhancer(ProxyCurlConfig config) : BasicPersonEnhanc
 	}
 
 	private static int ScoreGoogleItem(GoogleResponseItems item, Person person)
-	{
-		var score = 0;
-
-		if (item.Link.Contains("/in/"))
-		{
-			score += 25;
-		}
-
-		if (person.FirstName is not null && item.Title.Contains(person.FirstName, StringComparison.OrdinalIgnoreCase))
-		{
-			score += 25;
-		}
-
-		if (person.LastName is not null && item.Title.Contains(person.LastName, StringComparison.OrdinalIgnoreCase))
-		{
-			score += 25;
-		}
-
-		if (person.Company?.Name is not null && item.Snippet.Contains(person.Company.Name, StringComparison.OrdinalIgnoreCase))
-		{
-			score += 25;
-		}
-
-		return score;
-	}
+		=> GoogleResultScorer.Score(item.Link, item.Title, item.Snippet, person);
 
 
 	private static readonly Dictionary<string, string> _httpErrorMessages = new()

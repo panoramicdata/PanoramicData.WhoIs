@@ -34,18 +34,17 @@ public class EnumSearcher(IPersonEnhancer[] searchers) : IEnumerator
 	/// <summary>
 	/// Gets the current <see cref="IPersonEnhancer"/> element in the array.
 	/// </summary>
-	public IPersonEnhancer Current
-	{
-		get
-		{
-			try
-			{
-				return _searcher[_position];
-			}
-			catch
-			{
-				throw new InvalidOperationException();
-			}
-		}
-	}
+	public IPersonEnhancer Current => GetCurrent();
+
+	/// <summary>
+	/// Returns the element at the enumerator's current position.
+	/// </summary>
+	/// <returns>The current <see cref="IPersonEnhancer"/> element.</returns>
+	/// <exception cref="InvalidOperationException">
+	/// Thrown when enumeration has not started or has already finished.
+	/// </exception>
+	public IPersonEnhancer GetCurrent()
+		=> _position >= 0 && _position < _searcher.Length
+			? _searcher[_position]
+			: throw new InvalidOperationException("Enumeration has either not started or has already finished.");
 }

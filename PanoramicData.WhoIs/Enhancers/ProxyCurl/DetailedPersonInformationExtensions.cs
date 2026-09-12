@@ -49,13 +49,7 @@ internal static class DetailedPersonInformationExtensions
 	{
 		foreach (var experience in info.Experiences)
 		{
-			profile.Experiences.Add(new ProfileExperiences
-			{
-				Company = experience.Company,
-				Title = experience.Title,
-				Description = experience.Description,
-				Location = experience.Location
-			});
+			profile.Experiences.Add(experience.ToProfileExperiences());
 		}
 	}
 

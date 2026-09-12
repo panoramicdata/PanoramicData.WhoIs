@@ -11,9 +11,14 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>Panoramic Data.png</PackageIcon>
     <NeutralResourcesLanguage>en</NeutralResourcesLanguage>
     <NoWarn>CS1591</NoWarn>
   </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\PanoramicData.WhoIs\Panoramic Data.png" Pack="true" PackagePath="\" />
+    <None Include="..\README.md" Pack="true" PackagePath="" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PanoramicData.WhoIs\PanoramicData.WhoIs.csproj" />
   </ItemGroup>

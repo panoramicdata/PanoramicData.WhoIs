@@ -89,33 +89,65 @@ public abstract class BasicPersonEnhancer : IPersonEnhancer
 	/// <param name="sourcePerson">The existing person record, whose values take precedence.</param>
 	/// <param name="newInformationPerson">The newly enriched person record providing additional data.</param>
 	/// <returns>A new <see cref="Person"/> with fields combined from both sources.</returns>
-	protected static Person Merge(Person sourcePerson, Person newInformationPerson) => new()
+	protected static Person Merge(Person sourcePerson, Person newInformationPerson)
 	{
-		Age = sourcePerson.Age ?? newInformationPerson.Age,
-		Awards = sourcePerson.Awards.Union(newInformationPerson.Awards).Distinct().ToList(),
-		Courses = sourcePerson.Courses.Union(newInformationPerson.Courses).Distinct().ToList(),
-		Country = sourcePerson.Country ?? newInformationPerson.Country,
-		Education = sourcePerson.Education.Union(newInformationPerson.Education).Distinct().ToList(),
-		FirstName = sourcePerson.FirstName ?? newInformationPerson.FirstName,
-		LastName = sourcePerson.LastName ?? newInformationPerson.LastName,
-		Gender = sourcePerson.Gender ?? newInformationPerson.Gender,
-		Occupation = sourcePerson.Occupation ?? newInformationPerson.Occupation,
-		Experiences = sourcePerson.Experiences.Union(newInformationPerson.Experiences).Distinct().ToList(),
-		InferredSalaryMax = sourcePerson.InferredSalaryMax ?? newInformationPerson.InferredSalaryMax,
-		InferredSalaryMin = sourcePerson.InferredSalaryMin ?? newInformationPerson.InferredSalaryMin,
-		Languages = sourcePerson.Languages.Union(newInformationPerson.Languages).Distinct().ToList(),
-		PersonalEmails = sourcePerson.PersonalEmails.Union(newInformationPerson.PersonalEmails).Distinct().ToList(),
-		PersonalNumbers = sourcePerson.PersonalNumbers.Union(newInformationPerson.PersonalNumbers).Distinct().ToList(),
-		Company = sourcePerson.Company is null
-			? newInformationPerson.Company
-			: newInformationPerson.Company is null ? null
-			: BasicCompanyEnhancer.Merge(sourcePerson.Company, newInformationPerson.Company),
-		MailAddress = sourcePerson.MailAddress ?? newInformationPerson.MailAddress,
-		BirthYear = sourcePerson.BirthYear ?? newInformationPerson.BirthYear,
-		City = sourcePerson.City ?? newInformationPerson.City,
-		State = sourcePerson.State ?? newInformationPerson.State,
-		Projects = sourcePerson.Projects.Union(newInformationPerson.Projects).Distinct().ToList(),
-	};
+		var person = new Person();
+
+		MergeIdentity(person, sourcePerson, newInformationPerson);
+		MergeLocation(person, sourcePerson, newInformationPerson);
+		MergeEmployment(person, sourcePerson, newInformationPerson);
+		MergeCollections(person, sourcePerson, newInformationPerson);
+
+		return person;
+	}
+
+	private static void MergeIdentity(Person target, Person source, Person newInformation)
+	{
+		target.FirstName = source.FirstName ?? newInformation.FirstName;
+		target.LastName = source.LastName ?? newInformation.LastName;
+		target.Gender = source.Gender ?? newInformation.Gender;
+		target.Age = source.Age ?? newInformation.Age;
+		target.BirthYear = source.BirthYear ?? newInformation.BirthYear;
+		target.MailAddress = source.MailAddress ?? newInformation.MailAddress;
+	}
+
+	private static void MergeLocation(Person target, Person source, Person newInformation)
+	{
+		target.Country = source.Country ?? newInformation.Country;
+		target.City = source.City ?? newInformation.City;
+		target.State = source.State ?? newInformation.State;
+	}
+
+	private static void MergeEmployment(Person target, Person source, Person newInformation)
+	{
+		target.Occupation = source.Occupation ?? newInformation.Occupation;
+		target.InferredSalaryMin = source.InferredSalaryMin ?? newInformation.InferredSalaryMin;
+		target.InferredSalaryMax = source.InferredSalaryMax ?? newInformation.InferredSalaryMax;
+		target.Company = MergeCompanies(source.Company, newInformation.Company);
+	}
+
+	private static Company? MergeCompanies(Company? source, Company? newInformation)
+		=> (source, newInformation) switch
+		{
+			(null, _) => newInformation,
+			(_, null) => source,
+			_ => BasicCompanyEnhancer.Merge(source, newInformation),
+		};
+
+	private static void MergeCollections(Person target, Person source, Person newInformation)
+	{
+		target.Awards = Combine(source.Awards, newInformation.Awards);
+		target.Courses = Combine(source.Courses, newInformation.Courses);
+		target.Education = Combine(source.Education, newInformation.Education);
+		target.Experiences = Combine(source.Experiences, newInformation.Experiences);
+		target.Languages = Combine(source.Languages, newInformation.Languages);
+		target.PersonalEmails = Combine(source.PersonalEmails, newInformation.PersonalEmails);
+		target.PersonalNumbers = Combine(source.PersonalNumbers, newInformation.PersonalNumbers);
+		target.Projects = Combine(source.Projects, newInformation.Projects);
+	}
+
+	private static List<T> Combine<T>(IEnumerable<T> source, IEnumerable<T> newInformation)
+		=> source.Union(newInformation).Distinct().ToList();
 
 	/// <summary>
 	/// The collection of company enhancers used alongside this person enhancer.

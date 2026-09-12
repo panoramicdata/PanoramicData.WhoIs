@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using System.Net.Http.Headers;
+﻿using System.Net.Http.Headers;
+using System.Text.Json;
 
 namespace PanoramicData.WhoIs.Enhancers.ProxyCurl.Google;
 
@@ -69,7 +69,7 @@ public class GoogleSearcher(string googleCx, string googleKey, string linkedInKe
 			.GetStringAsync(getProfileUrl, cancellationToken)
 			.ConfigureAwait(false);
 
-		var searchResponse = JsonConvert.DeserializeObject<LinkSearchResponse>(profileResult);
+		var searchResponse = JsonSerializer.Deserialize<LinkSearchResponse>(profileResult, ProxyCurlJson.Options);
 		return searchResponse?.Url ?? googleUrl;
 	}
 
@@ -82,7 +82,7 @@ public class GoogleSearcher(string googleCx, string googleKey, string linkedInKe
 			.GetStringAsync(url, cancellationToken)
 			.ConfigureAwait(false);
 
-		var detailedPersonInformation = JsonConvert.DeserializeObject<DetailedPersonInformation>(result);
+		var detailedPersonInformation = JsonSerializer.Deserialize<DetailedPersonInformation>(result, ProxyCurlJson.Options);
 		return detailedPersonInformation?.ToProfile() ?? person;
 	}
 
@@ -103,7 +103,7 @@ public class GoogleSearcher(string googleCx, string googleKey, string linkedInKe
 		var googleStringResponse = await _client
 		   .GetStringAsync(googleApiUrl, cancellationToken)
 		   .ConfigureAwait(false);
-		var googleResponseList = JsonConvert.DeserializeObject<GoogleResponse>(googleStringResponse);
+		var googleResponseList = JsonSerializer.Deserialize<GoogleResponse>(googleStringResponse, ProxyCurlJson.Options);
 
 		if (googleResponseList is null || googleResponseList.Queries.Request[0].Count <= 0)
 		{
@@ -130,32 +130,8 @@ public class GoogleSearcher(string googleCx, string googleKey, string linkedInKe
 
 	private static int ScoreGoogleItem(GoogleResponseItems item, Person person)
 	{
-		var score = 0;
-		var link = item.PageMap.Metatags[0].OgUrl;
-		var title = item.PageMap.Metatags[0].OgTitle;
-		var description = item.PageMap.Metatags[0].OgDesc;
-
-		if (link.Contains("/in/"))
-		{
-			score += 25;
-		}
-
-		if (person.FirstName is not null && title.Contains(person.FirstName, StringComparison.OrdinalIgnoreCase))
-		{
-			score += 25;
-		}
-
-		if (person.LastName is not null && title.Contains(person.LastName, StringComparison.OrdinalIgnoreCase))
-		{
-			score += 25;
-		}
-
-		if (person.Company?.Name is not null && description.Contains(person.Company.Name, StringComparison.OrdinalIgnoreCase))
-		{
-			score += 25;
-		}
-
-		return score;
+		var metatags = item.PageMap.Metatags[0];
+		return GoogleResultScorer.Score(metatags.OgUrl, metatags.OgTitle, metatags.OgDesc, person);
 	}
 
 	/// <summary>

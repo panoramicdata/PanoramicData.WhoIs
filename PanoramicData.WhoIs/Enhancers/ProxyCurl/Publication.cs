@@ -1,40 +1,39 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace PanoramicData.WhoIs.Enhancers.ProxyCurl;
 
 /// <summary>
 /// List of noteworthy publications that this user has partook in
 /// </summary>
-[DataContract]
 public class Publication
 {
 	/// <summary>
 	/// Name
 	/// </summary>
-	[DataMember(Name = "name")]
+	[JsonPropertyName("name")]
 	public string Name { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Publishing organisation body
 	/// </summary>
-	[DataMember(Name = "publisher")]
+	[JsonPropertyName("publisher")]
 	public string Publisher { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Date of publication
 	/// </summary>
-	[DataMember(Name = "published_on")]
+	[JsonPropertyName("published_on")]
 	public ProxyCurlDate PublishedOn { get; set; } = new();
 
 	/// <summary>
 	/// Description
 	/// </summary>
-	[DataMember(Name = "description")]
+	[JsonPropertyName("description")]
 	public string Description { get; set; } = string.Empty;
 
 	/// <summary>
 	/// URL of publication
 	/// </summary>
-	[DataMember(Name = "url")]
+	[JsonPropertyName("url")]
 	public string Url { get; set; } = string.Empty;
 }

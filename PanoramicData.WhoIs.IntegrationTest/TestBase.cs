@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using PanoramicData.WhoIs.Enhancers;
-using PanoramicData.WhoIs.Enhancers.ProxyCurl;
+﻿using PanoramicData.WhoIs.Enhancers;
 using PanoramicData.WhoIs.IntegrationTest.Helpers;
 using System.Net.Mail;
 
@@ -22,30 +20,13 @@ public abstract class TestBase
 
 	protected TestBase()
 	{
-		var currentDirectoryInfo = new DirectoryInfo(Directory.GetCurrentDirectory());
-		var rootDirectoryInfo = (currentDirectoryInfo.Parent?.Parent?.Parent)
-			?? throw new InvalidOperationException("Failed to identify root directory for this project!");
-
-		// Load AppSettings
-		var builder = new ConfigurationBuilder();
-		builder.SetBasePath(rootDirectoryInfo.FullName);
-		builder.AddJsonFile("appsettings.json");
-		var configuration = builder.Build();
-		var appSettings = configuration
-			.GetSection("AppSettings")
-			.Get<AppSettings>() ?? throw new Exception("Failed to load appsettings.json");
+		var appSettings = TestConfiguration.LoadAppSettings();
 
 		ValidMailAddress = new(appSettings.ValidEmailAddress);
 		ValidFirstName = appSettings.ValidFirstName;
 		ValidProfileUrl = appSettings.ValidProfileUrl;
 
-		ProxyCurlPersonEnhancer = new ProxyCurlPersonEnhancer(new ProxyCurlConfig
-		{
-			GoogleCx = appSettings.GoogleCx ?? string.Empty,
-			GoogleKey = appSettings.GoogleKey ?? string.Empty,
-			ProxyCurlKey = appSettings.ProxyCurlKey ?? string.Empty,
-			ProxyCurlCacheFolder = appSettings.ProxyCurlCacheFolder ?? string.Empty
-		});
+		ProxyCurlPersonEnhancer = new ProxyCurlPersonEnhancer(appSettings.ToProxyCurlConfig());
 
 		PersonEnhancer = new PersonEnhancerBuilder()
 			.WithProxyCurlEnhancer()

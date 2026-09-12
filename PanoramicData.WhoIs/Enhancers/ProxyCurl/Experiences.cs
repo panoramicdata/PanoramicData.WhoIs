@@ -1,52 +1,41 @@
-﻿using System.Runtime.Serialization;
+﻿using PanoramicData.WhoIs.ProfileResult;
+using System.Text.Json.Serialization;
 
 namespace PanoramicData.WhoIs.Enhancers.ProxyCurl;
 
 /// <summary>
-/// List of user's historic work experience
+/// A single entry from a user's historic work experience as reported by ProxyCurl.
+/// Extends <see cref="ProfileExperiences"/> with the fields ProxyCurl supplies in addition
+/// to the common shape.
 /// </summary>
-[DataContract]
-public class Experiences
+public class Experiences : ProfileExperiences
 {
 	/// <summary>
 	/// Start date of the work experience
 	/// </summary>
-	[DataMember(Name = "starts_at")]
+	[JsonPropertyName("starts_at")]
 	public ProxyCurlDate StartsAt { get; set; } = new();
 
 	/// <summary>
 	/// End date of the work experience
 	/// </summary>
-	[DataMember(Name = "ends_at")]
+	[JsonPropertyName("ends_at")]
 	public ProxyCurlDate EndsAt { get; set; } = new();
-
-	/// <summary>
-	/// Company's display name
-	/// </summary>
-	[DataMember(Name = "company")]
-	public string Company { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Company's profile URL
 	/// </summary>
-	[DataMember(Name = "company_linkedin_profile_url")]
+	[JsonPropertyName("company_linkedin_profile_url")]
 	public string CompanyLinkedinProfileUrl { get; set; } = string.Empty;
 
 	/// <summary>
-	/// Title
+	/// Returns the source-independent view of this work experience.
 	/// </summary>
-	[DataMember(Name = "title")]
-	public string Title { get; set; } = string.Empty;
-
-	/// <summary>
-	/// Description
-	/// </summary>
-	[DataMember(Name = "description")]
-	public string Description { get; set; } = string.Empty;
-
-	/// <summary>
-	/// Location
-	/// </summary>
-	[DataMember(Name = "location")]
-	public string Location { get; set; } = string.Empty;
+	public ProfileExperiences ToProfileExperiences() => new()
+	{
+		Company = Company,
+		Title = Title,
+		Description = Description,
+		Location = Location
+	};
 }

@@ -1,28 +1,27 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace PanoramicData.WhoIs.Enhancers.ProxyCurl;
 
 /// <summary>
 /// Date
 /// </summary>
-[DataContract]
 public class ProxyCurlDate
 {
 	/// <summary>
 	/// Day
 	/// </summary>
-	[DataMember(Name = "day")]
+	[JsonPropertyName("day")]
 	public int Day { get; set; }
 
 	/// <summary>
 	/// Month
 	/// </summary>
-	[DataMember(Name = "month")]
+	[JsonPropertyName("month")]
 	public int Month { get; set; }
 
 	/// <summary>
 	/// Year
 	/// </summary>
-	[DataMember(Name = "year")]
+	[JsonPropertyName("year")]
 	public int Year { get; set; }
 }

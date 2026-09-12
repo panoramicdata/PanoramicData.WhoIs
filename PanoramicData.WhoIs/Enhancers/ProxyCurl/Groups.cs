@@ -1,22 +1,21 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace PanoramicData.WhoIs.Enhancers.ProxyCurl;
 
 /// <summary>
 /// List of LinkedIn groups that this user is a part of
 /// </summary>
-[DataContract]
 public class Groups
 {
 	/// <summary>
 	/// Name of the group
 	/// </summary>
-	[DataMember(Name = "name")]
+	[JsonPropertyName("name")]
 	public string Name { get; set; } = string.Empty;
 
 	/// <summary>
 	/// URL to LinkedIn group
 	/// </summary>
-	[DataMember(Name = "url")]
+	[JsonPropertyName("url")]
 	public string Url { get; set; } = string.Empty;
 }

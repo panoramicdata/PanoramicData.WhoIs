@@ -16,40 +16,62 @@ public class WhoIsCompanyEnhancer : BasicCompanyEnhancer
 	{
 		ArgumentNullException.ThrowIfNull(company, nameof(company));
 
-		var domain = company.DomainName;
-
 		var response = await new WhoisLookup()
-			.LookupAsync(domain)
+			.LookupAsync(company.DomainName)
 			.ConfigureAwait(false);
 
-		if (response is null)
-		{
-			return company;
-		}
+		return response is null
+			? company
+			: Merge(company, ToCompany(response));
+	}
 
-		return Merge(
-			company,
-			new Company
-			{
-				Name = response.AdminContact?.Organization,
-				AdminEmail = response.AdminContact?.Email,
-				DomainName = response.DomainName.Value,
-				RegistryDomainId = response.RegistryDomainId,
-				RegistrarWhoIsServer = response.WhoisServer?.Value,
-				RegistrarUrl = response.Registrar?.Url,
-				UpdatedDate = response.Updated,
-				CreationDate = response.Registered,
-				RegistrarRegistrationExpirationDate = response.Expiration,
-				Registrar = response.Registrar?.Name,
-				RegistrarIanaId = response.Registrar?.IanaId,
-				RegistrarAbuseContactEmail = response.Registrar?.AbuseEmail,
-				RegistrarAbuseContactPhone = response.Registrar?.AbuseTelephoneNumber,
-				DomainStatus = response.DomainStatus?.FirstOrDefault(),
-				RegistrantOrganization = response.Registrant?.Organization,
-				RegistrantState = response.Registrant?.Address?.FirstOrDefault(),
-				RegistrantCountry = response.Registrant?.Address?.FirstOrDefault(),
-				RegistrantEmail = response.Registrant?.Email,
-			}
-		);
+	private static Company ToCompany(WhoisResponse response)
+	{
+		var company = new Company();
+
+		SetIdentity(company, response);
+		SetRegistrar(company, response);
+		SetRegistration(company, response);
+		SetRegistrant(company, response);
+
+		return company;
+	}
+
+	private static void SetIdentity(Company company, WhoisResponse response)
+	{
+		company.Name = response.AdminContact?.Organization;
+		company.AdminEmail = response.AdminContact?.Email;
+		company.DomainName = response.DomainName.Value;
+		company.RegistryDomainId = response.RegistryDomainId;
+	}
+
+	private static void SetRegistrar(Company company, WhoisResponse response)
+	{
+		var registrar = response.Registrar;
+
+		company.Registrar = registrar?.Name;
+		company.RegistrarUrl = registrar?.Url;
+		company.RegistrarIanaId = registrar?.IanaId;
+		company.RegistrarWhoIsServer = response.WhoisServer?.Value;
+		company.RegistrarAbuseContactEmail = registrar?.AbuseEmail;
+		company.RegistrarAbuseContactPhone = registrar?.AbuseTelephoneNumber;
+	}
+
+	private static void SetRegistration(Company company, WhoisResponse response)
+	{
+		company.CreationDate = response.Registered;
+		company.UpdatedDate = response.Updated;
+		company.RegistrarRegistrationExpirationDate = response.Expiration;
+		company.DomainStatus = response.DomainStatus?.FirstOrDefault();
+	}
+
+	private static void SetRegistrant(Company company, WhoisResponse response)
+	{
+		var registrant = response.Registrant;
+
+		company.RegistrantOrganization = registrant?.Organization;
+		company.RegistrantState = registrant?.Address?.FirstOrDefault();
+		company.RegistrantCountry = registrant?.Address?.FirstOrDefault();
+		company.RegistrantEmail = registrant?.Email;
 	}
 }
