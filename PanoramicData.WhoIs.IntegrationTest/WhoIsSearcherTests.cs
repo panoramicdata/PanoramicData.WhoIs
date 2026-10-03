@@ -2,6 +2,7 @@ using PanoramicData.WhoIs.Enhancers;
 
 namespace PanoramicData.WhoIs.IntegrationTest;
 
+[Trait("Category", "Integration")]
 public class WhoIsSearcherTests : TestBase
 {
 	[Fact]
