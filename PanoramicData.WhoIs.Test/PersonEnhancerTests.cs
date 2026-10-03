@@ -19,7 +19,9 @@ public class PersonEnhancerTests : TestBase
 		await getResponse.Should().ThrowAsync<FormatException>();
 	}
 
+	// Performs a live WHOIS lookup over the network.
 	[Fact]
+	[Trait("Category", "Integration")]
 	public async Task DefaultPersonEnhancer_DoesAGoodJob()
 	{
 		var searcher = new DefaultPersonEnhancer();
