@@ -4,6 +4,7 @@ using PanoramicData.WhoIs.Exceptions;
 
 namespace PanoramicData.WhoIs.IntegrationTest;
 
+[Trait("Category", "Integration")]
 public class LinkedInSearcherTests : TestBase
 {
 	[Fact]

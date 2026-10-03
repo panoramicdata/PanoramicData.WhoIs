@@ -26,8 +26,9 @@ jobs:
       - name: Build
         run: dotnet build --no-restore --configuration Release
 
+      # Integration tests need live credentials or network services, so CI runs only the unit tests.
       - name: Test
-        run: dotnet test --no-build --configuration Release --verbosity normal
+        run: dotnet test --project PanoramicData.WhoIs.Test/PanoramicData.WhoIs.Test.csproj --no-build --configuration Release --filter-not-trait "Category=Integration"
 
   publish:
     runs-on: ubuntu-latest
