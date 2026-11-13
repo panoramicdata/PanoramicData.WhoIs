@@ -10,11 +10,13 @@ A nuget package that provides a means of looking
 up various information about a person given just
 their email address, company domain or other partial information.
 
+Supports .NET 11.0.
+
 Currently implements two searchers:
 	ProxyCurlSearcher - searches Google and LinkedIn for personal data.
 	WhoIsSearcher - searches WHOIS for domain data.
 
-## Examples (.NET 8.0, C# 12)
+## Examples (.NET 11.0, C# 12)
 
 ### PersonEnhancer usage
 
