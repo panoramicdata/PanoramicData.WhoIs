@@ -21,10 +21,16 @@ public class ProxyCurlPersonEnhancerTests : TestBase
 		return (new ProxyCurlPersonEnhancer(config ?? Config, new HttpClient(handler)), handler);
 	}
 
+	private static (ProxyCurlPersonEnhancer Enhancer, StubHttpMessageHandler Handler) Routed(string googleBody = "{}")
+		=> Create(r => ProxyCurlSamples.Route(r, googleBody));
+
+	private static (ProxyCurlPersonEnhancer Enhancer, StubHttpMessageHandler Handler) Failing(HttpStatusCode status)
+		=> Create(_ => (status, "{}"));
+
 	[Fact]
 	public async Task GetPersonFromLinkedInUrlAsync_MapsProfileAndSendsBearerKey()
 	{
-		var (enhancer, handler) = Create(r => ProxyCurlSamples.Route(r, "{}"));
+		var (enhancer, handler) = Routed();
 		using var _ = enhancer;
 
 		var result = (await enhancer.GetPersonFromLinkedInUrlAsync(JanePerson(), ProxyCurlSamples.LinkedInUrl, CancellationToken))!;
@@ -45,7 +51,7 @@ public class ProxyCurlPersonEnhancerTests : TestBase
 	public async Task EnhanceAsync_WithoutLinkedInUrl_SearchesGoogleFirst()
 	{
 		var google = ProxyCurlSamples.GoogleJson((ProxyCurlSamples.LinkedInUrl, "Jane Doe", "Acme"));
-		var (enhancer, handler) = Create(r => ProxyCurlSamples.Route(r, google));
+		var (enhancer, handler) = Routed(google);
 		using var _ = enhancer;
 
 		await enhancer.EnhanceAsync(JanePerson(), CancellationToken);
@@ -60,7 +66,7 @@ public class ProxyCurlPersonEnhancerTests : TestBase
 	public async Task EnhanceAsync_WhenGoogleResultIsNotAProfile_FallsBackToEmailLookup()
 	{
 		var google = ProxyCurlSamples.GoogleJson(("https://example.com/page", "Jane Doe", "Acme"));
-		var (enhancer, handler) = Create(r => ProxyCurlSamples.Route(r, google));
+		var (enhancer, handler) = Routed(google);
 		using var _ = enhancer;
 
 		await enhancer.EnhanceAsync(JanePerson(), CancellationToken);
@@ -74,7 +80,7 @@ public class ProxyCurlPersonEnhancerTests : TestBase
 	public async Task SearchGoogleAsync_WithNoResults_ReturnsEmptyResponse()
 	{
 		var empty = """{"queries":{"request":[{"count":0}]}}""";
-		var (enhancer, _) = Create(r => ProxyCurlSamples.Route(r, empty));
+		var (enhancer, _) = Routed(empty);
 		using var _ = enhancer;
 
 		var result = await enhancer.SearchGoogleAsync(JanePerson(), CancellationToken);
@@ -89,7 +95,7 @@ public class ProxyCurlPersonEnhancerTests : TestBase
 		var google = ProxyCurlSamples.GoogleJson(
 			("https://example.com/a", "Other", "x"),
 			(ProxyCurlSamples.LinkedInUrl, "Jane Doe", "x"));
-		var (enhancer, _) = Create(r => ProxyCurlSamples.Route(r, google));
+		var (enhancer, _) = Routed(google);
 		using var _ = enhancer;
 		var person = new Person { FirstName = "Jane", LastName = "Doe" };
 
@@ -108,7 +114,7 @@ public class ProxyCurlPersonEnhancerTests : TestBase
 	[InlineData(HttpStatusCode.ServiceUnavailable, "Enrichment failed, please retry.")]
 	public async Task ReverseWorkEmailLookupAsync_WithHttpError_ThrowsProxyCurlException(HttpStatusCode status, string message)
 	{
-		var (enhancer, _) = Create(_ => (status, "{}"));
+		var (enhancer, _) = Failing(status);
 		using var _ = enhancer;
 
 		var act = () => enhancer.ReverseWorkEmailLookupAsync("jane.doe@acme.example", CancellationToken);
@@ -117,32 +123,23 @@ public class ProxyCurlPersonEnhancerTests : TestBase
 	}
 
 	[Fact]
-	public async Task ReverseWorkEmailLookupAsync_WithUnmappedError_ReturnsEmptyString()
+	public async Task UnmappedHttpError_IsSwallowed()
 	{
-		var (enhancer, _) = Create(_ => (HttpStatusCode.BadRequest, "{}"));
+		var (enhancer, _) = Failing(HttpStatusCode.BadRequest);
 		using var _ = enhancer;
 
-		var result = await enhancer.ReverseWorkEmailLookupAsync("jane.doe@acme.example", CancellationToken);
+		var email = await enhancer.ReverseWorkEmailLookupAsync("jane.doe@acme.example", CancellationToken);
+		var person = await enhancer.GetPersonFromLinkedInUrlAsync(JanePerson(), ProxyCurlSamples.LinkedInUrl, CancellationToken);
 
-		result.Should().BeEmpty();
-	}
-
-	[Fact]
-	public async Task GetPersonFromLinkedInUrlAsync_WithUnmappedError_ReturnsPersonWithUrlOnly()
-	{
-		var (enhancer, _) = Create(_ => (HttpStatusCode.BadRequest, "{}"));
-		using var _ = enhancer;
-
-		var result = await enhancer.GetPersonFromLinkedInUrlAsync(JanePerson(), ProxyCurlSamples.LinkedInUrl, CancellationToken);
-
-		result!.LinkedInUrl.Should().Be(ProxyCurlSamples.LinkedInUrl);
-		result.FirstName.Should().BeNull();
+		email.Should().BeEmpty();
+		person!.LinkedInUrl.Should().Be(ProxyCurlSamples.LinkedInUrl);
+		person.FirstName.Should().BeNull();
 	}
 
 	[Fact]
 	public async Task GetPersonFromLinkedInUrlAsync_WithoutMailAddress_ReturnsSamePersonWithoutRequests()
 	{
-		var (enhancer, handler) = Create(r => ProxyCurlSamples.Route(r, "{}"));
+		var (enhancer, handler) = Routed();
 		using var _ = enhancer;
 		var person = new Person();
 
@@ -155,7 +152,7 @@ public class ProxyCurlPersonEnhancerTests : TestBase
 	[Fact]
 	public async Task GetPersonFromLinkedInUrlAsync_WithNullArguments_Throws()
 	{
-		var (enhancer, _) = Create(r => ProxyCurlSamples.Route(r, "{}"));
+		var (enhancer, _) = Routed();
 		using var _ = enhancer;
 
 		var noPerson = () => enhancer.GetPersonFromLinkedInUrlAsync(null!, "u", CancellationToken);
@@ -190,7 +187,7 @@ public class ProxyCurlPersonEnhancerTests : TestBase
 	[Fact]
 	public async Task Dispose_DisposesTheSuppliedClient()
 	{
-		var (enhancer, handler) = Create(r => ProxyCurlSamples.Route(r, "{}"));
+		var (enhancer, handler) = Routed();
 
 		enhancer.Dispose();
 		var result = await enhancer.ReverseWorkEmailLookupAsync("a@b.example", CancellationToken);
