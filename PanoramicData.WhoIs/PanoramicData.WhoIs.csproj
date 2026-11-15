@@ -27,7 +27,7 @@
     <Title>Panoramic Data WhoIs</Title>
     <AnalysisLevel>latest-recommended</AnalysisLevel>
     <OutputType>Library</OutputType>
-    <PackageId>$(AssemblyName)</PackageId>
+    <PackageId>PanoramicData.WhoIs</PackageId>
     <ImplicitUsings>enable</ImplicitUsings>
     <NeutralResourcesLanguage>en</NeutralResourcesLanguage>
   </PropertyGroup>

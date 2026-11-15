@@ -7,16 +7,38 @@ namespace PanoramicData.WhoIs.Enhancers.ProxyCurl.Google;
 /// Searches Google Custom Search for a person's LinkedIn profile URL, then resolves and
 /// fetches the full LinkedIn profile via the ProxyCurl API.
 /// </summary>
-/// <param name="googleCx">The Google Custom Search Engine ID.</param>
-/// <param name="googleKey">The Google API key for Custom Search requests.</param>
-/// <param name="linkedInKey">The ProxyCurl API key used to resolve and fetch LinkedIn profiles.</param>
-public class GoogleSearcher(string googleCx, string googleKey, string linkedInKey) : IDisposable
+public class GoogleSearcher : IDisposable
 {
-	private readonly string _googleCx = googleCx;
-	private readonly string _googleKey = googleKey;
-	private readonly string _linkedInKey = linkedInKey;
-	private readonly HttpClient _client = new();
-	private bool _disposedValue;
+	private readonly string _googleCx;
+	private readonly string _googleKey;
+	private readonly string _linkedInKey;
+	private readonly HttpClient _client;
+
+	/// <summary>
+	/// Creates a searcher that owns its own <see cref="HttpClient"/>.
+	/// </summary>
+	/// <param name="googleCx">The Google Custom Search Engine ID.</param>
+	/// <param name="googleKey">The Google API key for Custom Search requests.</param>
+	/// <param name="linkedInKey">The ProxyCurl API key used to resolve and fetch LinkedIn profiles.</param>
+	public GoogleSearcher(string googleCx, string googleKey, string linkedInKey)
+		: this(googleCx, googleKey, linkedInKey, new HttpClient())
+	{
+	}
+
+	/// <summary>
+	/// Creates a searcher that sends its requests through the supplied <see cref="HttpClient"/>, which this instance disposes.
+	/// </summary>
+	/// <param name="googleCx">The Google Custom Search Engine ID.</param>
+	/// <param name="googleKey">The Google API key for Custom Search requests.</param>
+	/// <param name="linkedInKey">The ProxyCurl API key used to resolve and fetch LinkedIn profiles.</param>
+	/// <param name="client">The client used for all requests.</param>
+	public GoogleSearcher(string googleCx, string googleKey, string linkedInKey, HttpClient client)
+	{
+		_googleCx = googleCx;
+		_googleKey = googleKey;
+		_linkedInKey = linkedInKey;
+		_client = client;
+	}
 
 	/// <summary>
 	/// Searches for the person's LinkedIn profile URL via Google Custom Search and, if found,
@@ -62,7 +84,7 @@ public class GoogleSearcher(string googleCx, string googleKey, string linkedInKe
 			return googleUrl;
 		}
 
-		var getProfileUrl = "https://nubela.co/proxycurl/api/linkedin/profile/resolve/email?work_email=" + person.MailAddress?.Address;
+		var getProfileUrl = ProxyCurlEndpoints.ReverseEmailLookup(person.MailAddress?.Address);
 		_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _linkedInKey);
 
 		var profileResult = await _client
@@ -75,8 +97,7 @@ public class GoogleSearcher(string googleCx, string googleKey, string linkedInKe
 
 	private async Task<Person> FetchLinkedInProfileAsync(string linkedInUrl, Person person, CancellationToken cancellationToken)
 	{
-		var url = "https://nubela.co/proxycurl/api/v2/linkedin?url=" + linkedInUrl + "&fallback_to_cache=on-error&use_cache=if-present&skills=include&inferred_salary=include&personal_email=include&personal_contact_number=include&twitter_profile_id=include&facebook_profile_id=include&github_profile_id=include&extra=include";
-
+		var url = ProxyCurlEndpoints.Profile(linkedInUrl);
 		_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _linkedInKey);
 		var result = await _client
 			.GetStringAsync(url, cancellationToken)
@@ -95,9 +116,7 @@ public class GoogleSearcher(string googleCx, string googleKey, string linkedInKe
 	/// <returns>The highest-scoring <see cref="GoogleSearchResponse"/>, or an empty response if no results are found.</returns>
 	public async Task<GoogleSearchResponse> SearchGoogleAsync(Person person, CancellationToken cancellationToken)
 	{
-		var nameQuery = Uri.EscapeDataString($"{person.FirstName} {person.LastName} {person.Company?.Name}");
-
-		var googleApiUrl = $"https://customsearch.googleapis.com/customsearch/v1?cx={_googleCx}&q={nameQuery}&key={_googleKey}";
+		var googleApiUrl = ProxyCurlEndpoints.GoogleSearch(_googleCx, _googleKey, person);
 		GoogleSearchResponse current = new();
 
 		var googleStringResponse = await _client
@@ -143,16 +162,9 @@ public class GoogleSearcher(string googleCx, string googleKey, string linkedInKe
 	/// </param>
 	protected virtual void Dispose(bool disposing)
 	{
-		if (!_disposedValue)
+		if (disposing)
 		{
-			if (disposing)
-			{
-				_client.Dispose();
-			}
-
-			// TODO: free unmanaged resources (unmanaged objects) and override finalizer
-			// TODO: set large fields to null
-			_disposedValue = true;
+			_client.Dispose();
 		}
 	}
 
@@ -161,7 +173,6 @@ public class GoogleSearcher(string googleCx, string googleKey, string linkedInKe
 	/// </summary>
 	public void Dispose()
 	{
-		// Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
 		Dispose(disposing: true);
 		GC.SuppressFinalize(this);
 	}

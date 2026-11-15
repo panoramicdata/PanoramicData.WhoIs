@@ -12,11 +12,30 @@ namespace PanoramicData.WhoIs.Enhancers;
 /// return information on someone derived from their LinkedIn page. Requires API keys for
 /// ProxyCurl and Google Custom search, as well as a Google Custom Search CX, to work.
 /// </summary>
-public class ProxyCurlPersonEnhancer(ProxyCurlConfig config) : BasicPersonEnhancer, IDisposable
+public class ProxyCurlPersonEnhancer : BasicPersonEnhancer, IDisposable
 {
-	private readonly HttpClient _client = new();
-	private readonly ProxyCurlConfig _config = config;
-	private bool _disposedValue;
+	private readonly HttpClient _client;
+	private readonly ProxyCurlConfig _config;
+
+	/// <summary>
+	/// Creates an enhancer that owns its own <see cref="HttpClient"/>.
+	/// </summary>
+	/// <param name="config">The API keys and cache settings.</param>
+	public ProxyCurlPersonEnhancer(ProxyCurlConfig config)
+		: this(config, new HttpClient())
+	{
+	}
+
+	/// <summary>
+	/// Creates an enhancer that sends its requests through the supplied <see cref="HttpClient"/>, which this instance disposes.
+	/// </summary>
+	/// <param name="config">The API keys and cache settings.</param>
+	/// <param name="client">The client used for all requests.</param>
+	public ProxyCurlPersonEnhancer(ProxyCurlConfig config, HttpClient client)
+	{
+		_config = config;
+		_client = client;
+	}
 
 	/// <summary>
 	/// Attempts to get a LinkedIn URL from a Google Custom Search, and uses the ProxyCurl
@@ -67,7 +86,7 @@ public class ProxyCurlPersonEnhancer(ProxyCurlConfig config) : BasicPersonEnhanc
 	{
 		try
 		{
-			var url = "https://nubela.co/proxycurl/api/linkedin/profile/resolve/email?work_email=" + address;
+			var url = ProxyCurlEndpoints.ReverseEmailLookup(address);
 			_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _config.ProxyCurlKey);
 
 			// Is it in the cache?
@@ -147,7 +166,7 @@ public class ProxyCurlPersonEnhancer(ProxyCurlConfig config) : BasicPersonEnhanc
 				?? throw new FormatException("Could not deserialize.");
 		}
 
-		var url = $"https://nubela.co/proxycurl/api/v2/linkedin?url={linkedInUrl}&fallback_to_cache=on-error&use_cache=if-present&skills=include&inferred_salary=include&personal_email=include&personal_contact_number=include&twitter_profile_id=include&facebook_profile_id=include&github_profile_id=include&extra=include";
+		var url = ProxyCurlEndpoints.Profile(linkedInUrl);
 		_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _config.ProxyCurlKey);
 
 		try
@@ -174,8 +193,7 @@ public class ProxyCurlPersonEnhancer(ProxyCurlConfig config) : BasicPersonEnhanc
 		CancellationToken cancellationToken
 	 )
 	{
-		var nameQuery = Uri.EscapeDataString($"{person.FirstName} {person.LastName} {person.Company?.Name}");
-		var googleApiUrl = $"https://customsearch.googleapis.com/customsearch/v1?cx={_config.GoogleCx}&q={nameQuery}&key={_config.GoogleKey}";
+		var googleApiUrl = ProxyCurlEndpoints.GoogleSearch(_config.GoogleCx, _config.GoogleKey, person);
 		var googleResponseList = await _client
 			.GetFromJsonAsync<GoogleResponse>(googleApiUrl, cancellationToken)
 			.ConfigureAwait(false);
@@ -242,16 +260,9 @@ public class ProxyCurlPersonEnhancer(ProxyCurlConfig config) : BasicPersonEnhanc
 	/// </param>
 	protected virtual void Dispose(bool disposing)
 	{
-		if (!_disposedValue)
+		if (disposing)
 		{
-			if (disposing)
-			{
-				_client.Dispose();
-			}
-
-			// TODO: free unmanaged resources (unmanaged objects) and override finalizer
-			// TODO: set large fields to null
-			_disposedValue = true;
+			_client.Dispose();
 		}
 	}
 
@@ -260,7 +271,6 @@ public class ProxyCurlPersonEnhancer(ProxyCurlConfig config) : BasicPersonEnhanc
 	/// </summary>
 	public void Dispose()
 	{
-		// Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
 		Dispose(disposing: true);
 		GC.SuppressFinalize(this);
 	}
