@@ -13,14 +13,21 @@ public class EnhancerCompositionTests : TestBase
 	private sealed class SuffixCompanyEnhancer : ICompanyEnhancer
 	{
 		public Task<Company> EnhanceAsync(Company company, CancellationToken cancellationToken)
-			=> Task.FromResult(new Company { Name = company.Name + "!" });
+			{
+			cancellationToken.ThrowIfCancellationRequested();
+			return Task.FromResult(new Company { Name = company.Name + "!" });
+		}
 	}
 
 	private sealed class CompanyPersonEnhancer(IReadOnlyCollection<ICompanyEnhancer> companyEnhancers) : IPersonEnhancer
 	{
 		public IReadOnlyCollection<ICompanyEnhancer> CompanyEnhancers { get; } = companyEnhancers;
 
-		public Task<Person> EnhanceAsync(Person person, CancellationToken cancellationToken) => Task.FromResult(person);
+		public Task<Person> EnhanceAsync(Person person, CancellationToken cancellationToken)
+		{
+			cancellationToken.ThrowIfCancellationRequested();
+			return Task.FromResult(person);
+		}
 	}
 
 	[Fact]
@@ -118,7 +125,8 @@ public class EnhancerCompositionTests : TestBase
 		searcher.MoveNext().Should().BeTrue();
 		searcher.Current.Should().BeSameAs(FakeSearcher);
 		searcher.MoveNext().Should().BeTrue();
-		((System.Collections.IEnumerator)searcher).Current.Should().BeSameAs(AnotherFakeSearcher);
+		System.Collections.IEnumerator asEnumerator = searcher;
+		asEnumerator.Current.Should().BeSameAs(AnotherFakeSearcher);
 		searcher.MoveNext().Should().BeFalse();
 
 		searcher.Reset();
