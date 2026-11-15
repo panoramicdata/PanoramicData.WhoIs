@@ -4,7 +4,7 @@
     <TargetFramework>net11.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageId>PanoramicData.WhoIs.Web</PackageId>
+    <IsPackable>false</IsPackable>
     <RepositoryUrl>https://github.com/panoramicdata/PanoramicData.WhoIs</RepositoryUrl>
     <PackageProjectUrl>https://github.com/panoramicdata/PanoramicData.WhoIs</PackageProjectUrl>
     <IncludeSymbols>true</IncludeSymbols>
